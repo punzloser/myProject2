@@ -9,6 +9,6 @@ namespace Application.Catalog.Product.DTO.Public
 {
     public class ProductPagingRequest : PageRequestBase
     {
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
     }
 }

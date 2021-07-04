@@ -57,14 +57,24 @@ namespace Application.Catalog.Product
             return await _db.SaveChangesAsync();
         }
 
-        public Task<int> Edit(ProductEditRequest request)
+        public async Task<int> Edit(ProductEditRequest request)
         {
-            throw new NotImplementedException();
-        }
+            var product = await _db.Products.FindAsync(request.Id);
+            var productTranslation = await _db.ProductTranslations
+                .FirstOrDefaultAsync(a => a.Id == request.Id && a.LanguageId == request.LanguageId);
+            if (product == null || productTranslation == null)
+            {
+                throw new CallException($"Không tìm thấy sản phẩm {request.Id}");
+            }
 
-        public Task<List<ProductViewModel>> GetAll()
-        {
-            throw new NotImplementedException();
+            productTranslation.Name = request.Name;
+            productTranslation.SeoAlias = request.SeoAlias;
+            productTranslation.SeoDescription = request.SeoDescription;
+            productTranslation.Details = request.Details;
+            productTranslation.Description = request.Description;
+            productTranslation.SeoTitle = request.SeoTitle;
+
+            return await _db.SaveChangesAsync();
         }
 
         public async Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request)
@@ -114,7 +124,7 @@ namespace Application.Catalog.Product
                 Items = data
             };
             return pageResult;
-    }
+        }
 
         public async Task AddViewCount(int productId)
         {
@@ -123,14 +133,30 @@ namespace Application.Catalog.Product
             await _db.SaveChangesAsync();
         }
 
-        public Task<bool> UpdatePrice(int productId, decimal newPrice)
+        public async Task<bool> UpdatePrice(int productId, decimal newPrice)
         {
-            throw new NotImplementedException();
+            var product = await _db.Products.FindAsync(productId);
+            if (product == null)
+            {
+                throw new CallException($"Không tìm thấy sản phẩm {productId}");
+            }
+
+            product.Price = newPrice;
+
+            return await _db.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> UpdateStock(int productId, int addQuantity)
+        public async Task<bool> UpdateStock(int productId, int addQuantity)
         {
-            throw new NotImplementedException();
+            var product = await _db.Products.FindAsync(productId);
+            if (product == null)
+            {
+                throw new CallException($"Không tìm thấy sản phẩm {productId}");
+            }
+
+            product.Stock += addQuantity;
+
+            return await _db.SaveChangesAsync() > 0;
         }
     }
 }

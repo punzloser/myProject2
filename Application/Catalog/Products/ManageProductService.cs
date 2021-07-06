@@ -1,24 +1,30 @@
-﻿using Application.Catalog.Product.DTO;
-using Application.Catalog.Product.DTO.Manage;
-using Application.DTO;
+﻿using Application.Common;
 using Common.Exceptions;
 using Data;
 using Data.Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using ViewModel.Base;
+using ViewModel.Catalog.ProductImages;
+using ViewModel.Catalog.Products;
 
-namespace Application.Catalog.Product
+namespace Application.Catalog.Products
 {
     public class ManageProductService : IManageProductService
     {
         private readonly MyDBContext _db;
-        public ManageProductService(MyDBContext db)
+        private readonly IStorageService _storage;
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
+        public ManageProductService(MyDBContext db, IStorageService storage)
         {
             _db = db;
+            _storage = storage;
         }
 
         public async Task<int> Create(ProductCreateRequest request)
@@ -44,6 +50,24 @@ namespace Application.Catalog.Product
                     }
                 }
             };
+
+            //save img
+            if (request.Thumnail != null)
+            {
+                product.ProductImages = new List<ProductImage>()
+                {
+                    new ProductImage()
+                    {
+                        Caption = "Thumnail-img",
+                        DateCreated = DateTime.Now,
+                        FileSize = request.Thumnail.Length,
+                        ImagePath = await this.SaveImg(request.Thumnail),
+                        IsDefault = true,
+                        SortOrder = 1
+                    }
+                };
+            }
+
             _db.Products.Add(product);
             return await _db.SaveChangesAsync();
         }
@@ -52,6 +76,12 @@ namespace Application.Catalog.Product
         {
             var product = await _db.Products.FindAsync(id);
             if (product == null) throw new CallException($"Không tìm thấy sản phẩm {id}");
+
+            var img = _db.ProductImages.Where(a => a.ProductId == id);
+            foreach (var imgs in img)
+            {
+               await _storage.DelFile(imgs.ImagePath);
+            }
 
             _db.Products.Remove(product);
             return await _db.SaveChangesAsync();
@@ -74,10 +104,24 @@ namespace Application.Catalog.Product
             productTranslation.Description = request.Description;
             productTranslation.SeoTitle = request.SeoTitle;
 
+            //save img
+            if (request.Thumnail != null)
+            {
+                var thumb = await _db.ProductImages.FirstOrDefaultAsync(a => a.IsDefault.Equals(true) && a.ProductId == request.Id);
+
+                if (thumb != null)
+                {
+                    thumb.FileSize = request.Thumnail.Length;
+                    thumb.ImagePath = await this.SaveImg(request.Thumnail);
+
+                    _db.ProductImages.Update(thumb);
+                }
+            }
+
             return await _db.SaveChangesAsync();
         }
 
-        public async Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request)
+        public async Task<PageResult<ProductViewModel>> GetAllPaging(AdminProductPaging request)
         {
             //1 join
             var result = from a in _db.Products
@@ -157,6 +201,52 @@ namespace Application.Catalog.Product
             product.Stock += addQuantity;
 
             return await _db.SaveChangesAsync() > 0;
+        }
+
+        public async Task<string> SaveImg(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storage.SaveFile(file.OpenReadStream(), fileName);
+            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
+        }
+
+        public async Task<List<ProductImageViewModel>> GetAllImg(int ProductId)
+        {
+            var result =  await _db.ProductImages.Where(a => a.ProductId == ProductId)
+                .Select(i => new ProductImageViewModel()
+                {
+                    Caption = i.Caption,
+                    DateCreated = i.DateCreated,
+                    FileSize = i.FileSize,
+                    Id = i.Id,
+                    ImagePath = i.ImagePath,
+                    IsDefault = i.IsDefault,
+                    ProductId = i.ProductId,
+                    SortOrder = i.SortOrder
+                }).ToListAsync();
+            return result;
+        }
+
+        public async Task<int> AddImg(ProductImageCreate create, int ProductId)
+        {
+            var productImage = new ProductImage()
+            {
+                Caption = create.Caption,
+                DateCreated = DateTime.Now,
+                IsDefault = create.IsDefault,
+                ProductId = ProductId,
+                SortOrder = create.SortOrder
+            };
+
+            if (create.ImageFile != null)
+            {
+                productImage.ImagePath = await this.SaveImg(create.ImageFile);
+                productImage.FileSize = create.ImageFile.Length;
+            }
+            _db.ProductImages.Add(productImage);
+            await _db.SaveChangesAsync();
+            return productImage.Id;
         }
     }
 }

@@ -16,6 +16,39 @@ namespace Application.Catalog.Products
             _db = db;
         }
 
+        public async Task<List<ProductViewModel>> GetAll()
+        {
+            var result = from a in _db.Products
+                         join b in _db.ProductTranslations on a.Id equals b.ProductId
+                         join c in _db.ProductCategories on a.Id equals c.ProductID
+                         join d in _db.Categories on c.CategoryID equals d.Id
+                         //where b.LanguageId.Equals("en-US")
+                         select new
+                         {
+                             a,
+                             b,
+                             c
+                         };
+
+            var data = await result.Select(x => new ProductViewModel()
+                {
+                    Id = x.a.Id,
+                    Name = x.b.Name,
+                    DateCreated = x.a.DateCreated,
+                    Description = x.b.Description,
+                    Details = x.b.Details,
+                    LanguageId = x.b.LanguageId,
+                    Price = x.a.Price,
+                    OriginalPrice = x.a.OriginalPrice,
+                    SeoAlias = x.b.SeoAlias,
+                    SeoTitle = x.b.SeoTitle,
+                    SeoDescription = x.b.SeoDescription,
+                    Stock = x.a.Stock,
+                    ViewCount = x.a.ViewCount
+                }).ToListAsync();
+            return data;
+        }
+
         public async Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPaging request)
         {
             //1 join

@@ -17,7 +17,7 @@ namespace Data.FluentAPI
                 .HasKey(p => p.Id);
             builder.Property(p => p.Id).UseIdentityColumn();
 
-            builder.Property(p => p.OrderDate).HasDefaultValue(DateTime.Now);
+            builder.Property(p => p.OrderDate);
 
             builder.Property(p => p.ShipName)
                 .HasMaxLength(100)

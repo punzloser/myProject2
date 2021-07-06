@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210705065908_add ProductImage")]
+    partial class addProductImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -388,7 +390,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 7, 6, 13, 22, 45, 945, DateTimeKind.Local).AddTicks(7461),
+                            DateCreated = new DateTime(2021, 7, 5, 13, 59, 7, 791, DateTimeKind.Local).AddTicks(7880),
                             OriginalPrice = 200000m,
                             Price = 250000m,
                             Stock = 0,
@@ -434,8 +436,8 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
+                    b.Property<int>("FileSize")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
                         .HasMaxLength(200)
@@ -593,7 +595,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("70834739-9213-4c00-9936-ed75eaf822d7"),
-                            ConcurrencyStamp = "ca2fb748-3c5c-474d-bca1-ac3874d242c1",
+                            ConcurrencyStamp = "eb9833d5-eade-413e-83e7-7aa59f95dbf7",
                             Description = "administration",
                             Name = "administrator",
                             NormalizedName = "admin"
@@ -713,7 +715,7 @@ namespace Data.Migrations
                         {
                             Id = new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1cfa0087-d99f-4f3e-9cef-97a515fbfd2f",
+                            ConcurrencyStamp = "41e365f5-3690-4a53-8750-56a161e1dcab",
                             Dob = new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "punzloser@gmail.com",
                             EmailConfirmed = true,
@@ -722,7 +724,7 @@ namespace Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "punzloser@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDuFlo8x0gT587h5+tZh8TQcXSRDNsr3QJSbcRLAAZtk3F85fmkHo3hlvstpIgTGKg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAFEyY/icEpujQa2PW7rk7X6iOKLVTmh2uSwW+tjgtZdVJ5E/5jx8w1YJXBVH8PcXA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

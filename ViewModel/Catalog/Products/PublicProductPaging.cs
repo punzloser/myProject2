@@ -1,13 +1,13 @@
-﻿using Application.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
 
-namespace Application.Catalog.Product.DTO.Public
+namespace ViewModel.Catalog.Products
 {
-    public class ProductPagingRequest : PageRequestBase
+    public class PublicProductPaging : PageRequestBase
     {
         public int? CategoryId { get; set; }
     }

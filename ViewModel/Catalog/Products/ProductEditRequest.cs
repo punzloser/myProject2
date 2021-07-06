@@ -1,19 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Catalog.Product.DTO
+namespace ViewModel.Catalog.Products
 {
-    public class ProductViewModel
+    public class ProductEditRequest
     {
-        public int Id { get; set; }
-        public decimal Price { get; set; }
-        public decimal OriginalPrice { get; set; }
-        public int Stock { get; set; }
-        public int ViewCount { get; set; }
-        public DateTime DateCreated { get; set; }
+        public int Id { set; get; }
         public string Name { set; get; }
         public string Description { set; get; }
         public string Details { set; get; }
@@ -21,5 +17,6 @@ namespace Application.Catalog.Product.DTO
         public string SeoTitle { set; get; }
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
+        public IFormFile Thumnail { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-﻿using Application.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
 
-namespace Application.Catalog.Product.DTO.Manage
+namespace ViewModel.Catalog.Products
 {
-    public class ProductPagingRequest : PageRequestBase
+    public class AdminProductPaging : PageRequestBase
     {
         public string Keyword { get; set; }
         public List<int> CategoryIds { get; set; }

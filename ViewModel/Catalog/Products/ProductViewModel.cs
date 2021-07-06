@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Catalog.Product.DTO.Manage
+namespace ViewModel.Catalog.Products
 {
-    public class ProductEditRequest
+    public class ProductViewModel
     {
-        public int Id { set; get; }
+        public int Id { get; set; }
+        public decimal Price { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public int Stock { get; set; }
+        public int ViewCount { get; set; }
+        public DateTime DateCreated { get; set; }
         public string Name { set; get; }
         public string Description { set; get; }
         public string Details { set; get; }

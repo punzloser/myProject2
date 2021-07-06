@@ -1,9 +1,11 @@
-﻿using Application.Catalog.Product.DTO;
-using Application.Catalog.Product.DTO.Manage;
-using Application.DTO;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using ViewModel.Base;
+using ViewModel.Catalog.ProductImages;
+using ViewModel.Catalog.Products;
 
-namespace Application.Catalog.Product
+namespace Application.Catalog.Products
 {
     public interface IManageProductService
     {
@@ -14,7 +16,9 @@ namespace Application.Catalog.Product
         Task<bool> UpdatePrice(int productId, decimal newPrice);
         Task<bool> UpdateStock(int productId, int addQuantity);
         Task AddViewCount(int productId);
+        Task<int> AddImg(ProductImageCreate create, int ProductId);
+        Task<List<ProductImageViewModel>> GetAllImg(int ProductId);
 
-        Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request);
+        Task<PageResult<ProductViewModel>> GetAllPaging(AdminProductPaging request);
     }
 }

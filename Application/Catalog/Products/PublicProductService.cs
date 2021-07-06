@@ -1,15 +1,12 @@
-﻿using Application.Catalog.Product.DTO;
-using Application.Catalog.Product.DTO.Public;
-using Application.DTO;
-using Data;
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
+using ViewModel.Catalog.Products;
 
-namespace Application.Catalog.Product
+namespace Application.Catalog.Products
 {
     public class PublicProductService : IPublicProductService
     {
@@ -19,7 +16,7 @@ namespace Application.Catalog.Product
             _db = db;
         }
 
-        public async Task<PageResult<ProductViewModel>> GetAllByCategoryId(ProductPagingRequest request)
+        public async Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPaging request)
         {
             //1 join
             var result = from a in _db.Products

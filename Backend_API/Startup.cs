@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,10 @@ namespace Backend_API
             services.AddDbContext<MyDBContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("myDB")));
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddSwaggerGen(a =>
+            {
+                a.SwaggerDoc("v1", new OpenApiInfo { Title = "Thanh API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +56,12 @@ namespace Backend_API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(a =>
+            {
+                a.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                a.RoutePrefix = string.Empty;
+            });
 
             app.UseEndpoints(endpoints =>
             {

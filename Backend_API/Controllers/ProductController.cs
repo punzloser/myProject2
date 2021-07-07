@@ -17,6 +17,7 @@ namespace Backend_API.Controllers
         {
             _service = service;
         }
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             return Ok(await _service.GetAll());

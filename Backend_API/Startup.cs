@@ -1,5 +1,7 @@
 using Application.Catalog.Products;
+using Application.Common;
 using Data;
+using eShopSolution.Application.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,9 +30,11 @@ namespace Backend_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<MyDBContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("myDB")));
+            services.AddDbContext<MyDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("myDB")));
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<IStorageService, FileStorageService>();
+
             services.AddSwaggerGen(a =>
             {
                 a.SwaggerDoc("v1", new OpenApiInfo { Title = "Thanh API", Version = "v1" });

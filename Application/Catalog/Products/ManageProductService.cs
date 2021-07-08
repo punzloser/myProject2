@@ -21,10 +21,19 @@ namespace Application.Catalog.Products
         private readonly MyDBContext _db;
         private readonly IStorageService _storage;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
+
         public ManageProductService(MyDBContext db, IStorageService storage)
         {
             _db = db;
             _storage = storage;
+        }
+
+        public async Task<string> SaveImg(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storage.SaveFile(file.OpenReadStream(), fileName);
+            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
         public async Task<int> Create(ProductCreateRequest request)
@@ -69,7 +78,8 @@ namespace Application.Catalog.Products
             }
 
             _db.Products.Add(product);
-            return await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task<int> Delete(int id)
@@ -80,7 +90,7 @@ namespace Application.Catalog.Products
             var img = _db.ProductImages.Where(a => a.ProductId == id);
             foreach (var imgs in img)
             {
-               await _storage.DelFile(imgs.ImagePath);
+                await _storage.DelFile(imgs.ImagePath);
             }
 
             _db.Products.Remove(product);
@@ -91,7 +101,7 @@ namespace Application.Catalog.Products
         {
             var product = await _db.Products.FindAsync(request.Id);
             var productTranslation = await _db.ProductTranslations
-                .FirstOrDefaultAsync(a => a.Id == request.Id && a.LanguageId == request.LanguageId);
+                .FirstOrDefaultAsync(a => a.ProductId == request.Id && a.LanguageId == request.LanguageId);
             if (product == null || productTranslation == null)
             {
                 throw new CallException($"Không tìm thấy sản phẩm {request.Id}");
@@ -170,6 +180,30 @@ namespace Application.Catalog.Products
             return pageResult;
         }
 
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
+        {
+            var product = await _db.Products.FindAsync(productId);
+            var productTranslation = await _db.ProductTranslations.FirstOrDefaultAsync(a => a.ProductId == productId && a.LanguageId == languageId);
+
+            var result = new ProductViewModel()
+            {
+                Id = product.Id,
+                Name = productTranslation == null ? null : productTranslation.Name,
+                DateCreated = product.DateCreated,
+                Description = productTranslation == null ? null : productTranslation.Description,
+                Details = productTranslation == null ? null : productTranslation.Details,
+                LanguageId = productTranslation == null ? null : productTranslation.LanguageId,
+                OriginalPrice = product.OriginalPrice,
+                Price = product.Price,
+                SeoAlias = productTranslation == null ? null : productTranslation.SeoAlias,
+                SeoDescription = productTranslation == null ? null : productTranslation.SeoDescription,
+                SeoTitle = productTranslation == null ? null : productTranslation.SeoTitle,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount
+            };
+            return result;
+        }
+
         public async Task AddViewCount(int productId)
         {
             var product = await _db.Products.FindAsync(productId);
@@ -203,17 +237,9 @@ namespace Application.Catalog.Products
             return await _db.SaveChangesAsync() > 0;
         }
 
-        public async Task<string> SaveImg(IFormFile file)
+        public async Task<List<ProductImageViewModel>> GetListImgById(int ProductId)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storage.SaveFile(file.OpenReadStream(), fileName);
-            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
-        }
-
-        public async Task<List<ProductImageViewModel>> GetAllImg(int ProductId)
-        {
-            var result =  await _db.ProductImages.Where(a => a.ProductId == ProductId)
+            var result = await _db.ProductImages.Where(a => a.ProductId == ProductId)
                 .Select(i => new ProductImageViewModel()
                 {
                     Caption = i.Caption,
@@ -247,6 +273,54 @@ namespace Application.Catalog.Products
             _db.ProductImages.Add(productImage);
             await _db.SaveChangesAsync();
             return productImage.Id;
+        }
+
+        public async Task<int> EditImg(ProductImageEdit edit, int ImgId)
+        {
+            var productImage = await _db.ProductImages.FindAsync(ImgId);
+
+            if (productImage == null)
+                throw new CallException($"Không tìm thấy hình ảnh với id {ImgId}");
+
+            if (edit.ImageFile != null)
+            {
+                productImage.ImagePath = await this.SaveImg(edit.ImageFile);
+                productImage.FileSize = edit.ImageFile.Length;
+            }
+            _db.ProductImages.Update(productImage);
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteImg(int ImgId)
+        {
+            var productImage = await _db.ProductImages.FindAsync(ImgId);
+            if (productImage == null)
+                throw new CallException($"Không tìm thấy hình ảnh với id {ImgId}");
+
+            _db.ProductImages.Remove(productImage);
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task<ProductImageViewModel> GetImgById(int imgId)
+        {
+            var productImage = await _db.ProductImages.FindAsync(imgId);
+
+            if (productImage == null)
+                throw new CallException($"Không tồn tại hình ảnh nào với Id {imgId}");
+
+            var result = new ProductImageViewModel()
+            {
+                Id = productImage.Id,
+                Caption = productImage.Caption,
+                DateCreated = productImage.DateCreated,
+                FileSize = productImage.FileSize,
+                ImagePath = productImage.ImagePath,
+                IsDefault = productImage.IsDefault,
+                ProductId = productImage.ProductId,
+                SortOrder = productImage.SortOrder
+            };
+
+            return result;
         }
     }
 }

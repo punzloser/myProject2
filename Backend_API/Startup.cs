@@ -1,10 +1,13 @@
 using Application.Catalog.Products;
+using Application.Catalog.Users;
 using Application.Common;
 using Data;
+using Data.Entity;
 using eShopSolution.Application.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +37,13 @@ namespace Backend_API
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
             services.AddTransient<IStorageService, FileStorageService>();
+
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<MyDBContext>().AddDefaultTokenProviders();
+
+            services.AddTransient<UserManager<User>, UserManager<User>>();
+            services.AddTransient<SignInManager<User>, SignInManager<User>>();
+            services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddSwaggerGen(a =>
             {

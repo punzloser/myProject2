@@ -22,7 +22,7 @@ namespace Backend_API.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var result = await _userService.Register(request);
             if (!ModelState.IsValid || result == false)
@@ -32,7 +32,7 @@ namespace Backend_API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromForm] LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
             var _token = await _userService.Authenticate(request);
             if (!ModelState.IsValid || string.IsNullOrEmpty(_token))

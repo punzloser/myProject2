@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using Manager.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,12 @@ namespace Manager
         {
             services.AddControllersWithViews().AddFluentValidation(a => a.RegisterValidatorsFromAssemblyContaining<LoginRequest>());
             services.AddHttpClient();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/User/Login/";
+                    options.AccessDeniedPath = "/User/Forbidden/";
+                });
             services.AddTransient<IUserApiClient, UserApiClient>();
         }
 
@@ -46,6 +53,8 @@ namespace Manager
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

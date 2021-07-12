@@ -37,7 +37,7 @@ namespace Backend_API.Controllers
             var _token = await _userService.Authenticate(request);
             if (!ModelState.IsValid || string.IsNullOrEmpty(_token))
                 return BadRequest();
-            return Ok(new { token = _token});
+            return Ok(_token);
         }
     }
 }

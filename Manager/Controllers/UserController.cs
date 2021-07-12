@@ -8,6 +8,7 @@ using ViewModel.Catalog.Users;
 
 namespace Manager.Controllers
 {
+    //[Route("login")]
     public class UserController : Controller
     {
         private readonly IUserApiClient _userApiClient;
@@ -16,7 +17,6 @@ namespace Manager.Controllers
             _userApiClient = userApiClient;
         }
 
-        [Route("login")]
         public IActionResult Login()
         {
             return View();

@@ -10,7 +10,7 @@ namespace ViewModel.Catalog.Users
     public class LoginRequest
     {
         public string UserName { get; set; }
-        [DataType(DataType.Password)]
+        //[DataType(DataType.Password)]
         public string Pass { get; set; }
         public bool Remember { get; set; }
     }

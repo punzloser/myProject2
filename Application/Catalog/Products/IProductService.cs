@@ -7,7 +7,7 @@ using ViewModel.Catalog.Products;
 
 namespace Application.Catalog.Products
 {
-    public interface IManageProductService
+    public interface IProductService
     {
         //input request. return kieu int -- ma sp vua tao
         Task<int> Create(ProductCreateRequest request);
@@ -25,5 +25,6 @@ namespace Application.Catalog.Products
         Task<ProductImageViewModel> GetImgById(int imgId);
 
         Task<PageResult<ProductViewModel>> GetAllPaging(AdminProductPaging request);
+        Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPaging request, string languageId);
     }
 }

@@ -35,6 +35,12 @@ namespace Manager
                     options.LoginPath = "/User/Login/";
                     options.AccessDeniedPath = "/User/Forbidden/";
                 });
+
+            services.AddSession(a =>
+            {
+                a.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
             services.AddTransient<IUserApiClient, UserApiClient>();
         }
 
@@ -59,6 +65,8 @@ namespace Manager
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

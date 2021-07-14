@@ -1,5 +1,6 @@
 ﻿using Data.Entity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
 using ViewModel.Catalog.Users;
 
 namespace Application.Catalog.Users
@@ -54,6 +56,30 @@ namespace Application.Catalog.Users
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging)
+        {
+            var result = _user.Users;
+            if (!string.IsNullOrEmpty(paging.Keyword))
+                result = result.Where(a => a.UserName.Contains(paging.Keyword));
+
+            int totalRow = await result.CountAsync();
+
+            var item = await result.Select(a => new UserViewModel()
+            {
+                Id = a.Id,
+                UserName = a.UserName,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Email = a.Email,
+            }).Skip((paging.PageIndex - 1) * paging.PageSize).Take(paging.PageSize).ToListAsync();
+
+            return new PageResult<UserViewModel>()
+            {
+                ToTalRecord = totalRow,
+                Items = item
+            };
         }
 
         public async Task<bool> Register(RegisterRequest request)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
 using ViewModel.Catalog.Users;
 
 namespace Application.Catalog.Users
@@ -11,5 +12,6 @@ namespace Application.Catalog.Users
     {
         Task<string> Authenticate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
+        Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging);
     }
 }

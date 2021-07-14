@@ -38,8 +38,7 @@ namespace Backend_API
         {
             services.AddControllers().AddFluentValidation(a => a.RegisterValidatorsFromAssemblyContaining<LoginValidate>());
             services.AddDbContext<MyDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("myDB")));
-            services.AddTransient<IPublicProductService, PublicProductService>();
-            services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IStorageService, FileStorageService>();
 
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<MyDBContext>().AddDefaultTokenProviders();

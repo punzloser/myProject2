@@ -16,23 +16,21 @@ namespace Backend_API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IPublicProductService _Pservice;
-        private readonly IManageProductService _Mservice;
-        public ProductController(IPublicProductService Pservice, IManageProductService Mservice)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _Pservice = Pservice;
-            _Mservice = Mservice;
+            _productService = productService;
         }
         [HttpGet("{languageId}")]
         public async Task<IActionResult> GetPaging(string languageId, [FromQuery] PublicProductPaging request)
         {
-            return Ok(await _Pservice.GetAllByCategoryId(request, languageId));
+            return Ok(await _productService.GetAllByCategoryId(request, languageId));
         }
 
         [HttpGet("{productId}/{languageId}")]
         public async Task<IActionResult> GetById(int productId, string languageId)
         {
-            var result = await _Mservice.GetById(productId, languageId);
+            var result = await _productService.GetById(productId, languageId);
             if (result == null)
                 return NotFound("Không tìm thấy !");
             return Ok(result);
@@ -41,10 +39,10 @@ namespace Backend_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
-            var productId = await _Mservice.Create(request);
+            var productId = await _productService.Create(request);
             if (productId == 0)
                 return BadRequest();
-            var product = await _Mservice.GetById(productId, request.LanguageId);
+            var product = await _productService.GetById(productId, request.LanguageId);
 
             return CreatedAtAction(nameof(GetById), new { id = productId }, product);
         }
@@ -52,7 +50,7 @@ namespace Backend_API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] ProductEditRequest request)
         {
-            var result = await _Mservice.Edit(request);
+            var result = await _productService.Edit(request);
             if (result == 0)
                 return BadRequest();
             return Ok();
@@ -61,7 +59,7 @@ namespace Backend_API.Controllers
         [HttpPut("{productId}/{newPrice}")]
         public async Task<IActionResult> UpdatePrice(int productId, decimal newPrice)
         {
-            var result = await _Mservice.UpdatePrice(productId, newPrice);
+            var result = await _productService.UpdatePrice(productId, newPrice);
             if (result is true)
                 return Ok();
             return BadRequest();
@@ -70,7 +68,7 @@ namespace Backend_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _Mservice.Delete(id);
+            var result = await _productService.Delete(id);
             if (result == 0)
                 return BadRequest();
             return Ok();
@@ -79,8 +77,8 @@ namespace Backend_API.Controllers
         [HttpPost("{productId}")]
         public async Task<IActionResult> AddImg(int productId, [FromForm] ProductImageCreate create)
         {
-            var ImgId = await _Mservice.AddImg(create, productId);
-            var img = await _Mservice.GetImgById(ImgId);
+            var ImgId = await _productService.AddImg(create, productId);
+            var img = await _productService.GetImgById(ImgId);
 
             if (ImgId == 0 || !ModelState.IsValid)
                 return BadRequest();
@@ -90,7 +88,7 @@ namespace Backend_API.Controllers
         [HttpGet("{productId}/image/{imgId}")]
         public async Task<IActionResult> GetImgById(int imgId)
         {
-            var result = await _Mservice.GetImgById(imgId);
+            var result = await _productService.GetImgById(imgId);
             if (result == null)
                 return BadRequest();
             return Ok(result);
@@ -99,7 +97,7 @@ namespace Backend_API.Controllers
         [HttpPut("image/{ImgId}")]
         public async Task<IActionResult> EditImg([FromForm] ProductImageEdit edit, int ImgId)
         {
-            var result = await _Mservice.EditImg(edit, ImgId);
+            var result = await _productService.EditImg(edit, ImgId);
             if (result == 0 || !ModelState.IsValid)
                 return BadRequest();
             return Ok();
@@ -108,7 +106,7 @@ namespace Backend_API.Controllers
         [HttpDelete("image/{ImgId}")]
         public async Task<IActionResult> DeleteImg(int ImgId)
         {
-            var result = await _Mservice.DeleteImg(ImgId);
+            var result = await _productService.DeleteImg(ImgId);
             if (result == 0 || !ModelState.IsValid)
                 return BadRequest();
             return Ok();

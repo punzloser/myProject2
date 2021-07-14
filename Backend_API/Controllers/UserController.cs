@@ -39,5 +39,13 @@ namespace Backend_API.Controllers
                 return BadRequest();
             return Ok(_token);
         }
+
+        [HttpGet("paging")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUserPaging([FromQuery] UserPaging paging)
+        {
+            var result = await _userService.GetUserPaging(paging);
+            return Ok(result);
+        }
     }
 }

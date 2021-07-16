@@ -11,5 +11,6 @@ namespace Manager.Service
     {
         Task<string> Authenticate(LoginRequest request);
         Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging);
+        Task<bool> Register(RegisterRequest register);
     }
 }

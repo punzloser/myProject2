@@ -49,5 +49,17 @@ namespace Manager.Service
 
             return listUser;
         }
+
+        public async Task<bool> Register(RegisterRequest request)
+        {
+            var client = _httpClient.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5001");
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("/api/user/register", httpContent);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

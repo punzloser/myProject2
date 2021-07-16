@@ -77,6 +77,24 @@ namespace Manager.Controllers
             return RedirectToAction("Login", "User");
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+            var result = await _userApiClient.Register(request);
+
+            if (result)
+                return RedirectToAction("Index");
+            return View(request);
+        }
+
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
             IdentityModelEventSource.ShowPII = true;

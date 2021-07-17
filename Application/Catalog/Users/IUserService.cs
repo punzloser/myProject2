@@ -13,5 +13,7 @@ namespace Application.Catalog.Users
         Task<string> Authenticate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
         Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging);
+        Task<bool> EditUser(Guid id, UserEditModel userEditModel);
+        Task<UserViewModel> GetUserById(Guid id);
     }
 }

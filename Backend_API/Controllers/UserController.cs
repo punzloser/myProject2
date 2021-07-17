@@ -12,6 +12,7 @@ namespace Backend_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -27,7 +28,7 @@ namespace Backend_API.Controllers
             var result = await _userService.Register(request);
             if (!ModelState.IsValid || result == false)
                 return BadRequest();
-            return Ok();
+            return Ok(result);
         }
 
         [HttpPost("login")]
@@ -46,6 +47,30 @@ namespace Backend_API.Controllers
         {
             var result = await _userService.GetUserPaging(paging);
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var result = await _userService.GetUserById(id);
+            if (result == null)
+                return BadRequest();
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> EditUser(Guid id, [FromBody] UserEditModel userEditModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.EditUser(id, userEditModel);
+
+            if (result)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }

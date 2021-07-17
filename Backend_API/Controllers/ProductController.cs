@@ -11,9 +11,9 @@ using ViewModel.Catalog.Products;
 
 namespace Backend_API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;

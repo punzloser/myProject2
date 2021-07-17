@@ -1,4 +1,5 @@
-﻿using Data.Entity;
+﻿using Common.Exceptions;
+using Data.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace Application.Catalog.Users
         public async Task<string> Authenticate(LoginRequest request)
         {
             var user = await _user.FindByNameAsync(request.UserName);
-            if (user == null) return null;
+            if (user == null) throw new CallException($"Không tìm thấy user {user.UserName}");
 
             var result = await _signIn.PasswordSignInAsync(user, request.Pass, request.Remember, true);
             if (!result.Succeeded) return null;
@@ -58,6 +59,46 @@ namespace Application.Catalog.Users
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<bool> EditUser(Guid id, UserEditModel userEditModel)
+        {
+            var check = await _user.Users.AnyAsync(a => a.Id != id && a.Email.CompareTo(userEditModel.Email) == 0);
+            if (check)
+                throw new CallException("Lỗi trùng email");
+
+            var user = await _user.FindByIdAsync(id.ToString());
+            user.Dob = userEditModel.Dob;
+            user.Email = userEditModel.Email;
+            user.FirstName = userEditModel.FirstName;
+            user.LastName = userEditModel.LastName;
+            user.PhoneNumber = userEditModel.PhoneNumber;
+
+            var result = await _user.UpdateAsync(user);
+            if (result.Succeeded)
+                return true;
+            return false;
+        }
+
+        public async Task<UserViewModel> GetUserById(Guid id)
+        {
+            var user = await _user.FindByIdAsync(id.ToString());
+
+            if (user == null)
+                throw new CallException($"Không tìm thấy user {user.Id}");
+
+            var result = new UserViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Dob = user.Dob,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            return result;
+        }
+
         public async Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging)
         {
             var result = _user.Users;
@@ -73,6 +114,8 @@ namespace Application.Catalog.Users
                 FirstName = a.FirstName,
                 LastName = a.LastName,
                 Email = a.Email,
+                Dob = a.Dob,
+                PhoneNumber = a.PhoneNumber
             }).Skip((paging.PageIndex - 1) * paging.PageSize).Take(paging.PageSize).ToListAsync();
 
             return new PageResult<UserViewModel>()

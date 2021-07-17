@@ -3,6 +3,7 @@ using Manager.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,10 +37,14 @@ namespace Manager
                     options.AccessDeniedPath = "/User/Forbidden/";
                 });
 
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
             services.AddSession(a =>
             {
                 a.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserApiClient, UserApiClient>();
         }

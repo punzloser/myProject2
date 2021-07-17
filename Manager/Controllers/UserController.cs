@@ -30,10 +30,8 @@ namespace Manager.Controllers
 
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
-            var session = HttpContext.Session.GetString("token");
             var request = new UserPaging()
             {
-                Bearer = session,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 Keyword = keyword
@@ -93,6 +91,39 @@ namespace Manager.Controllers
             if (result)
                 return RedirectToAction("Index");
             return View(request);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(Guid id)
+        {
+            var result = await _userApiClient.GetUserById(id);
+            if (result != null)
+            {
+                var update = new UserEditModel()
+                {
+                    Dob = result.Dob,
+                    Email = result.Email,
+                    FirstName = result.FirstName,
+                    LastName = result.LastName,
+                    PhoneNumber = result.PhoneNumber
+                };
+
+                return View(update);
+            }
+
+            return Content("Lỗi");
+                
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(UserEditModel userEditModel)
+        {
+            var result = await _userApiClient.EditUser(userEditModel.id, userEditModel);
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(userEditModel);
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)

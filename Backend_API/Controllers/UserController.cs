@@ -50,7 +50,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var result = await _userService.GetUserById(id);
@@ -60,7 +60,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> EditUser(Guid id, [FromBody] UserEditModel userEditModel)
         {
             if (!ModelState.IsValid)

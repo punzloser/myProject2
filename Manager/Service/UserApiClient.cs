@@ -42,6 +42,9 @@ namespace Manager.Service
             var client = _httpClient.CreateClient();
             client.BaseAddress = new Uri("https://localhost:5001");
 
+            var session = _accessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+
             var json = JsonConvert.SerializeObject(userEditModel);
             var httpcontent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PutAsync($"api/user/{id}", httpcontent);

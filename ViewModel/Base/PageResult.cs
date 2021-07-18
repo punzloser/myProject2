@@ -2,9 +2,8 @@
 
 namespace ViewModel.Base
 {
-    public class PageResult<T>
+    public class PageResult<T> : PageResultBase
     {
         public List<T> Items { set; get; }
-        public int ToTalRecord { get; set; }
     }
 }

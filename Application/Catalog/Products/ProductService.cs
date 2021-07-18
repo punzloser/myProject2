@@ -174,7 +174,9 @@ namespace Application.Catalog.Products
 
             var pageResult = new PageResult<ProductViewModel>()
             {
-                ToTalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecord = totalRow,
                 Items = data
             };
             return pageResult;
@@ -364,7 +366,9 @@ namespace Application.Catalog.Products
 
             var pageResult = new PageResult<ProductViewModel>()
             {
-                ToTalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecord = totalRow,
                 Items = data
             };
             return pageResult;

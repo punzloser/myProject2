@@ -120,8 +120,10 @@ namespace Application.Catalog.Users
 
             return new PageResult<UserViewModel>()
             {
-                ToTalRecord = totalRow,
-                Items = item
+                PageIndex = paging.PageIndex,
+                PageSize = paging.PageSize,
+                TotalRecord = totalRow,
+                Items = item,
             };
         }
 

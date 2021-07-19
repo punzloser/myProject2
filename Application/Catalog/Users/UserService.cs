@@ -32,7 +32,7 @@ namespace Application.Catalog.Users
         public async Task<string> Authenticate(LoginRequest request)
         {
             var user = await _user.FindByNameAsync(request.UserName);
-            if (user == null) throw new CallException($"Không tìm thấy user {user.UserName}");
+            if (user == null) return null;
 
             var result = await _signIn.PasswordSignInAsync(user, request.Pass, request.Remember, true);
             if (!result.Succeeded) return null;

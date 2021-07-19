@@ -34,7 +34,9 @@ namespace Manager.Service
             var response = await client.PostAsync("api/user/login", httpContent);
             var result = await response.Content.ReadAsStringAsync();
 
-            return result;
+            if (response.IsSuccessStatusCode)
+                return result;
+            return "";
         }
 
         public async Task<bool> EditUser(Guid id, UserEditModel userEditModel)

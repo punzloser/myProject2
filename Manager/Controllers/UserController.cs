@@ -49,11 +49,16 @@ namespace Manager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            if (!ModelState.IsValid)
-                return View(ModelState);
+            if (ModelState.IsValid == false)
+                return View();
 
             var result = await _userApiClient.Authenticate(request);
-
+            if (result == "")
+            {
+                ModelState.AddModelError("", "Đăng nhập không hợp lệ");
+                return View();
+            }
+                
             var userPrincipal = this.ValidateToken(result);
             var authProperties = new AuthenticationProperties
             {

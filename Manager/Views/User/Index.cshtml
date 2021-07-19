@@ -6,12 +6,16 @@
 }
 
 <div class="card mb-4">
-    <div class="card-header">
-        <a class="btn btn-success float-start" asp-action="Create" asp-controller="User">Tạo tài khoản</a>
 
-        <div class="float-end">@await Component.InvokeAsync("Paging", Model)</div>
+    <form asp-action="Index" method="get" class="d-flex">
+        <div class="card-header w-100">
+            <a class="btn btn-success" asp-action="Create" asp-controller="User">Tạo tài khoản</a>
+            <input type="text" name="keyword" value="" class="form-control" />
+            <button class="btn btn-info" type="submit">Tìm kiếm</button>
+        </div>
+    </form>
 
-    </div>
+    <br />
 
     <div class="card-body">
         <table class="table">
@@ -74,5 +78,8 @@
                 }
             </tbody>
         </table>
+
+        <div>@await Component.InvokeAsync("Paging", Model)</div>
+
     </div>
 </div>

@@ -145,5 +145,16 @@ namespace Application.Catalog.Users
             return false;
 
         }
+
+        public async Task<bool> RemoveUser(Guid id)
+        {
+            var user = await _user.FindByIdAsync(id.ToString());
+            if (user == null)
+                throw new CallException("User này không tồn tại");
+            var result = await _user.DeleteAsync(user);
+            if (!result.Succeeded)
+                return false;
+            return true;
+        }
     }
 }

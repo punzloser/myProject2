@@ -28,7 +28,7 @@ namespace Manager.Controllers
             _config = config;
         }
 
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 1)
         {
             var request = new UserPaging()
             {
@@ -124,6 +124,14 @@ namespace Manager.Controllers
                 return RedirectToAction("Index");
             }
             return View(userEditModel);
+        }
+
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var result = await _userApiClient.RemoveUser(id);
+            if (!result)
+                return NotFound();
+            return RedirectToAction("Index");
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)

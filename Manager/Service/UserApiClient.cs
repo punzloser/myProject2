@@ -98,5 +98,21 @@ namespace Manager.Service
             var response = await client.PostAsync("/api/user/register", httpContent);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> RemoveUser(Guid id)
+        {
+            var client = _httpClient.CreateClient();
+            var session = _accessor.HttpContext.Session.GetString("token");
+            client.BaseAddress = new Uri("https://localhost:5001");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            var response = await client.DeleteAsync($"api/user/{id}");
+
+            var result = await response.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject(result);
+            if (user == null)
+                return false;
+            return true;
+        }
     }
 }

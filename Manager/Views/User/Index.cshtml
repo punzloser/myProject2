@@ -7,7 +7,7 @@
 
 <div class="card mb-4">
     <div class="card-header">
-        <div class="btn btn-success float-start" asp-action="Create" asp-controller="User">Tạo tài khoản</div>
+        <a class="btn btn-success float-start" asp-action="Create" asp-controller="User">Tạo tài khoản</a>
 
         <div class="float-end">@await Component.InvokeAsync("Paging", Model)</div>
 
@@ -68,7 +68,7 @@
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            <a class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa User @item.UserName này không ?') " href="@Url.Action("Delete", new { id = item.Id})">Xóa</a>
                         </td>
                     </tr>
                 }

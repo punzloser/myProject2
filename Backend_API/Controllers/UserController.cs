@@ -72,5 +72,14 @@ namespace Backend_API.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveUser(Guid id)
+        {
+            var result = await _userService.RemoveUser(id);
+            if (!result || !ModelState.IsValid)
+                return BadRequest();
+            return Ok(result);
+        }
     }
 }

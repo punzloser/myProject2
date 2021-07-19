@@ -15,5 +15,6 @@ namespace Application.Catalog.Users
         Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging);
         Task<bool> EditUser(Guid id, UserEditModel userEditModel);
         Task<UserViewModel> GetUserById(Guid id);
+        Task<bool> RemoveUser(Guid id);
     }
 }

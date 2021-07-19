@@ -14,5 +14,6 @@ namespace Manager.Service
         Task<bool> Register(RegisterRequest register);
         Task<bool> EditUser(Guid id, UserEditModel userEditModel);
         Task<UserViewModel> GetUserById(Guid id);
+        Task<bool> RemoveUser(Guid id);
     }
 }

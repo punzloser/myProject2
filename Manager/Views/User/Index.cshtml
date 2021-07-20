@@ -5,13 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section test{
+    <script>
+        setTimeout(function () {
+            var result = document.getElementById("messalert");
+            result.style.display = "none";
+        }, 1000);
+    </script>
+}
+
 <div class="card mb-4">
 
     <form asp-action="Index" method="get" class="d-flex">
         <div class="card-header w-100">
             <a class="btn btn-success" asp-action="Create" asp-controller="User">Tạo tài khoản</a>
-            <input type="text" name="keyword" value="" class="form-control" />
-            <button class="btn btn-info" type="submit">Tìm kiếm</button>
+            <input type="text" name="keyword" placeholder="Tìm theo tên user" class="form-control my-2" />
+
+            <div class="d-flex">
+
+                <div><button class="btn btn-info" type="submit">Tìm kiếm</button></div>
+                <div>
+                    @{
+                        if (TempData["alert"] != null)
+                        {
+                            <div id="messalert" class="ms-2 btn btn-primary" role="alert">
+                                @TempData["alert"]
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+
         </div>
     </form>
 

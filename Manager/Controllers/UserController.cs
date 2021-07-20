@@ -58,7 +58,7 @@ namespace Manager.Controllers
                 ModelState.AddModelError("", "Đăng nhập không hợp lệ");
                 return View();
             }
-                
+
             var userPrincipal = this.ValidateToken(result);
             var authProperties = new AuthenticationProperties
             {
@@ -68,7 +68,7 @@ namespace Manager.Controllers
             HttpContext.Session.SetString("token", result);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "User");
 
         }
 
@@ -94,7 +94,10 @@ namespace Manager.Controllers
             var result = await _userApiClient.Register(request);
 
             if (result)
+            {
+                TempData["alert"] = "Thêm thành công !";
                 return RedirectToAction("Index");
+            }
             return View(request);
         }
 
@@ -117,7 +120,7 @@ namespace Manager.Controllers
             }
 
             return Content("Lỗi");
-                
+
         }
 
         [HttpPost]
@@ -126,6 +129,7 @@ namespace Manager.Controllers
             var result = await _userApiClient.EditUser(userEditModel.id, userEditModel);
             if (ModelState.IsValid)
             {
+                TempData["alert"] = "Sửa thành công !";
                 return RedirectToAction("Index");
             }
             return View(userEditModel);
@@ -134,9 +138,12 @@ namespace Manager.Controllers
         public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _userApiClient.RemoveUser(id);
-            if (!result)
-                return NotFound();
-            return RedirectToAction("Index");
+            if (result)
+            {
+                TempData["alert"] = "Xóa thành công !";
+                return RedirectToAction("Index");
+            }
+            return NotFound();
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)

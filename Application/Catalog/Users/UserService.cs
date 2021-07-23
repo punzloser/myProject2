@@ -20,13 +20,11 @@ namespace Application.Catalog.Users
     {
         private readonly UserManager<User> _user;
         private readonly SignInManager<User> _signIn;
-        private readonly RoleManager<Role> _role;
         private readonly IConfiguration _config;
-        public UserService(UserManager<User> user, SignInManager<User> signIn, RoleManager<Role> role, IConfiguration config)
+        public UserService(UserManager<User> user, SignInManager<User> signIn, IConfiguration config)
         {
             _user = user;
             _signIn = signIn;
-            _role = role;
             _config = config;
         }
         public async Task<string> Authenticate(LoginRequest request)
@@ -81,6 +79,7 @@ namespace Application.Catalog.Users
         public async Task<UserViewModel> GetUserById(Guid id)
         {
             var user = await _user.FindByIdAsync(id.ToString());
+            var role = await _user.GetRolesAsync(user);
 
             if (user == null)
                 throw new CallException($"Không tìm thấy user {user.Id}");
@@ -93,7 +92,8 @@ namespace Application.Catalog.Users
                 LastName = user.LastName,
                 Email = user.Email,
                 Dob = user.Dob,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Roles = role
             };
 
             return result;

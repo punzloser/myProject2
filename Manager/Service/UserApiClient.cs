@@ -34,6 +34,7 @@ namespace Manager.Service
             var response = await client.PostAsync("api/user/login", httpContent);
             var result = await response.Content.ReadAsStringAsync();
 
+            //work ok
             if (response.IsSuccessStatusCode)
                 return result;
             return "";

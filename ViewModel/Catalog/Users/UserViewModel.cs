@@ -18,5 +18,7 @@ namespace ViewModel.Catalog.Users
         [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}")]
         public DateTime Dob { get; set; }
         public string PhoneNumber { get; set; }
+
+        public IList<string> Roles { get; set; }
     }
 }

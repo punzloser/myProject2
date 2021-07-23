@@ -95,8 +95,8 @@
                             @Html.DisplayFor(modelItem => item.Dob)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Phân quyền", "RoleAssign", new { id = item.Id }) |
                             <a class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa User @item.UserName này không ?') " href="@Url.Action("Delete", new { id = item.Id})">Xóa</a>
                         </td>
                     </tr>

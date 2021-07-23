@@ -1,0 +1,24 @@
+﻿------------TẤT CẢ CÁC NỘI DUNG TRÌNH BÀY ÁP DỤNG DESIGN PATTERN "SOLID" DÙNG BẤT ĐỒNG BỘ TASK AWAIT ASYNS-------------
+# Gán quyền cho user (Tên đặt gì cũng được cho tất cả các phương thức ưu tiên đặt tên tường minh) dùng English
+
+1. Từ Tầng nghiệp vụ Application logic là phải get all ra các role trước
+2. Tạo interface IRoleService ứng với folder mới Roles có phương thức get all trả về list RoleViewModel
+3. Tạo RoleViewModel từ tầng ViewModel ứng với folder mới Roles
+3.1. RoleViewModel chỉ ra các thuộc tính như Id, Name, Description để mô tả quyền cụ thể
+4. Triển khai từ interface IRoleService viết tiếp các phương thức
+4.1. Không quên tạo ctor và tiêm RoleManager vào từ identity
+5. User sẽ có nhiều role khác nhau -> tạo thêm trường IList chưa các role bên UserViewModel
+6. Từ tầng backend tạo api cho get all
+6.1. Không quên tạo ctor và tiêm IRoleService, dùng Interface từ tầng nào phải đăng kí trong starup dịch vụ đó
+cú pháp : "services.AddTransient<>()" đồng thời gọi xác thực Authorize trong RoleController backend đó.
+6.2. Get api trả về Ok(result) -> chứa result.
+7. Từ tầng manager (giao diện admin), gọi api đó và test
+7.1. Như trên, phải tạo service để lấy api từ backend đó, tạo phương thức giống với tầng nghiệp vụ Application đã tạo cũng ok.
+7.2. service gọi đó đặt tên tường minh IRoleApiClient trong Service folder của Manager
+7.3. Không quên tạo ctor và tiêm các interface để làm việc : IHttpClientFactory -> làm việc với client tạo client ...
+IHttpContextAccessor làm việc với session
+8. Tiêm IRoleApiClient trong controller của Manager, đăng kí tương tự bước 6.1
+9. Taọ pt GetRoleAssign lấy ra những role cần show
+10. Check quyền các thứ ở api, từ controller ->  show ra view
+11. Quay lại bước 1 nhưng lần này viết phương thức để thay đổi quyền role (viết trong logic của User hoặc Role đều được)
+

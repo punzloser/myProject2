@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Catalog.Roles;
 using ViewModel.Catalog.Users;
 
 namespace Manager.Controllers
@@ -22,10 +23,12 @@ namespace Manager.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _config;
-        public UserController(IUserApiClient userApiClient, IConfiguration config)
+        private readonly IRoleApiClient _roleApiClient;
+        public UserController(IUserApiClient userApiClient, IConfiguration config, IRoleApiClient roleApiClient)
         {
             _userApiClient = userApiClient;
             _config = config;
+            _roleApiClient = roleApiClient;
         }
 
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 1)
@@ -98,7 +101,11 @@ namespace Manager.Controllers
                 TempData["alert"] = "Thêm thành công !";
                 return RedirectToAction("Index");
             }
-            return View(request);
+            else
+            {
+                ModelState.AddModelError("", "Thêm thất bại");
+                return View(request);
+            }
         }
 
         [HttpGet]
@@ -146,6 +153,50 @@ namespace Manager.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RoleAssign(Guid id)
+        {
+            var roleAssign = await GetRoleAssign(id);
+            return View(roleAssign);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleAssign(RoleEditModel roleEditModel)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _roleApiClient.SetRoleAssign(roleEditModel.Id, roleEditModel);
+            if (result)
+            {
+                TempData["alert"] = "Sửa quyền thanh công !";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Sửa quyền thất bại !");
+            var roleAssign = await GetRoleAssign(roleEditModel.Id);
+
+            return View(roleAssign);
+
+        }
+
+        private async Task<RoleEditModel> GetRoleAssign(Guid id)
+        {
+            var user = await _userApiClient.GetUserById(id);
+            var roles = await _roleApiClient.GetAll();
+            var roleAssign = new RoleEditModel();
+            foreach (var role in roles)
+            {
+                roleAssign.Roles.Add(new SelectItem()
+                {
+                    Id = role.Id.ToString(),
+                    Name = role.Name,
+                    Checked = user.Roles.Contains(role.Name)
+                });
+            }
+
+            return roleAssign;
+        }
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
             IdentityModelEventSource.ShowPII = true;

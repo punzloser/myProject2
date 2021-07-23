@@ -1,4 +1,5 @@
 using Application.Catalog.Products;
+using Application.Catalog.Roles;
 using Application.Catalog.Users;
 using Application.Common;
 using Data;
@@ -47,6 +48,7 @@ namespace Backend_API
             services.AddTransient<SignInManager<User>, SignInManager<User>>();
             services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
 
             services.AddSwaggerGen(a =>
             {

@@ -22,7 +22,9 @@ namespace Application.Catalog.Languages
             {
                 Id = a.Id,
                 Name = a.Name
-            }).ToListAsync();
+            })
+                .OrderByDescending(a=>a.Name)
+                .ToListAsync();
             return lang;
         }
     }

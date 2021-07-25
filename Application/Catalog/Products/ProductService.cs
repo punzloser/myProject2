@@ -138,6 +138,7 @@ namespace Application.Catalog.Products
                          join b in _db.ProductTranslations on a.Id equals b.ProductId
                          join c in _db.ProductCategories on a.Id equals c.ProductID
                          join d in _db.Categories on c.CategoryID equals d.Id
+                         where b.LanguageId == request.LanguageId
                          select new
                          {
                              a,
@@ -146,10 +147,14 @@ namespace Application.Catalog.Products
                          };
             //2 filter
             if (!string.IsNullOrEmpty(request.Keyword))
+            {
                 result = result.Where(p => p.b.Name.Contains(request.Keyword));
+            }
 
-            if (request.CategoryIds.Any())
+            if (request.CategoryIds != null)
+            {
                 result = result.Where(p => request.CategoryIds.Contains(p.c.CategoryID));
+            }
             //3 paging
             int totalRow = await result.CountAsync();
             var data = await result

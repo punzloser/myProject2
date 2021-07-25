@@ -1,0 +1,98 @@
+﻿@model ViewModel.Base.PageResult<ViewModel.Catalog.Products.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section test{
+    <script>
+        setTimeout(function () {
+            var result = document.getElementById("messalert");
+            result.style.display = "none";
+        }, 1000);
+    </script>
+}
+
+<div class="card mb-4">
+
+    <form asp-action="Index" method="get" class="d-flex">
+        <div class="card-header w-100">
+            <a class="btn btn-success" asp-action="Create" asp-controller="User">Tạo sản phẩm</a>
+            <input type="text" name="keyword" placeholder="Tìm theo tên sản phẩm" class="form-control my-2" />
+
+            <div class="d-flex">
+
+                <div><button class="btn btn-info" type="submit">Tìm kiếm</button></div>
+                <div>
+                    @{
+                        if (TempData["alert"] != null)
+                        {
+                            <div id="messalert" class="ms-2 btn btn-primary" role="alert">
+                                @TempData["alert"]
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+    <br />
+
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="display:none;">
+                        ID
+                    </th>
+                    <th>
+                        Tên sản phẩm
+                    </th>
+                    <th>
+                        Giá bán
+                    </th>
+                    <th>
+                        Giá gốc
+                    </th>
+                    <th>
+                        Tồn kho
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td style="display:none;">
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OriginalPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Chi tiết", "Detail", new { id = item.Id }) |
+                            <a class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa Sản phẩm @item.Name này không ?') " href="@Url.Action("Delete", new { id = item.Id})">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div>@await Component.InvokeAsync("Paging", Model)</div>
+
+    </div>
+</div>

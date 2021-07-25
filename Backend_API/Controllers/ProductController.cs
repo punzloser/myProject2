@@ -21,10 +21,10 @@ namespace Backend_API.Controllers
         {
             _productService = productService;
         }
-        [HttpGet("{languageId}")]
-        public async Task<IActionResult> GetPaging(string languageId, [FromQuery] PublicProductPaging request)
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaging([FromQuery] AdminProductPaging request)
         {
-            return Ok(await _productService.GetAllByCategoryId(request, languageId));
+            return Ok(await _productService.GetAllPaging(request));
         }
 
         [HttpGet("{productId}/{languageId}")]

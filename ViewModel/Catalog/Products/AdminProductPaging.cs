@@ -11,5 +11,7 @@ namespace ViewModel.Catalog.Products
     {
         public string Keyword { get; set; }
         public List<int> CategoryIds { get; set; }
+        //Truyền lên LanguageId để biết đang quản lí ngôn ngữ nào
+        public string LanguageId { get; set; }
     }
 }

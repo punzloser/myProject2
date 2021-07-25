@@ -159,6 +159,8 @@ namespace Manager.Controllers
         public async Task<IActionResult> RoleAssign(Guid id)
         {
             var roleAssign = await GetRoleAssign(id);
+            if (roleAssign is null)
+                return Content("Không có quyền truy cập");
             return View(roleAssign);
         }
 
@@ -171,7 +173,7 @@ namespace Manager.Controllers
             var result = await _roleApiClient.SetRoleAssign(roleEditModel.Id, roleEditModel);
             if (result)
             {
-                TempData["alert"] = "Sửa quyền thanh công !";
+                TempData["alert"] = "Sửa quyền thành công !";
                 return RedirectToAction("Index");
             }
 
@@ -185,6 +187,7 @@ namespace Manager.Controllers
         private async Task<RoleEditModel> GetRoleAssign(Guid id)
         {
             var user = await _userApiClient.GetUserById(id);
+            if (user is null) return null;
             var roles = await _roleApiClient.GetAll();
             var roleAssign = new RoleEditModel();
             foreach (var role in roles)

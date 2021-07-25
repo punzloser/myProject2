@@ -1,4 +1,5 @@
 ﻿using Manager.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,6 +33,14 @@ namespace Manager.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        [HttpPost]
+        public IActionResult Language(NavViewModel nav)
+        {
+            HttpContext.Session.SetString("DefaultLangId", nav.CurrentLangId);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

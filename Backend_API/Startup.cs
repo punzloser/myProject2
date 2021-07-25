@@ -1,3 +1,4 @@
+using Application.Catalog.Languages;
 using Application.Catalog.Products;
 using Application.Catalog.Roles;
 using Application.Catalog.Users;
@@ -49,6 +50,7 @@ namespace Backend_API
             services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<ILanguageService, LanguageService>();
 
             services.AddSwaggerGen(a =>
             {

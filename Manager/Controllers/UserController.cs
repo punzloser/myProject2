@@ -1,4 +1,5 @@
-﻿using Manager.Service;
+﻿using Manager.Models;
+using Manager.Service;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -69,6 +70,7 @@ namespace Manager.Controllers
                 IsPersistent = false
             };
             HttpContext.Session.SetString("token", result);
+            HttpContext.Session.SetString("DefaultLangId", _config["DefaultLangId"]);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
 
             return RedirectToAction("Index", "User");
@@ -214,5 +216,6 @@ namespace Manager.Controllers
 
             return principal;
         }
+
     }
 }

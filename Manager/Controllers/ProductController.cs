@@ -29,10 +29,32 @@ namespace Manager.Controllers
                 PageSize = pageSize,
                 LanguageId = lang
             };
-            //3. Call api clientl
+            //3. Call api client
             var getApi = await _productApi.GetProductPaging(result);
-            
+
             return View(getApi);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
+        {
+            //important
+            if (!ModelState.IsValid)
+                return View();
+            var result = await _productApi.Create(request);
+            if (result)
+            {
+                TempData["alert"] = "Thêm sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Thêm sản phẩm thất bại");
+            return View();
         }
     }
 }

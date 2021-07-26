@@ -10,5 +10,6 @@ namespace Manager.Service
     public interface IProductApiClient
     {
         Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging);
+        Task<bool> Create(ProductCreateRequest request);
     }
 }

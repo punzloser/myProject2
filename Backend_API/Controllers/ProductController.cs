@@ -37,6 +37,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
             var productId = await _productService.Create(request);

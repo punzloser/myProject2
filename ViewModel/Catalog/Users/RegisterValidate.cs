@@ -18,7 +18,7 @@ namespace ViewModel.Catalog.Users
             RuleFor(a => a.Pass).NotEmpty().WithMessage("Nhập mật khẩu").MinimumLength(6).WithMessage("Tối thiểu 6 kí tự");
             RuleFor(a => a.Dob).NotEqual(DateTime.Now).WithMessage("Ngày sinh không hợp lệ");
             RuleFor(a => a.PhoneNumber).NotEmpty().WithMessage("Nhập SĐT");
-            RuleFor(a => a.Email).Must(IsValid).WithMessage("Không đúng định dạng");
+            RuleFor(a => a.Email).NotEmpty().Must(IsValid).WithMessage("Không đúng định dạng");
 
             RuleFor(a => a).Custom((request, context) =>
             {
@@ -29,16 +29,10 @@ namespace ViewModel.Catalog.Users
 
         public bool IsValid(string emailAddress)
         {
-            try
-            {
-                var m = new MailAddress(emailAddress);
-
+            var m = new MailAddress(emailAddress);
+            if (m != null)
                 return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

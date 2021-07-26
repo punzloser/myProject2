@@ -5,13 +5,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section test{
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#useCk'), {
+                //toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+}
+
 <div class="card mb-4">
     <div class="card-header">
         <a class="btn btn-success" asp-action="Index" asp-controller="Product">Về danh sách</a>
     </div>
 
     <div class="card-body">
-        <form asp-action="Create" class="col col-md-5" enctype="multipart/form-data" method="post">
+        <form asp-action="Create" class="col col-md-7" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
@@ -35,12 +51,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Details" class="control-label"></label>
-                <input asp-for="Details" class="form-control" />
+                <textarea id="useCk" asp-for="Details" class="form-control"></textarea>
                 <span asp-validation-for="Details" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -59,10 +75,10 @@
                 <span asp-validation-for="SeoAlias" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="LanguageId" class="control-label"></label>
-                <input asp-for="LanguageId" class="form-control" />
-                <span asp-validation-for="LanguageId" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="LanguageId" class="control-label"></label>
+                    <input asp-for="LanguageId" class="form-control" />
+                    <span asp-validation-for="LanguageId" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Thumnail" class="control-label"></label>
                 <input asp-for="Thumnail" class="form-control" />

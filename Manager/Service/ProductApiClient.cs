@@ -62,7 +62,7 @@ namespace Manager.Service
         public async Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging)
         {
             string url = $"api/product/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}" +
-                $"&keyword={paging.Keyword}&languageId={paging.LanguageId}";
+                $"&keyword={paging.Keyword}&languageId={paging.LanguageId}&categoryId={paging.CategoryId}";
 
             return await GetTaskAsync<PageResult<ProductViewModel>>(url);
         }

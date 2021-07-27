@@ -1,6 +1,7 @@
 ﻿using Manager.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace Manager.Controllers
     public class ProductController : Controller
     {
         private readonly IProductApiClient _productApi;
-        public ProductController(IProductApiClient productApi)
+        private readonly ICategoryApiClient _categoryApi;
+        public ProductController(IProductApiClient productApi, ICategoryApiClient categoryApi)
         {
             _productApi = productApi;
+            _categoryApi = categoryApi;
         }
 
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 3)
+        public async Task<IActionResult> Index(int? categoryId, string keyword, int pageIndex = 1, int pageSize = 3)
         {
             //1. Goi check language = session
             var lang = HttpContext.Session.GetString("DefaultLangId");
@@ -27,11 +30,19 @@ namespace Manager.Controllers
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId = lang
+                LanguageId = lang,
+                CategoryId = categoryId
             };
             //3. Call api client
             var getApi = await _productApi.GetProductPaging(result);
-
+            //
+            var getListCate = await _categoryApi.GetAll(lang);
+            ViewBag.Category = getListCate.Select(a => new SelectListItem()
+            {
+                Text = a.Name,
+                Value = a.Id.ToString(),
+                Selected = categoryId.HasValue && categoryId.Value == a.Id
+            });
             return View(getApi);
         }
 

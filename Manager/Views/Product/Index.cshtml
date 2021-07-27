@@ -34,9 +34,13 @@
                         }
                     }
                 </div>
-
+                <div class="ms-5">
+                    @*name bind to http get*@
+                    <select name="categoryId" asp-items="@ViewBag.Category" class="form-control" onchange="this.form.submit()">
+                        <option>-- Chọn loại --</option>
+                    </select>
+                </div>
             </div>
-
         </div>
     </form>
 

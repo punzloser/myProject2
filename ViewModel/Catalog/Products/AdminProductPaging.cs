@@ -10,7 +10,7 @@ namespace ViewModel.Catalog.Products
     public class AdminProductPaging : PageRequestBase
     {
         public string Keyword { get; set; }
-        public List<int> CategoryIds { get; set; }
+        public int? CategoryId { get; set; }
         //Truyền lên LanguageId để biết đang quản lí ngôn ngữ nào
         public string LanguageId { get; set; }
     }

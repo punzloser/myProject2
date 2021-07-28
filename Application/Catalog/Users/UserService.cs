@@ -93,7 +93,7 @@ namespace Application.Catalog.Users
                 Email = user.Email,
                 Dob = user.Dob,
                 PhoneNumber = user.PhoneNumber,
-                Roles = role
+                Roles = role.ToList()
             };
 
             return result;

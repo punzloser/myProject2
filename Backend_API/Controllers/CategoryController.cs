@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ViewModel.Catalog.Categories;
 
 namespace Backend_API.Controllers
 {
@@ -22,6 +23,18 @@ namespace Backend_API.Controllers
         public async Task<IActionResult> GetAll(string languageId)
         {
             var result = await _categoryService.GetAll(languageId);
+            return Ok(result);
+        }
+
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> RoleAssign(int productId, [FromBody] CategoryEditModel categoryEditModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var result = await _categoryService.CategoryAssign(productId, categoryEditModel);
+
+            if (!result)
+                return BadRequest();
             return Ok(result);
         }
     }

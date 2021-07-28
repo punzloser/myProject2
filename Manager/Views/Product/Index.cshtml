@@ -87,7 +87,7 @@
                             @Html.DisplayFor(modelItem => item.Stock)
                         </td>
                         <td>
-                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Phân loại", "CategoryAssign", new { id = item.Id }) |
                             @Html.ActionLink("Chi tiết", "Detail", new { id = item.Id }) |
                             <a class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa Sản phẩm @item.Name này không ?') " href="@Url.Action("Delete", new { id = item.Id})">Xóa</a>
                         </td>

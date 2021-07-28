@@ -59,6 +59,12 @@ namespace Manager.Service
             return false;
         }
 
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
+        {
+            string url = $"api/product/{productId}/{languageId}";
+            return await GetTaskAsync<ProductViewModel>(url);
+        }
+
         public async Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging)
         {
             string url = $"api/product/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}" +

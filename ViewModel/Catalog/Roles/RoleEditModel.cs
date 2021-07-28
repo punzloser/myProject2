@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
 
 namespace ViewModel.Catalog.Roles
 {
     public class RoleEditModel
     {
         public Guid Id { get; set; }
-        public List<SelectItem> Roles { get; set; } = new List<SelectItem>();
+        public List<Item> Roles { get; set; } = new List<Item>();
     }
-    public class SelectItem
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public bool Checked { get; set; }
-    }
+    
 }

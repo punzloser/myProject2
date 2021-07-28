@@ -136,8 +136,10 @@ namespace Application.Catalog.Products
             //1 join
             var result = from a in _db.Products
                          join b in _db.ProductTranslations on a.Id equals b.ProductId
-                         join c in _db.ProductCategories on a.Id equals c.ProductID
-                         join d in _db.Categories on c.CategoryID equals d.Id
+                         join c in _db.ProductCategories on a.Id equals c.ProductID into cs
+                         from c in cs.DefaultIfEmpty()
+                         join d in _db.Categories on c.CategoryID equals d.Id into ds
+                         from d in ds.DefaultIfEmpty()
                          where b.LanguageId == request.LanguageId
                          select new
                          {
@@ -192,6 +194,12 @@ namespace Application.Catalog.Products
             var product = await _db.Products.FindAsync(productId);
             var productTranslation = await _db.ProductTranslations.FirstOrDefaultAsync(a => a.ProductId == productId && a.LanguageId == languageId);
 
+            var listNameCategory = await (from a in _db.Categories
+                                          join b in _db.ProductCategories on a.Id equals b.CategoryID
+                                          join c in _db.CategoryTranslations on a.Id equals c.CategoryId
+                                          where b.ProductID.Equals(productId) && c.LanguageId.Equals(languageId)
+                                          select c.Name).ToListAsync();
+
             var result = new ProductViewModel()
             {
                 Id = product.Id,
@@ -206,8 +214,11 @@ namespace Application.Catalog.Products
                 SeoDescription = productTranslation == null ? null : productTranslation.SeoDescription,
                 SeoTitle = productTranslation == null ? null : productTranslation.SeoTitle,
                 Stock = product.Stock,
-                ViewCount = product.ViewCount
+                ViewCount = product.ViewCount,
+                Categories = listNameCategory
             };
+
+            
             return result;
         }
 

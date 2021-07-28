@@ -11,5 +11,6 @@ namespace Manager.Service
     {
         Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging);
         Task<bool> Create(ProductCreateRequest request);
+        Task<ProductViewModel> GetById(int productId, string languageId);
     }
 }

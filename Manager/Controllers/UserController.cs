@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Base;
 using ViewModel.Catalog.Roles;
 using ViewModel.Catalog.Users;
 
@@ -73,7 +74,7 @@ namespace Manager.Controllers
             HttpContext.Session.SetString("DefaultLangId", _config["DefaultLangId"]);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
 
-            return RedirectToAction("Index", "User");
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -192,7 +193,7 @@ namespace Manager.Controllers
             var roleAssign = new RoleEditModel();
             foreach (var role in roles)
             {
-                roleAssign.Roles.Add(new SelectItem()
+                roleAssign.Roles.Add(new Item()
                 {
                     Id = role.Id.ToString(),
                     Name = role.Name,

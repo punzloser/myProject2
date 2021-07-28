@@ -10,5 +10,7 @@ namespace Application.Catalog.Categories
     public interface ICategoryService
     {
         Task<List<CategoryViewModel>> GetAll(string languageId);
+        Task<bool> CategoryAssign(int ProductId, CategoryEditModel model);
+
     }
 }

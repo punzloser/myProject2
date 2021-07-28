@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ViewModel.Base;
+using ViewModel.Catalog.Categories;
 using ViewModel.Catalog.Products;
 
 namespace Manager.Controllers
@@ -66,6 +68,54 @@ namespace Manager.Controllers
             }
             ModelState.AddModelError("", "Thêm sản phẩm thất bại");
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryAssign(int id)
+        {
+            var categoryAssign = await GetCategoryAssign(id);
+            if (categoryAssign is null)
+                return Content("Không có quyền truy cập");
+            return View(categoryAssign);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CategoryAssign(CategoryEditModel categoryEditModel)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _categoryApi.CategoryAssign(categoryEditModel.Id, categoryEditModel);
+            if (result)
+            {
+                TempData["alert"] = "Sửa loại sản phẩm thành công !";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Sửa loại sản phẩm thất bại !");
+            var categoryAssign = await GetCategoryAssign(categoryEditModel.Id);
+
+            return View(categoryAssign);
+
+        }
+
+        private async Task<CategoryEditModel> GetCategoryAssign(int id)
+        {
+            var languageId = HttpContext.Session.GetString("DefaultLangId");
+            var product = await _productApi.GetById(id, languageId);
+            var categories = await _categoryApi.GetAll(languageId);
+
+            var categoryAssign = new CategoryEditModel();
+            foreach (var item in categories)
+            {
+                categoryAssign.Categories.Add(new Item()
+                {
+                    Id = item.Id.ToString(),
+                    Name = item.Name,
+                    Checked = product.Categories.Contains(item.Name)
+                });
+            }
+            return categoryAssign;
         }
     }
 }

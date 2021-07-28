@@ -1,4 +1,6 @@
-﻿using Data;
+﻿using Common.Exceptions;
+using Data;
+using Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,38 @@ namespace Application.Catalog.Categories
         {
             _db = db;
         }
+
+        public async Task<bool> CategoryAssign(int ProductId, CategoryEditModel model)
+        {
+            var product = await _db.Products.FindAsync(ProductId);
+            if (product == null)
+                throw new CallException($"sản phẩm với id {ProductId} không tồn tại");
+
+            foreach (var item in model.Categories)
+            {
+                var productCategory = await _db.ProductCategories
+                    .FirstOrDefaultAsync(a => a.CategoryID == int.Parse(item.Id) && a.ProductID == product.Id);
+
+                if (item.Checked && productCategory == null)
+                {
+                    await _db.ProductCategories.AddAsync(new ProductCategory()
+                    {
+                        CategoryID = int.Parse(item.Id),
+                        ProductID = ProductId
+                    });
+                }
+                else if (!item.Checked && productCategory != null)
+                {
+                    _db.ProductCategories.Remove(productCategory);
+
+                }
+            }
+            var result = await _db.SaveChangesAsync();
+            if (result > 0)
+                return true;
+            return false;
+        }
+
         public async Task<List<CategoryViewModel>> GetAll(string languageId)
         {
             var query = from a in _db.Categories

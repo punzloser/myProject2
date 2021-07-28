@@ -9,5 +9,6 @@ namespace Manager.Service
     public interface ICategoryApiClient
     {
         Task<List<CategoryViewModel>> GetAll(string languageId);
+        Task<bool> CategoryAssign(int ProductId, CategoryEditModel model);
     }
 }

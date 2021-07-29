@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .sub-menu-2, .copy, .ds {
+    display: none !important;
+  }
+}
+
+p.day, p.text {
+  font-weight: 400;
+  text-align: justify;
+}
+
+p.fix-text::first-letter {
+  font-size: 400%;
+  color: #8A2BE2;
+  font-weight: 600;
+}
+
+.hr-color {
+  color: blue;
+}
+
+#s1 .sub-menu-1 {
+  position: relative;
+}
+
+#s1 .sub-menu-1 ul > li:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+#s1 .sub-menu-1 ul > li:hover .dropdown-menu {
+  display: block;
+}
+
+#s1 .sub-menu-1 ul > li ul > li:hover .sub-menu-2 {
+  display: block;
+}
+
+#s1 .sub-menu-2 {
+  position: absolute;
+  left: 9.85em;
+  top: -0.1em;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  margin: 0;
+  display: none;
+}
+
+#s1 .sub-menu-2 ul {
+  list-style: none;
+  padding: 0;
+}
+
+#s1 .sub-menu-2 ul li {
+  text-align: center;
+}
+
+#s1 .sub-menu-2 ul li a {
+  display: block;
+}
+
+#product-hover li a:hover {
+  background-color: #0D6EFD;
+  color: white;
+}
+
+.card img:hover {
+  -webkit-transform: translateY(10px);
+          transform: translateY(10px);
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+td, label {
+  font-weight: 400;
+}
+
+.wrap {
+  position: relative;
+}
+
+.ds {
+  position: absolute;
+  top: 70%;
+  left: 30%;
+  color: white;
+}
+
+.ds:hover {
+  -webkit-transform: rotateX(360deg);
+          transform: rotateX(360deg);
+  -webkit-transition: all 2s;
+  transition: all 2s;
+}
+
+.ct-about {
+  background: linear-gradient(120deg, rgba(17, 0, 255, 0.062), white);
+}
+
+.mail {
+  position: relative;
+}
+
+.mail .btn-mail {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.mail .btn-mail:hover {
+  color: red;
+}
+
+.btn-cart {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+}
+
+.card:hover .btn-show {
+  opacity: 1;
+  -webkit-transition: all 0.75s;
+  transition: all 0.75s;
+}
+/*# sourceMappingURL=style.css.map */

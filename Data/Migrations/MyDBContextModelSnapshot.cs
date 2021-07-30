@@ -176,7 +176,7 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo nam",
                             SeoAlias = "ao-nam",
                             SeoDescription = "áo thời trang nam",
@@ -186,7 +186,7 @@ namespace Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "men t-shirt",
                             SeoAlias = "men-t-shirt",
                             SeoDescription = "men fashion t-shirt",
@@ -196,7 +196,7 @@ namespace Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 2,
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo nữ",
                             SeoAlias = "ao-nu",
                             SeoDescription = "áo thời trang nữ",
@@ -206,7 +206,7 @@ namespace Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "women t-shirt",
                             SeoAlias = "women-t-shirt",
                             SeoDescription = "women fasion t-shirt",
@@ -273,13 +273,13 @@ namespace Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "vi-VN",
+                            Id = "vi",
                             IsDefault = true,
                             Name = "Tiếng Việt"
                         },
                         new
                         {
-                            Id = "en-US",
+                            Id = "en",
                             IsDefault = false,
                             Name = "English"
                         });
@@ -388,7 +388,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 7, 6, 13, 22, 45, 945, DateTimeKind.Local).AddTicks(7461),
+                            DateCreated = new DateTime(2021, 7, 29, 23, 34, 15, 146, DateTimeKind.Local).AddTicks(5924),
                             OriginalPrice = 200000m,
                             Price = 250000m,
                             Stock = 0,
@@ -502,7 +502,7 @@ namespace Data.Migrations
                             Id = 1,
                             Description = "Áo sơ mi trắng nam đẹp",
                             Details = "Áo sơ mi trắng nam đẹp",
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo sơ mi trắng nam đẹp",
                             ProductId = 1,
                             SeoAlias = "ao-so-mi-nam-trang-dep",
@@ -514,7 +514,7 @@ namespace Data.Migrations
                             Id = 2,
                             Description = "Nice white men t-shirt",
                             Details = "Nice white men t-shirt",
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Nice white men t-shirt",
                             ProductId = 1,
                             SeoAlias = "ao-so-mi-nam-trang-dep",
@@ -593,7 +593,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("70834739-9213-4c00-9936-ed75eaf822d7"),
-                            ConcurrencyStamp = "ca2fb748-3c5c-474d-bca1-ac3874d242c1",
+                            ConcurrencyStamp = "c466c526-79f6-4740-8f56-c3566ee8a1e0",
                             Description = "administration",
                             Name = "administrator",
                             NormalizedName = "admin"
@@ -713,7 +713,7 @@ namespace Data.Migrations
                         {
                             Id = new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1cfa0087-d99f-4f3e-9cef-97a515fbfd2f",
+                            ConcurrencyStamp = "be1944a7-3f2a-40c9-9d04-9ef92dd00b13",
                             Dob = new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "punzloser@gmail.com",
                             EmailConfirmed = true,
@@ -722,7 +722,7 @@ namespace Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "punzloser@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDuFlo8x0gT587h5+tZh8TQcXSRDNsr3QJSbcRLAAZtk3F85fmkHo3hlvstpIgTGKg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK3a7oybhrW1LbXSOWyToGH10eLEO1nELKqpD7IfBZyrhrcTixZfepX1gJhGpprEfg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

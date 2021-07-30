@@ -20,8 +20,8 @@ namespace Data.Extension
                 );
 
             modelBuilder.Entity<Language>().HasData(
-                new Language { Id = "vi-VN", IsDefault = true, Name = "Tiếng Việt" },
-                new Language { Id = "en-US", IsDefault = false, Name = "English" }
+                new Language { Id = "vi", IsDefault = true, Name = "Tiếng Việt" },
+                new Language { Id = "en", IsDefault = false, Name = "English" }
                 );
 
             modelBuilder.Entity<Category>().HasData(
@@ -34,7 +34,7 @@ namespace Data.Extension
                 {
                     CategoryId = 1,
                     Id = 1,
-                    LanguageId = "vi-VN",
+                    LanguageId = "vi",
                     Name = "Áo nam",
                     SeoAlias = "ao-nam",
                     SeoDescription = "áo thời trang nam",
@@ -44,7 +44,7 @@ namespace Data.Extension
                 {
                     CategoryId = 1,
                     Id = 2,
-                    LanguageId = "en-US",
+                    LanguageId = "en",
                     Name = "men t-shirt",
                     SeoAlias = "men-t-shirt",
                     SeoDescription = "men fashion t-shirt",
@@ -54,7 +54,7 @@ namespace Data.Extension
                 {
                     CategoryId = 2,
                     Id = 3,
-                    LanguageId = "vi-VN",
+                    LanguageId = "vi",
                     Name = "Áo nữ",
                     SeoAlias = "ao-nu",
                     SeoDescription = "áo thời trang nữ",
@@ -64,7 +64,7 @@ namespace Data.Extension
                 {
                     CategoryId = 2,
                     Id = 4,
-                    LanguageId = "en-US",
+                    LanguageId = "en",
                     Name = "women t-shirt",
                     SeoAlias = "women-t-shirt",
                     SeoDescription = "women fasion t-shirt",
@@ -91,7 +91,7 @@ namespace Data.Extension
                     Name = "Áo sơ mi trắng nam đẹp",
                     Description = "Áo sơ mi trắng nam đẹp",
                     Details = "Áo sơ mi trắng nam đẹp",
-                    LanguageId = "vi-VN",
+                    LanguageId = "vi",
                     ProductId = 1,
                     SeoAlias = "ao-so-mi-nam-trang-dep",
                     SeoDescription = "Áo sơ mi trắng nam đẹp",
@@ -103,7 +103,7 @@ namespace Data.Extension
                     Name = "Nice white men t-shirt",
                     Description = "Nice white men t-shirt",
                     Details = "Nice white men t-shirt",
-                    LanguageId = "en-US",
+                    LanguageId = "en",
                     ProductId = 1,
                     SeoAlias = "ao-so-mi-nam-trang-dep",
                     SeoDescription = "Nice white men t-shirt",

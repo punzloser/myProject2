@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiClientCommon.Service;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 using ViewModel.Base;
 using ViewModel.Catalog.Products;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public class ProductApiClient : CommonApi, IProductApiClient
     {

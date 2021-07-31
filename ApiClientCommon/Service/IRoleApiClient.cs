@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Roles;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public interface IRoleApiClient
     {

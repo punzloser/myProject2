@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Categories;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public class CategoryApiClient : CommonApi, ICategoryApiClient
     {

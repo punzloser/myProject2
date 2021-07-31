@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ViewModel.Base;
 using ViewModel.Catalog.Products;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public interface IProductApiClient
     {

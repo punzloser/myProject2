@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiClientCommon.Service;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Languages;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public class LanguageApiClient : CommonApi, ILanguageApiClient
     {

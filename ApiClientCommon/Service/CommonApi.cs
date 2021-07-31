@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Languages;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public class CommonApi
     {
@@ -20,7 +20,7 @@ namespace Manager.Service
             _accessor = accessor;
         }
 
-        protected async Task<TResult> GetTaskAsync<TResult> (string url)
+        protected async Task<TResult> GetTaskAsync<TResult>(string url)
         {
             var client = _httpClient.CreateClient();
             client.BaseAddress = new Uri("https://localhost:5001");
@@ -31,7 +31,7 @@ namespace Manager.Service
 
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<TResult>(result);
-            return default(TResult);
+            return default;
         }
 
     }

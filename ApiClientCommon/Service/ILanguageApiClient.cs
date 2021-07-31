@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Languages;
 
-namespace Manager.Service
+namespace ApiClientCommon.Service
 {
     public interface ILanguageApiClient
     {

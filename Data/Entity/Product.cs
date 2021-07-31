@@ -14,6 +14,7 @@ namespace Data.Entity
         public int Stock { get; set; }
         public int ViewCount { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool? IsFeatured { get; set; }
 
         public List<ProductTranslation> ProductTranslations { get; set; }
         public List<ProductCategory> ProductCategories { get; set; }

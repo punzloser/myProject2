@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class UpdateLanguageName : Migration
+    public partial class ConfigDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,23 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_App", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carousels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Href = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Alt = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carousels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,7 +92,8 @@ namespace Data.Migrations
                     OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     ViewCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsFeatured = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -445,6 +463,16 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Carousels",
+                columns: new[] { "Id", "Alt", "Href", "SortOrder", "Source", "Status" },
+                values: new object[,]
+                {
+                    { 1, "...", "#", 1, "/img/1.png", 0 },
+                    { 2, "...", "#", 1, "/img/2.png", 0 },
+                    { 3, "...", "#", 1, "/img/3.png", 0 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsShowOnHome", "ParentId", "SortOrder" },
                 values: new object[,]
@@ -464,13 +492,17 @@ namespace Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "DateCreated", "OriginalPrice", "Price" },
-                values: new object[] { 1, new DateTime(2021, 7, 29, 23, 34, 15, 146, DateTimeKind.Local).AddTicks(5924), 200000m, 250000m });
+                columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price" },
+                values: new object[] { 1, new DateTime(2021, 7, 31, 18, 45, 59, 691, DateTimeKind.Local).AddTicks(1312), null, 200000m, 250000m });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "c466c526-79f6-4740-8f56-c3566ee8a1e0", "administration", "administrator", "admin" });
+                values: new object[,]
+                {
+                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "e4ad68d2-7362-4658-952b-ad556a5447ae", "admin", "admin", "admin" },
+                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "7f5ea498-b5d5-44e2-98c2-2e1ade9f1a81", "mod", "mod", "mod" }
+                });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
@@ -480,7 +512,7 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "be1944a7-3f2a-40c9-9d04-9ef92dd00b13", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEK3a7oybhrW1LbXSOWyToGH10eLEO1nELKqpD7IfBZyrhrcTixZfepX1gJhGpprEfg==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "bac1a592-1239-4ebf-854c-0dd561f2677a", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEKf8cH6CJ21bzkit9rt+k45V+NQzqcd6pD885/Fkye632IoyfB2LxDzbq2FqSQ5/tA==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "CategoryTranslations",
@@ -504,7 +536,7 @@ namespace Data.Migrations
                 values: new object[,]
                 {
                     { 1, "Áo sơ mi trắng nam đẹp", "Áo sơ mi trắng nam đẹp", "vi", "Áo sơ mi trắng nam đẹp", 1, "ao-so-mi-nam-trang-dep", "Áo sơ mi trắng nam đẹp", "Áo sơ mi trắng nam đẹp" },
-                    { 2, "Nice white men t-shirt", "Nice white men t-shirt", "en", "Nice white men t-shirt", 1, "ao-so-mi-nam-trang-dep", "Nice white men t-shirt", "Nice white men t-shirt" }
+                    { 2, "Nice white men t-shirt", "Nice white men t-shirt", "en", "Nice white men t-shirt", 1, "men-t-shirt", "Nice white men t-shirt", "Nice white men t-shirt" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -567,6 +599,9 @@ namespace Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "App");
+
+            migrationBuilder.DropTable(
+                name: "Carousels");
 
             migrationBuilder.DropTable(
                 name: "Carts");

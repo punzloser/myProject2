@@ -21,6 +21,7 @@ namespace ViewModel.Catalog.Products
         public string SeoTitle { set; get; }
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
+        public bool? IsFeatured { get; set; }
 
         public List<string> Categories { get; set; }
     }

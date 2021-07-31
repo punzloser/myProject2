@@ -69,8 +69,7 @@ namespace Data.Extension
                     SeoAlias = "women-t-shirt",
                     SeoDescription = "women fasion t-shirt",
                     SeoTitle = "women fasion t-shirt"
-                }
-                );
+                });
 
             modelBuilder.Entity<Product>().HasData(
                 new Product
@@ -81,8 +80,7 @@ namespace Data.Extension
                     Price = 250000,
                     Stock = 0,
                     ViewCount = 0
-                }
-                );
+                });
 
             modelBuilder.Entity<ProductTranslation>().HasData(
                 new ProductTranslation
@@ -105,18 +103,19 @@ namespace Data.Extension
                     Details = "Nice white men t-shirt",
                     LanguageId = "en",
                     ProductId = 1,
-                    SeoAlias = "ao-so-mi-nam-trang-dep",
+                    SeoAlias = "men-t-shirt",
                     SeoDescription = "Nice white men t-shirt",
                     SeoTitle = "Nice white men t-shirt",
-                }
-                );
+                });
 
             modelBuilder.Entity<ProductCategory>().HasData(
                 new ProductCategory { CategoryID = 1, ProductID = 1 }
                 );
 
             //create guid auto
-            var RoleID = new Guid("70834739-9213-4C00-9936-ED75EAF822D7");
+            var RoleID_1 = new Guid("70834739-9213-4C00-9936-ED75EAF822D7");
+            var RoleID_2 = new Guid("6A0158CF-B5FA-4480-BF08-26BF157FAC36");
+
             var AdminID = new Guid("48C2B994-33AB-439B-9D6F-A5318916AFF6");
             var hash = new PasswordHasher<User>();
 
@@ -134,26 +133,59 @@ namespace Data.Extension
                     Dob = new DateTime(1995, 01, 25),
                     SecurityStamp = string.Empty,
                     PasswordHash = hash.HashPassword(null, "123456a@")
-                }
-                );
+                });
 
             modelBuilder.Entity<Role>().HasData(
                 new Role
                 {
-                    Id = RoleID,
-                    Name = "administrator",
-                    Description = "administration",
+                    Id = RoleID_1,
+                    Name = "admin",
+                    Description = "admin",
                     NormalizedName = "admin"
-                }
-                );
+                }, 
+                new Role
+                {
+                    Id = RoleID_2,
+                    Name = "mod",
+                    Description = "mod",
+                    NormalizedName = "mod"
+                });
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(
                 new IdentityUserRole<Guid>
                 {
-                    RoleId = RoleID,
+                    RoleId = RoleID_1,
                     UserId = AdminID
-                }
-                );
+                });
+
+            modelBuilder.Entity<Carousel>().HasData(
+                new Carousel
+                {
+                    Id = 1,
+                    Href = "#",
+                    Source = "/img/1.png",
+                    Alt = "...",
+                    SortOrder = 1,
+                    Status = Enum.Status.Active
+                },
+                new Carousel
+                {
+                    Id = 2,
+                    Href = "#",
+                    Source = "/img/2.png",
+                    Alt = "...",
+                    SortOrder = 1,
+                    Status = Enum.Status.Active
+                },
+                new Carousel
+                {
+                    Id = 3,
+                    Href = "#",
+                    Source = "/img/3.png",
+                    Alt = "...",
+                    SortOrder = 1,
+                    Status = Enum.Status.Active
+                });
         }
     }
 }

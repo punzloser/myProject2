@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20210729163415_Update-Language-Name")]
-    partial class UpdateLanguageName
+    [Migration("20210731114600_ConfigDatabase")]
+    partial class ConfigDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,66 @@ namespace Data.Migrations
                         {
                             Key = "Description",
                             Value = "This is description of webpage"
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entity.Carousel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Alt")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Href")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carousels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Alt = "...",
+                            Href = "#",
+                            SortOrder = 1,
+                            Source = "/img/1.png",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Alt = "...",
+                            Href = "#",
+                            SortOrder = 1,
+                            Source = "/img/2.png",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Alt = "...",
+                            Href = "#",
+                            SortOrder = 1,
+                            Source = "/img/3.png",
+                            Status = 0
                         });
                 });
 
@@ -366,6 +426,9 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsFeatured")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -390,7 +453,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 7, 29, 23, 34, 15, 146, DateTimeKind.Local).AddTicks(5924),
+                            DateCreated = new DateTime(2021, 7, 31, 18, 45, 59, 691, DateTimeKind.Local).AddTicks(1312),
                             OriginalPrice = 200000m,
                             Price = 250000m,
                             Stock = 0,
@@ -519,7 +582,7 @@ namespace Data.Migrations
                             LanguageId = "en",
                             Name = "Nice white men t-shirt",
                             ProductId = 1,
-                            SeoAlias = "ao-so-mi-nam-trang-dep",
+                            SeoAlias = "men-t-shirt",
                             SeoDescription = "Nice white men t-shirt",
                             SeoTitle = "Nice white men t-shirt"
                         });
@@ -595,10 +658,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("70834739-9213-4c00-9936-ed75eaf822d7"),
-                            ConcurrencyStamp = "c466c526-79f6-4740-8f56-c3566ee8a1e0",
-                            Description = "administration",
-                            Name = "administrator",
+                            ConcurrencyStamp = "e4ad68d2-7362-4658-952b-ad556a5447ae",
+                            Description = "admin",
+                            Name = "admin",
                             NormalizedName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"),
+                            ConcurrencyStamp = "7f5ea498-b5d5-44e2-98c2-2e1ade9f1a81",
+                            Description = "mod",
+                            Name = "mod",
+                            NormalizedName = "mod"
                         });
                 });
 
@@ -715,7 +786,7 @@ namespace Data.Migrations
                         {
                             Id = new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "be1944a7-3f2a-40c9-9d04-9ef92dd00b13",
+                            ConcurrencyStamp = "bac1a592-1239-4ebf-854c-0dd561f2677a",
                             Dob = new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "punzloser@gmail.com",
                             EmailConfirmed = true,
@@ -724,7 +795,7 @@ namespace Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "punzloser@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK3a7oybhrW1LbXSOWyToGH10eLEO1nELKqpD7IfBZyrhrcTixZfepX1gJhGpprEfg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKf8cH6CJ21bzkit9rt+k45V+NQzqcd6pD885/Fkye632IoyfB2LxDzbq2FqSQ5/tA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

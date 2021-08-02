@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiClientCommon.Service;
 using JacobDixon.AspNetCore.LiveSassCompile;
 using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,8 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             var cultures = new[]
             {
                 new CultureInfo("en"),
@@ -46,6 +50,16 @@ namespace WebApp
                     b.DefaultRequestCulture = new RequestCulture("vi");
                 };
             });
+
+            services.AddSession(a =>
+            {
+                a.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<ICarouselApiClient, CarouselApiClient>();
+            services.AddTransient<IProductApiClient, ProductApiClient>();
+
             services.AddLiveSassCompile();
         }
 
@@ -68,6 +82,8 @@ namespace WebApp
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseRequestLocalization();
 

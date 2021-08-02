@@ -66,6 +66,12 @@ namespace ApiClientCommon.Service
             return await GetTaskAsync<ProductViewModel>(url);
         }
 
+        public async Task<List<ProductViewModel>> GetFeatured(string languageId, int quantity)
+        {
+            string url = $"api/product/feature/{languageId}/{quantity}";
+            return await GetTaskAsync<List<ProductViewModel>>(url);
+        }
+
         public async Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging)
         {
             string url = $"api/product/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}" +

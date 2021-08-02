@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bán chạy" xml:space="preserve">
+    <value>Best selling</value>
+  </data>
   <data name="Chi tiết" xml:space="preserve">
     <value>Detail</value>
   </data>
   <data name="Chọn ngôn ngữ" xml:space="preserve">
     <value>Select language</value>
+  </data>
+  <data name="Giá giảm" xml:space="preserve">
+    <value>Price high to low</value>
+  </data>
+  <data name="Giá tăng" xml:space="preserve">
+    <value>Price low to high</value>
+  </data>
+  <data name="Laptop nổi bật" xml:space="preserve">
+    <value>Featured Laptop</value>
   </data>
   <data name="Liên hệ" xml:space="preserve">
     <value>Contact</value>
@@ -134,6 +146,9 @@
   </data>
   <data name="Sản phẩm khác" xml:space="preserve">
     <value>Other Products</value>
+  </data>
+  <data name="Sắp xếp theo" xml:space="preserve">
+    <value>Sort by</value>
   </data>
   <data name="Tin tức" xml:space="preserve">
     <value>News</value>

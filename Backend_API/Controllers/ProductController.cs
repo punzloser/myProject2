@@ -21,10 +21,13 @@ namespace Backend_API.Controllers
         {
             _productService = productService;
         }
+
+        [AllowAnonymous]
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaging([FromQuery] AdminProductPaging request)
         {
-            return Ok(await _productService.GetAllPaging(request));
+            var result = await _productService.GetAllPaging(request);
+            return Ok(result);
         }
 
         [HttpGet("{productId}/{languageId}")]
@@ -111,6 +114,14 @@ namespace Backend_API.Controllers
             if (result == 0 || !ModelState.IsValid)
                 return BadRequest();
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("feature/{languageId}/{quantity}")]
+        public async Task<IActionResult> GetFeatured(string languageId, int quantity)
+        {
+            var result = await _productService.GetFeatured(languageId, quantity);
+            return Ok(result);
         }
     }
 }

@@ -12,5 +12,6 @@ namespace ApiClientCommon.Service
         Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging);
         Task<bool> Create(ProductCreateRequest request);
         Task<ProductViewModel> GetById(int productId, string languageId);
+        Task<List<ProductViewModel>> GetFeatured(string languageId, int quantity);
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiClientCommon.Service;
 using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -16,17 +18,29 @@ namespace WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ISharedCultureLocalizer _loc;
+        private readonly ICarouselApiClient _carouselApiClient;
+        private readonly IProductApiClient _productApiClient;
 
-        public HomeController(ILogger<HomeController> logger, ISharedCultureLocalizer loc)
+        public HomeController(ILogger<HomeController> logger, ISharedCultureLocalizer loc, ICarouselApiClient carouselApiClient, IProductApiClient productApiClient)
         {
             _logger = logger;
-            _loc = loc;
+            //_loc = loc;
+            _carouselApiClient = carouselApiClient;
+            _productApiClient = productApiClient;
         }
-
-        public IActionResult Index()
+        
+        public async Task<IActionResult> Index()
         {
-            var msg = _loc.GetLocalizedString("Vietnamese");
-            return View();
+            var lang = CultureInfo.CurrentCulture.Name;
+            int takeQuantity = Common.Variables.WebApp.SetQuantityToTakeInCarousel;
+            var feature = await _productApiClient.GetFeatured(lang, takeQuantity);
+            var carousel = await _carouselApiClient.GetAll();
+            var result = new HomeViewModel()
+            {
+                Carousels = carousel,
+                ProductFeatured = feature
+            };
+            return View(result);
         }
 
         public IActionResult SetCultureCookie(string cltr, string returnUrl)

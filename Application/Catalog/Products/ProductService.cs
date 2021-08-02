@@ -218,7 +218,7 @@ namespace Application.Catalog.Products
                 Categories = listNameCategory
             };
 
-            
+
             return result;
         }
 
@@ -388,6 +388,37 @@ namespace Application.Catalog.Products
                 Items = data
             };
             return pageResult;
+        }
+
+        public async Task<List<ProductViewModel>> GetFeatured(string languageId, int quantity)
+        {
+            var query = await (from a in _db.Products
+                               join b in _db.ProductTranslations on a.Id equals b.ProductId
+                               join c in _db.ProductCategories on a.Id equals c.ProductID into cc
+                               from c in cc.DefaultIfEmpty()
+                               join d in _db.Categories on c.CategoryID equals d.Id
+                               where b.LanguageId == languageId
+                               orderby a.DateCreated descending
+                               select new ProductViewModel()
+                               {
+                                   Id = a.Id,
+                                   Name = b.Name,
+                                   Price = a.Price,
+                                   OriginalPrice = a.OriginalPrice,
+                                   DateCreated = a.DateCreated,
+                                   Description = b.Description,
+                                   Details = b.Details,
+                                   SeoAlias = b.SeoAlias,
+                                   SeoTitle = b.SeoTitle,
+                                   SeoDescription = b.SeoDescription,
+                                   Stock = a.Stock,
+                                   LanguageId = b.LanguageId,
+                                   ViewCount = a.ViewCount
+                               }).ToListAsync();
+
+            var result = query.Take(quantity);
+
+            return result.ToList();
         }
     }
 }

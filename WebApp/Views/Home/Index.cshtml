@@ -1,5 +1,7 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "Trang chủ";
+    var take = Common.Variables.WebApp.SetQuantityToTakeInCarousel;
 }
 
 <!-- Carousal -->
@@ -10,23 +12,45 @@
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <a href="#"><img src="img/1.png" class="d-block w-100" alt="..."></a>
-        </div>
-        <div class="carousel-item">
-            <a href="#"><img src="img/2.png" class="d-block w-100" alt="..."></a>
-        </div>
-        <div class="carousel-item">
-            <a href="#"><img src="img/3.png" class="d-block w-100" alt="..."></a>
-        </div>
+        @{
+            @*#region Solution 1
+                for (int i = 0; i < Model.Carousels.Count; i++)
+                {
+                    var carousel = Model.Carousels[i];
+                    if (i == 0)
+                    {
+                        <div class="carousel-item active">
+                            <a href="@carousel.Href"><img src="@carousel.Source" class="d-block w-100" alt="@carousel.Alt"></a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item">
+                            <a href="@carousel.Href"><img src="@carousel.Source" class="d-block w-100" alt="@carousel.Alt"></a>
+                        </div>
+                    }
+                }
+                #endregion*@
+            #region Solution 2
+            int i = 0;
+            foreach (var slide in Model.Carousels)
+            {
+                <div class="carousel-item @(i==0?"active":"")">
+                    <a href="@slide.Href"><img src="@slide.Source" class="d-block w-100" alt="@slide.Alt"></a>
+                </div>
+                i++;
+            }
+            #endregion
+        }
+
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+        <span class="visually-hidden">Trước</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+        <span class="visually-hidden">Tiếp</span>
     </button>
 </div>
 
@@ -41,56 +65,96 @@
             Laptop
         </h4>
         <div class="card-header text-muted float-start w-75 rounded-3 border">
-            <h2>Laptop nổi bật</h2>
+            <h2><localize>Laptop nổi bật</localize></h2>
         </div>
 
         <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example">
-            <option selected>Sắp xếp theo</option>
-            <option value="1">Giá giảm</option>
-            <option value="2">Giá tăng</option>
-            <option value="3">Bán chạy</option>
+            <option selected><localize>Sắp xếp theo</localize></option>
+            <option value="1"><localize>Giá giảm</localize></option>
+            <option value="2"><localize>Giá tăng</localize></option>
+            <option value="3"><localize>Bán chạy</localize></option>
         </select>
         <div class="clearfix"></div>
-        <div class="card">
 
-            <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-4">
-                <div class="col">
-                    <div class="card">
-                        <img src="img/4.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">HP 340s G7 i3 1005G1 (240Q4PA)</h6>
-                            <p class="price">12.390.000₫</p>
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+                @{
+                    var productFeatured = Model.ProductFeatured;
+                    for (int j = 0; j <= productFeatured.Count / 3; j++)
+                    {
+                        <div class="carousel-item @(j==0?"active":"")" data-bs-interval="2000">
+                            <div class="row">
+                                @foreach (var product in Model.ProductFeatured.Skip(j * 3).Take(3))
+                                {
+                                    <div class="col-4">
+                                        <a href="#"><img src="img/4.jpg" class="d-block w-100" alt="@product.Name"></a>
+                                        <h5>@product.Name</h5>
+                                        <p>@product.Price</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+
+                @*<div class="carousel-item" data-bs-interval="2000">
+                        <div class="row">
+                            <div class="col-3">
+                                <a href="#"><img src="img/13.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>HP 340s G7 i3 1005G1</h5>
+                                <p>12.390.000₫</p>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="img/14.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>Lenovo ThinkBook 15IIL i3</h5>
+                                <p>11.490.000₫</p>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="img/15.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>HP 348 G7 i5 10210U</h5>
+                                <p>16.990.000₫</p>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="img/16.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>HP 340s G7 i3 1005G1</h5>
+                                <p>13.390.000₫</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="img/5.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">Lenovo ThinkBook 15IIL i3 1005G1 (20SM00D9VN)</h6>
-                            <p class="price">11.490.000₫</p>
+                    <div class="carousel-item" data-bs-interval="1000">
+                        <div class="row">
+                            <div class="col-3">
+                                <a href="#"><img src="img/17.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>HP 340s G7 i3 1005G1</h5>
+                                <p>12.390.000₫</p>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="img/18.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>Lenovo ThinkBook 15IIL i3</h5>
+                                <p>11.490.000₫</p>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="img/19.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>HP 348 G7 i5 10210U</h5>
+                                <p>16.990.000₫</p>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="img/20.jpg" class="d-block w-100" alt="..."></a>
+                                <h5>HP 340s G7 i3 1005G1</h5>
+                                <p>13.390.000₫</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="img/6.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">HP 348 G7 i5 10210U (9PH06PA)</h6>
-                            <p class="price">16.990.000₫</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="img/7.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">HP 340s G7 i3 1005G1 (224L1PA)</h6>
-                            <p class="price">13.390.000₫</p>
-                        </div>
-                    </div>
-                </div>
+                    </div>*@
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
 

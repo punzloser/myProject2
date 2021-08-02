@@ -20,6 +20,7 @@ namespace Application.Catalog.Products
         Task<int> AddImg(ProductImageCreate create, int productId);
         Task<int> EditImg(ProductImageEdit edit, int ImgId);
         Task<int> DeleteImg(int ImgId);
+        Task<List<ProductViewModel>> GetFeatured(string languageId, int quantity);
 
         Task<List<ProductImageViewModel>> GetListImgById(int productId);
         Task<ProductImageViewModel> GetImgById(int imgId);

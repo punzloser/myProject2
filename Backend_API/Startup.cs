@@ -1,3 +1,4 @@
+using Application.Catalog.Carousel;
 using Application.Catalog.Categories;
 using Application.Catalog.Languages;
 using Application.Catalog.Products;
@@ -53,6 +54,7 @@ namespace Backend_API
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ILanguageService, LanguageService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICarouselService, CarouselService>();
 
             services.AddSwaggerGen(a =>
             {

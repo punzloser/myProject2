@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Data.Enum;
 
 namespace Data.Extension
 {
@@ -25,8 +22,8 @@ namespace Data.Extension
                 );
 
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, IsShowOnHome = true, ParentId = null, SortOrder = 1, Status = Enum.Status.Active },
-                new Category { Id = 2, IsShowOnHome = true, ParentId = null, SortOrder = 2, Status = Enum.Status.Active }
+                new Category { Id = 1, IsShowOnHome = true, ParentId = null, SortOrder = 1, Status = Status.Active },
+                new Category { Id = 2, IsShowOnHome = true, ParentId = null, SortOrder = 2, Status = Status.Active }
                 );
 
             modelBuilder.Entity<CategoryTranslation>().HasData(
@@ -35,40 +32,40 @@ namespace Data.Extension
                     CategoryId = 1,
                     Id = 1,
                     LanguageId = "vi",
-                    Name = "Áo nam",
-                    SeoAlias = "ao-nam",
-                    SeoDescription = "áo thời trang nam",
-                    SeoTitle = "áo thời trang nam"
+                    Name = "Laptop",
+                    SeoAlias = "laptop-thoi-trang",
+                    SeoDescription = "Laptop thời trang",
+                    SeoTitle = "Laptop thời trang"
                 },
                 new CategoryTranslation
                 {
                     CategoryId = 1,
                     Id = 2,
                     LanguageId = "en",
-                    Name = "men t-shirt",
-                    SeoAlias = "men-t-shirt",
-                    SeoDescription = "men fashion t-shirt",
-                    SeoTitle = "men fashion t-shirt"
+                    Name = "Laptop",
+                    SeoAlias = "fashion-laptop",
+                    SeoDescription = "Fashion laptop",
+                    SeoTitle = "Fashion laptop"
                 },
                 new CategoryTranslation
                 {
                     CategoryId = 2,
                     Id = 3,
                     LanguageId = "vi",
-                    Name = "Áo nữ",
-                    SeoAlias = "ao-nu",
-                    SeoDescription = "áo thời trang nữ",
-                    SeoTitle = "áo thời trang nữ"
+                    Name = "Mobile",
+                    SeoAlias = "dien-thoai-thoi-trang",
+                    SeoDescription = "Điện thoại thời trang",
+                    SeoTitle = "Điện thoại thời trang"
                 },
                 new CategoryTranslation
                 {
                     CategoryId = 2,
                     Id = 4,
                     LanguageId = "en",
-                    Name = "women t-shirt",
-                    SeoAlias = "women-t-shirt",
-                    SeoDescription = "women fasion t-shirt",
-                    SeoTitle = "women fasion t-shirt"
+                    Name = "Mobile",
+                    SeoAlias = "fashion-mobile",
+                    SeoDescription = "Fashion mobile",
+                    SeoTitle = "Fashion mobile"
                 });
 
             modelBuilder.Entity<Product>().HasData(
@@ -76,9 +73,18 @@ namespace Data.Extension
                 {
                     Id = 1,
                     DateCreated = DateTime.Now,
-                    OriginalPrice = 200000,
-                    Price = 250000,
-                    Stock = 0,
+                    OriginalPrice = 12000000,
+                    Price = 12390000,
+                    Stock = 1,
+                    ViewCount = 0
+                },
+                new Product
+                {
+                    Id = 2,
+                    DateCreated = DateTime.Now,
+                    OriginalPrice = 11000000,
+                    Price = 11490000,
+                    Stock = 1,
                     ViewCount = 0
                 });
 
@@ -86,30 +92,55 @@ namespace Data.Extension
                 new ProductTranslation
                 {
                     Id = 1,
-                    Name = "Áo sơ mi trắng nam đẹp",
-                    Description = "Áo sơ mi trắng nam đẹp",
-                    Details = "Áo sơ mi trắng nam đẹp",
+                    Name = "HP 340s G7 i3 1005G1",
+                    Description = "240Q4PA",
+                    Details = "240Q4PA",
                     LanguageId = "vi",
                     ProductId = 1,
-                    SeoAlias = "ao-so-mi-nam-trang-dep",
-                    SeoDescription = "Áo sơ mi trắng nam đẹp",
-                    SeoTitle = "Áo sơ mi trắng nam đẹp"
+                    SeoAlias = "",
+                    SeoDescription = "",
+                    SeoTitle = ""
                 },
                 new ProductTranslation
                 {
                     Id = 2,
-                    Name = "Nice white men t-shirt",
-                    Description = "Nice white men t-shirt",
-                    Details = "Nice white men t-shirt",
+                    Name = "HP 340s G7 i3 1005G1",
+                    Description = "240Q4PA",
+                    Details = "240Q4PA",
                     LanguageId = "en",
                     ProductId = 1,
-                    SeoAlias = "men-t-shirt",
-                    SeoDescription = "Nice white men t-shirt",
-                    SeoTitle = "Nice white men t-shirt",
+                    SeoAlias = "",
+                    SeoDescription = "",
+                    SeoTitle = ""
+                },
+                new ProductTranslation
+                {
+                    Id = 3,
+                    Name = "Lenovo ThinkBook 15IIL i3",
+                    Description = "1005G1",
+                    Details = "1005G1",
+                    LanguageId = "vi",
+                    ProductId = 2,
+                    SeoAlias = "",
+                    SeoDescription = "",
+                    SeoTitle = ""
+                },
+                new ProductTranslation
+                {
+                    Id = 4,
+                    Name = "Lenovo ThinkBook 15IIL i3",
+                    Description = "1005G1",
+                    Details = "240Q4PA",
+                    LanguageId = "en",
+                    ProductId = 2,
+                    SeoAlias = "",
+                    SeoDescription = "",
+                    SeoTitle = ""
                 });
 
             modelBuilder.Entity<ProductCategory>().HasData(
-                new ProductCategory { CategoryID = 1, ProductID = 1 }
+                new ProductCategory { CategoryID = 1, ProductID = 1 },
+                new ProductCategory { CategoryID = 2, ProductID = 2 }
                 );
 
             //create guid auto
@@ -142,7 +173,7 @@ namespace Data.Extension
                     Name = "admin",
                     Description = "admin",
                     NormalizedName = "admin"
-                }, 
+                },
                 new Role
                 {
                     Id = RoleID_2,
@@ -166,7 +197,7 @@ namespace Data.Extension
                     Source = "/img/1.png",
                     Alt = "...",
                     SortOrder = 1,
-                    Status = Enum.Status.Active
+                    Status = Status.Active
                 },
                 new Carousel
                 {
@@ -174,8 +205,8 @@ namespace Data.Extension
                     Href = "#",
                     Source = "/img/2.png",
                     Alt = "...",
-                    SortOrder = 1,
-                    Status = Enum.Status.Active
+                    SortOrder = 2,
+                    Status = Status.Active
                 },
                 new Carousel
                 {
@@ -183,8 +214,8 @@ namespace Data.Extension
                     Href = "#",
                     Source = "/img/3.png",
                     Alt = "...",
-                    SortOrder = 1,
-                    Status = Enum.Status.Active
+                    SortOrder = 3,
+                    Status = Status.Active
                 });
         }
     }

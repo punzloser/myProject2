@@ -95,7 +95,7 @@ namespace Data.Migrations
                             Id = 2,
                             Alt = "...",
                             Href = "#",
-                            SortOrder = 1,
+                            SortOrder = 2,
                             Source = "/img/2.png",
                             Status = 0
                         },
@@ -104,7 +104,7 @@ namespace Data.Migrations
                             Id = 3,
                             Alt = "...",
                             Href = "#",
-                            SortOrder = 1,
+                            SortOrder = 3,
                             Source = "/img/3.png",
                             Status = 0
                         });
@@ -211,7 +211,6 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SeoAlias")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -237,40 +236,40 @@ namespace Data.Migrations
                             Id = 1,
                             CategoryId = 1,
                             LanguageId = "vi",
-                            Name = "Áo nam",
-                            SeoAlias = "ao-nam",
-                            SeoDescription = "áo thời trang nam",
-                            SeoTitle = "áo thời trang nam"
+                            Name = "Laptop",
+                            SeoAlias = "laptop-thoi-trang",
+                            SeoDescription = "Laptop thời trang",
+                            SeoTitle = "Laptop thời trang"
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
                             LanguageId = "en",
-                            Name = "men t-shirt",
-                            SeoAlias = "men-t-shirt",
-                            SeoDescription = "men fashion t-shirt",
-                            SeoTitle = "men fashion t-shirt"
+                            Name = "Laptop",
+                            SeoAlias = "fashion-laptop",
+                            SeoDescription = "Fashion laptop",
+                            SeoTitle = "Fashion laptop"
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 2,
                             LanguageId = "vi",
-                            Name = "Áo nữ",
-                            SeoAlias = "ao-nu",
-                            SeoDescription = "áo thời trang nữ",
-                            SeoTitle = "áo thời trang nữ"
+                            Name = "Mobile",
+                            SeoAlias = "dien-thoai-thoi-trang",
+                            SeoDescription = "Điện thoại thời trang",
+                            SeoTitle = "Điện thoại thời trang"
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 2,
                             LanguageId = "en",
-                            Name = "women t-shirt",
-                            SeoAlias = "women-t-shirt",
-                            SeoDescription = "women fasion t-shirt",
-                            SeoTitle = "women fasion t-shirt"
+                            Name = "Mobile",
+                            SeoAlias = "fashion-mobile",
+                            SeoDescription = "Fashion mobile",
+                            SeoTitle = "Fashion mobile"
                         });
                 });
 
@@ -451,10 +450,19 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 7, 31, 18, 45, 59, 691, DateTimeKind.Local).AddTicks(1312),
-                            OriginalPrice = 200000m,
-                            Price = 250000m,
-                            Stock = 0,
+                            DateCreated = new DateTime(2021, 8, 2, 16, 54, 2, 386, DateTimeKind.Local).AddTicks(7501),
+                            OriginalPrice = 12000000m,
+                            Price = 12390000m,
+                            Stock = 1,
+                            ViewCount = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreated = new DateTime(2021, 8, 2, 16, 54, 2, 387, DateTimeKind.Local).AddTicks(7364),
+                            OriginalPrice = 11000000m,
+                            Price = 11490000m,
+                            Stock = 1,
                             ViewCount = 0
                         });
                 });
@@ -478,6 +486,11 @@ namespace Data.Migrations
                         {
                             ProductID = 1,
                             CategoryID = 1
+                        },
+                        new
+                        {
+                            ProductID = 2,
+                            CategoryID = 2
                         });
                 });
 
@@ -563,26 +576,50 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Áo sơ mi trắng nam đẹp",
-                            Details = "Áo sơ mi trắng nam đẹp",
+                            Description = "240Q4PA",
+                            Details = "240Q4PA",
                             LanguageId = "vi",
-                            Name = "Áo sơ mi trắng nam đẹp",
+                            Name = "HP 340s G7 i3 1005G1",
                             ProductId = 1,
-                            SeoAlias = "ao-so-mi-nam-trang-dep",
-                            SeoDescription = "Áo sơ mi trắng nam đẹp",
-                            SeoTitle = "Áo sơ mi trắng nam đẹp"
+                            SeoAlias = "",
+                            SeoDescription = "",
+                            SeoTitle = ""
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Nice white men t-shirt",
-                            Details = "Nice white men t-shirt",
+                            Description = "240Q4PA",
+                            Details = "240Q4PA",
                             LanguageId = "en",
-                            Name = "Nice white men t-shirt",
+                            Name = "HP 340s G7 i3 1005G1",
                             ProductId = 1,
-                            SeoAlias = "men-t-shirt",
-                            SeoDescription = "Nice white men t-shirt",
-                            SeoTitle = "Nice white men t-shirt"
+                            SeoAlias = "",
+                            SeoDescription = "",
+                            SeoTitle = ""
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "1005G1",
+                            Details = "1005G1",
+                            LanguageId = "vi",
+                            Name = "Lenovo ThinkBook 15IIL i3",
+                            ProductId = 2,
+                            SeoAlias = "",
+                            SeoDescription = "",
+                            SeoTitle = ""
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "1005G1",
+                            Details = "240Q4PA",
+                            LanguageId = "en",
+                            Name = "Lenovo ThinkBook 15IIL i3",
+                            ProductId = 2,
+                            SeoAlias = "",
+                            SeoDescription = "",
+                            SeoTitle = ""
                         });
                 });
 
@@ -656,7 +693,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("70834739-9213-4c00-9936-ed75eaf822d7"),
-                            ConcurrencyStamp = "e4ad68d2-7362-4658-952b-ad556a5447ae",
+                            ConcurrencyStamp = "b54c3398-26a9-4e63-8c5c-08cdf2bea09b",
                             Description = "admin",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -664,7 +701,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"),
-                            ConcurrencyStamp = "7f5ea498-b5d5-44e2-98c2-2e1ade9f1a81",
+                            ConcurrencyStamp = "86bf66e7-6bcb-491b-8755-169f64710536",
                             Description = "mod",
                             Name = "mod",
                             NormalizedName = "mod"
@@ -784,7 +821,7 @@ namespace Data.Migrations
                         {
                             Id = new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bac1a592-1239-4ebf-854c-0dd561f2677a",
+                            ConcurrencyStamp = "b896eadf-71dc-4020-ae3b-0a3ae9b8dcb7",
                             Dob = new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "punzloser@gmail.com",
                             EmailConfirmed = true,
@@ -793,7 +830,7 @@ namespace Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "punzloser@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKf8cH6CJ21bzkit9rt+k45V+NQzqcd6pD885/Fkye632IoyfB2LxDzbq2FqSQ5/tA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBU2XJCCk3t89hDqA2FiS8a1WJ8O+RrARRFPzkkpeKHFA9CgfCJ/5paIS4RVnZ0B2g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

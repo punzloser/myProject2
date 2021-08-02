@@ -27,8 +27,7 @@ namespace Data.FluentAPI
                 .HasMaxLength(100);
 
             builder.Property(p => p.SeoAlias)
-                .HasMaxLength(200)
-                .IsRequired();
+                .HasMaxLength(200);
 
             builder.Property(p => p.LanguageId)
                 .HasMaxLength(10)

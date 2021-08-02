@@ -36,8 +36,7 @@ namespace Data.FluentAPI
                 .IsRequired();
 
             builder.Property(p => p.SeoAlias)
-                .HasMaxLength(200)
-                .IsRequired();
+                .HasMaxLength(200);
 
             builder.Property(p => p.SeoDescription)
                 .HasMaxLength(300);

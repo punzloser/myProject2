@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class ConfigDatabase : Migration
+    public partial class UpdateSeedingData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -243,7 +243,7 @@ namespace Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SeoDescription = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     SeoTitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     LanguageId = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -468,8 +468,8 @@ namespace Data.Migrations
                 values: new object[,]
                 {
                     { 1, "...", "#", 1, "/img/1.png", 0 },
-                    { 2, "...", "#", 1, "/img/2.png", 0 },
-                    { 3, "...", "#", 1, "/img/3.png", 0 }
+                    { 2, "...", "#", 2, "/img/2.png", 0 },
+                    { 3, "...", "#", 3, "/img/3.png", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -492,16 +492,20 @@ namespace Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price" },
-                values: new object[] { 1, new DateTime(2021, 7, 31, 18, 45, 59, 691, DateTimeKind.Local).AddTicks(1312), null, 200000m, 250000m });
+                columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price", "Stock" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2021, 8, 2, 16, 54, 2, 386, DateTimeKind.Local).AddTicks(7501), null, 12000000m, 12390000m, 1 },
+                    { 2, new DateTime(2021, 8, 2, 16, 54, 2, 387, DateTimeKind.Local).AddTicks(7364), null, 11000000m, 11490000m, 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "e4ad68d2-7362-4658-952b-ad556a5447ae", "admin", "admin", "admin" },
-                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "7f5ea498-b5d5-44e2-98c2-2e1ade9f1a81", "mod", "mod", "mod" }
+                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "b54c3398-26a9-4e63-8c5c-08cdf2bea09b", "admin", "admin", "admin" },
+                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "86bf66e7-6bcb-491b-8755-169f64710536", "mod", "mod", "mod" }
                 });
 
             migrationBuilder.InsertData(
@@ -512,31 +516,37 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "bac1a592-1239-4ebf-854c-0dd561f2677a", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEKf8cH6CJ21bzkit9rt+k45V+NQzqcd6pD885/Fkye632IoyfB2LxDzbq2FqSQ5/tA==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "b896eadf-71dc-4020-ae3b-0a3ae9b8dcb7", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEBU2XJCCk3t89hDqA2FiS8a1WJ8O+RrARRFPzkkpeKHFA9CgfCJ/5paIS4RVnZ0B2g==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "CategoryTranslations",
                 columns: new[] { "Id", "CategoryId", "LanguageId", "Name", "SeoAlias", "SeoDescription", "SeoTitle" },
                 values: new object[,]
                 {
-                    { 1, 1, "vi", "Áo nam", "ao-nam", "áo thời trang nam", "áo thời trang nam" },
-                    { 3, 2, "vi", "Áo nữ", "ao-nu", "áo thời trang nữ", "áo thời trang nữ" },
-                    { 2, 1, "en", "men t-shirt", "men-t-shirt", "men fashion t-shirt", "men fashion t-shirt" },
-                    { 4, 2, "en", "women t-shirt", "women-t-shirt", "women fasion t-shirt", "women fasion t-shirt" }
+                    { 1, 1, "vi", "Laptop", "laptop-thoi-trang", "Laptop thời trang", "Laptop thời trang" },
+                    { 3, 2, "vi", "Mobile", "dien-thoai-thoi-trang", "Điện thoại thời trang", "Điện thoại thời trang" },
+                    { 2, 1, "en", "Laptop", "fashion-laptop", "Fashion laptop", "Fashion laptop" },
+                    { 4, 2, "en", "Mobile", "fashion-mobile", "Fashion mobile", "Fashion mobile" }
                 });
 
             migrationBuilder.InsertData(
                 table: "ProductCategories",
                 columns: new[] { "CategoryID", "ProductID" },
-                values: new object[] { 1, 1 });
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "ProductTranslations",
                 columns: new[] { "Id", "Description", "Details", "LanguageId", "Name", "ProductId", "SeoAlias", "SeoDescription", "SeoTitle" },
                 values: new object[,]
                 {
-                    { 1, "Áo sơ mi trắng nam đẹp", "Áo sơ mi trắng nam đẹp", "vi", "Áo sơ mi trắng nam đẹp", 1, "ao-so-mi-nam-trang-dep", "Áo sơ mi trắng nam đẹp", "Áo sơ mi trắng nam đẹp" },
-                    { 2, "Nice white men t-shirt", "Nice white men t-shirt", "en", "Nice white men t-shirt", 1, "men-t-shirt", "Nice white men t-shirt", "Nice white men t-shirt" }
+                    { 1, "240Q4PA", "240Q4PA", "vi", "HP 340s G7 i3 1005G1", 1, "", "", "" },
+                    { 2, "240Q4PA", "240Q4PA", "en", "HP 340s G7 i3 1005G1", 1, "", "", "" },
+                    { 3, "1005G1", "1005G1", "vi", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" },
+                    { 4, "1005G1", "240Q4PA", "en", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" }
                 });
 
             migrationBuilder.CreateIndex(

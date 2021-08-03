@@ -141,6 +141,9 @@
   <data name="Mạng xã hội" xml:space="preserve">
     <value>Mạng xã hội</value>
   </data>
+  <data name="productUrl" xml:space="preserve">
+    <value>san-pham</value>
+  </data>
   <data name="Sản phẩm" xml:space="preserve">
     <value>Sản phẩm</value>
   </data>

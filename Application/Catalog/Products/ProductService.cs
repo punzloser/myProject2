@@ -396,8 +396,11 @@ namespace Application.Catalog.Products
                                join b in _db.ProductTranslations on a.Id equals b.ProductId
                                join c in _db.ProductCategories on a.Id equals c.ProductID into cc
                                from c in cc.DefaultIfEmpty()
-                               join d in _db.Categories on c.CategoryID equals d.Id
-                               where b.LanguageId == languageId
+                               join d in _db.Categories on c.CategoryID equals d.Id into cd
+                               from d in cd.DefaultIfEmpty()
+                               join e in _db.ProductImages on a.Id equals e.ProductId into ec
+                               from e in ec.DefaultIfEmpty()
+                               where b.LanguageId == languageId && (e == null || e.IsDefault == true) && a.IsFeatured == true
                                orderby a.DateCreated descending
                                select new ProductViewModel()
                                {
@@ -413,7 +416,8 @@ namespace Application.Catalog.Products
                                    SeoDescription = b.SeoDescription,
                                    Stock = a.Stock,
                                    LanguageId = b.LanguageId,
-                                   ViewCount = a.ViewCount
+                                   ViewCount = a.ViewCount,
+                                   Thumnail = e.ImagePath
                                }).ToListAsync();
 
             var result = query.Take(quantity);

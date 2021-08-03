@@ -117,10 +117,18 @@ namespace Backend_API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("feature/{languageId}/{quantity}")]
-        public async Task<IActionResult> GetFeatured(string languageId, int quantity)
+        [HttpGet("laptop/{languageId}/{quantity}")]
+        public async Task<IActionResult> GetLaptopLatest(string languageId, int quantity)
         {
-            var result = await _productService.GetFeatured(languageId, quantity);
+            var result = await _productService.GetLaptopLatest(languageId, quantity);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("mobile/{languageId}/{quantity}")]
+        public async Task<IActionResult> GetMobileLatest(string languageId, int quantity)
+        {
+            var result = await _productService.GetMobileLatest(languageId, quantity);
             return Ok(result);
         }
     }

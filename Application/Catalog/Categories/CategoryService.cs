@@ -59,7 +59,8 @@ namespace Application.Catalog.Categories
             var map = await query.Select(x => new CategoryViewModel()
             {
                 Id = x.a.Id,
-                Name = x.b.Name
+                Name = x.b.Name,
+                ParentId = x.a.ParentId
             }).ToListAsync();
 
             return map;

@@ -120,6 +120,9 @@
   <data name="Bán chạy" xml:space="preserve">
     <value>Best selling</value>
   </data>
+  <data name="categoryUrl" xml:space="preserve">
+    <value>category</value>
+  </data>
   <data name="Chi tiết" xml:space="preserve">
     <value>Detail</value>
   </data>

@@ -26,7 +26,7 @@ namespace ApiClientCommon.Service
             var session = _accessor.HttpContext.Session.GetString("token");
             client.BaseAddress = new Uri("https://localhost:5001");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
-            var response = await client.GetAsync("api/role");
+            var response = await client.GetAsync("/api/role");
             var result = await response.Content.ReadAsStringAsync();
 
             var listRole = JsonConvert.DeserializeObject<List<RoleViewModel>>(result);

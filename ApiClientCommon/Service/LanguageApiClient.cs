@@ -19,7 +19,7 @@ namespace ApiClientCommon.Service
 
         public async Task<List<LanguageViewModel>> GetAll()
         {
-            return await GetTaskAsync<List<LanguageViewModel>>("api/language");
+            return await GetTaskAsync<List<LanguageViewModel>>("/api/language");
         }
     }
 }

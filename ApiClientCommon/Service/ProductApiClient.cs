@@ -54,7 +54,7 @@ namespace ApiClientCommon.Service
             requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias");
             requestContent.Add(new StringContent(langId), "languageId");
 
-            var response = await client.PostAsync("api/product", requestContent);
+            var response = await client.PostAsync("/api/product", requestContent);
             if (response.IsSuccessStatusCode)
                 return true;
             return false;
@@ -62,19 +62,25 @@ namespace ApiClientCommon.Service
 
         public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
-            string url = $"api/product/{productId}/{languageId}";
+            string url = $"/api/product/{productId}/{languageId}";
             return await GetTaskAsync<ProductViewModel>(url);
         }
 
-        public async Task<List<ProductViewModel>> GetFeatured(string languageId, int quantity)
+        public async Task<List<ProductViewModel>> GetLaptopLatest(string languageId, int quantity)
         {
-            string url = $"api/product/feature/{languageId}/{quantity}";
+            string url = $"/api/product/laptop/{languageId}/{quantity}";
+            return await GetTaskAsync<List<ProductViewModel>>(url);
+        }
+
+        public async Task<List<ProductViewModel>> GetMobileLatest(string languageId, int quantity)
+        {
+            string url = $"/api/product/mobile/{languageId}/{quantity}";
             return await GetTaskAsync<List<ProductViewModel>>(url);
         }
 
         public async Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging)
         {
-            string url = $"api/product/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}" +
+            string url = $"/api/product/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}" +
                 $"&keyword={paging.Keyword}&languageId={paging.LanguageId}&categoryId={paging.CategoryId}";
 
             return await GetTaskAsync<PageResult<ProductViewModel>>(url);

@@ -17,7 +17,7 @@ namespace ApiClientCommon.Service
         }
         public async Task<List<CarouselViewModel>> GetAll()
         {
-            string url = "api/Carousel";
+            string url = "/api/Carousel";
             return await GetTaskAsync<List<CarouselViewModel>>(url);
         }
     }

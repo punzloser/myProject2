@@ -38,7 +38,7 @@ namespace ApiClientCommon.Service
 
         public async Task<List<CategoryViewModel>> GetAll(string languageId)
         {
-            string url = $"api/category?languageId={languageId}";
+            string url = $"/api/category?languageId={languageId}";
             return await GetTaskAsync<List<CategoryViewModel>>(url);
         }
     }

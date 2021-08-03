@@ -59,6 +59,7 @@ namespace WebApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICarouselApiClient, CarouselApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
             services.AddLiveSassCompile();
         }

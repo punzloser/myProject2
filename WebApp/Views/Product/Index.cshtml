@@ -21,20 +21,7 @@
     </a>
     <hr class="m-0" width="20%">
 
-    <!-- nav-mini -->
-    <div class="shadow my-3">
-        <ul id="product-hover" class="nav nav-pills bg-light">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="product.html">Laptop</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="mobile.html">Mobile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Other</a>
-            </li>
-        </ul>
-    </div>
+    @await Component.InvokeAsync("NavMini")
 
     <!-- laptop -->
     <div class="laptop">

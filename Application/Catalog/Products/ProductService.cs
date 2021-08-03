@@ -390,7 +390,7 @@ namespace Application.Catalog.Products
             return pageResult;
         }
 
-        public async Task<List<ProductViewModel>> GetFeatured(string languageId, int quantity)
+        public async Task<List<ProductViewModel>> GetLaptopLatest(string languageId, int quantity)
         {
             var query = await (from a in _db.Products
                                join b in _db.ProductTranslations on a.Id equals b.ProductId
@@ -401,6 +401,7 @@ namespace Application.Catalog.Products
                                join e in _db.ProductImages on a.Id equals e.ProductId into ec
                                from e in ec.DefaultIfEmpty()
                                where b.LanguageId == languageId && (e == null || e.IsDefault == true) && a.IsFeatured == true
+                               && d.Id == 1 //1 laptop 2 mobile
                                orderby a.DateCreated descending
                                select new ProductViewModel()
                                {
@@ -419,6 +420,42 @@ namespace Application.Catalog.Products
                                    ViewCount = a.ViewCount,
                                    Thumnail = e.ImagePath
                                }).ToListAsync();
+
+            var result = query.Take(quantity);
+
+            return result.ToList();
+        }
+
+        public async Task<List<ProductViewModel>> GetMobileLatest(string languageId, int quantity)
+        {
+            var query = await(from a in _db.Products
+                              join b in _db.ProductTranslations on a.Id equals b.ProductId
+                              join c in _db.ProductCategories on a.Id equals c.ProductID into cc
+                              from c in cc.DefaultIfEmpty()
+                              join d in _db.Categories on c.CategoryID equals d.Id into cd
+                              from d in cd.DefaultIfEmpty()
+                              join e in _db.ProductImages on a.Id equals e.ProductId into ec
+                              from e in ec.DefaultIfEmpty()
+                              where b.LanguageId == languageId && (e == null || e.IsDefault == true) && a.IsFeatured == true
+                              && d.Id == 2
+                              orderby a.DateCreated descending
+                              select new ProductViewModel()
+                              {
+                                  Id = a.Id,
+                                  Name = b.Name,
+                                  Price = a.Price,
+                                  OriginalPrice = a.OriginalPrice,
+                                  DateCreated = a.DateCreated,
+                                  Description = b.Description,
+                                  Details = b.Details,
+                                  SeoAlias = b.SeoAlias,
+                                  SeoTitle = b.SeoTitle,
+                                  SeoDescription = b.SeoDescription,
+                                  Stock = a.Stock,
+                                  LanguageId = b.LanguageId,
+                                  ViewCount = a.ViewCount,
+                                  Thumnail = e.ImagePath
+                              }).ToListAsync();
 
             var result = query.Take(quantity);
 

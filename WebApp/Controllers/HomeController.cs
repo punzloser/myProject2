@@ -32,13 +32,16 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var lang = CultureInfo.CurrentCulture.Name;
+            ViewBag.culture = lang;
             int takeQuantity = Common.Variables.WebApp.SetQuantityToTakeInCarousel;
-            var feature = await _productApiClient.GetFeatured(lang, takeQuantity);
+            var laptopLatest = await _productApiClient.GetLaptopLatest(lang, takeQuantity);
+            var mobleLatest = await _productApiClient.GetMobileLatest(lang, takeQuantity);
             var carousel = await _carouselApiClient.GetAll();
             var result = new HomeViewModel()
             {
                 Carousels = carousel,
-                ProductFeatured = feature
+                LaptopLatest = laptopLatest,
+                MobileLatest = mobleLatest
             };
             return View(result);
         }

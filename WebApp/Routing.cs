@@ -85,6 +85,23 @@ namespace WebApp
                         action = "Detail"
                     });
 
+                //Category
+                endpoints.MapControllerRoute(
+                    name: "Category Vn",
+                    pattern: "{culture}/phan-loai/{id}", new
+                    {
+                        controller = "Product",
+                        action = "Category"
+                    });
+
+                endpoints.MapControllerRoute(
+                    name: "Category En",
+                    pattern: "{culture}/category/{id}", new
+                    {
+                        controller = "Product",
+                        action = "Category"
+                    });
+
                 //Default
                 endpoints.MapControllerRoute(
                    name: "default",

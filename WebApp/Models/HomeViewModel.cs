@@ -11,6 +11,7 @@ namespace WebApp.Models
     public class HomeViewModel
     {
         public List<CarouselViewModel> Carousels { get; set; }
-        public List<ProductViewModel> ProductFeatured { get; set; }
+        public List<ProductViewModel> LaptopLatest { get; set; }
+        public List<ProductViewModel>  MobileLatest{ get; set; }
     }
 }

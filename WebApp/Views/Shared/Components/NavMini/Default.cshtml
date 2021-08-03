@@ -1,0 +1,25 @@
+﻿@using ViewModel.Catalog.Categories
+@model List<CategoryViewModel>
+
+@{
+    var culture = CultureInfo.CurrentCulture.Name;
+    // chưa dùng tới ParentId;
+}
+
+<!-- nav-mini -->
+<div class="shadow my-3">
+    <ul id="product-hover" class="nav nav-pills bg-light">
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <li class="nav-item">
+                    <a class="nav-link @(i==0?"active":"")" 
+                       aria-current="page" 
+                       href="/@culture/@_loc["categoryUrl"]/@item.Id">@item.Name</a>
+                </li>
+                i++;
+            }
+        }
+    </ul>
+</div>

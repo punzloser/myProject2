@@ -1,7 +1,7 @@
 ﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Trang chủ";
-    var culture = CultureInfo.CurrentCulture.Name;
+    //var culture = CultureInfo.CurrentCulture.Name; thử truyền = viewbag
 }
 
 <!-- Carousal -->
@@ -65,7 +65,7 @@
             Laptop
         </h4>
         <div class="card-header text-muted float-start w-75 rounded-3 border">
-            <h2><localize>Laptop nổi bật</localize></h2>
+            <h2><localize>Laptop mới nhất</localize></h2>
         </div>
 
         <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example">
@@ -80,17 +80,23 @@
 
             <div class="carousel-inner">
                 @{
-                    for (int j = 0; j <= Model.ProductFeatured.Count / 3; j++)
+                    for (int j = 0; j <= Model.LaptopLatest.Count / 3; j++)
                     {
                         <div class="carousel-item @(j==0?"active":"")" data-bs-interval="2000">
                             <div class="row">
-                                @foreach (var product in Model.ProductFeatured.Skip(j * 3).Take(3))
+                                @foreach (var product in Model.LaptopLatest.Skip(j * 3).Take(3))
                                 {
-                                    <div class="col-4">
-                                        <a href="/@culture/@_loc["productUrl"]/@product.Id"><img src="@product.Thumnail" class="d-block w-100" alt="@product.Name"></a>
-                                        <h5>@product.Name</h5>
-                                        <p>@product.Price</p>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img src="@product.Thumnail" alt="">
+                                        <div class="card-body">
+                                            <h6 class="card-title">@product.Name</h6>
+                                            <p class="price">@product.Price</p>
+                                            <a href="/@ViewBag.culture/@_loc["productUrl"]/@product.Id" class="btn btn-warning w-100">Chi tiết</a>
+                                        </div>
+                                        <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
                                     </div>
+                                </div>
                                 }
                             </div>
                         </div>
@@ -167,7 +173,7 @@
             Mobile
         </h4>
         <div class="card-header text-muted float-start w-75 rounded-3 border">
-            <h2>Mobile nổi bật</h2>
+            <h2>Mobile mới nhất</h2>
         </div>
 
         <select class="form-select form-select-lg mb-3 w-25" aria-label=".form-select-lg example">
@@ -177,47 +183,46 @@
             <option value="3">Bán chạy</option>
         </select>
         <div class="clearfix"></div>
-        <div class="card">
 
-            <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-4">
-                <div class="col">
-                    <div class="card">
-                        <img src="/img/4.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">HP 340s G7 i3 1005G1 (240Q4PA)</h6>
-                            <p class="price">12.390.000₫</p>
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+                @{
+                    for (int j = 0; j <= Model.MobileLatest.Count / 3; j++)
+                    {
+                        <div class="carousel-item @(j==0?"active":"")" data-bs-interval="2000">
+                            <div class="row">
+                                @foreach (var product in Model.MobileLatest.Skip(j * 3).Take(3))
+                                {
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <img src="@product.Thumnail" alt="">
+                                            <div class="card-body">
+                                                <h6 class="card-title">@product.Name</h6>
+                                                <p class="price">@product.Price</p>
+                                                <a href="/@ViewBag.culture/@_loc["productUrl"]/@product.Id" class="btn btn-warning w-100">Chi tiết</a>
+                                            </div>
+                                            <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="/img/5.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">Lenovo ThinkBook 15IIL i3 1005G1 (20SM00D9VN)</h6>
-                            <p class="price">11.490.000₫</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="/img/6.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">HP 348 G7 i5 10210U (9PH06PA)</h6>
-                            <p class="price">16.990.000₫</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="/img/7.jpg" alt="">
-                        <div class="card-body">
-                            <h6 class="card-title">HP 340s G7 i3 1005G1 (224L1PA)</h6>
-                            <p class="price">13.390.000₫</p>
-                        </div>
-                    </div>
-                </div>
+                    }
+                }
+
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
+
+
     </div>
 
 </div>

@@ -31,7 +31,7 @@ namespace ApiClientCommon.Service
             //fromform mediaType : multipart/form-data
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync("api/user/login", httpContent);
+            var response = await client.PostAsync("/api/user/login", httpContent);
             var result = await response.Content.ReadAsStringAsync();
 
             //work ok
@@ -50,7 +50,7 @@ namespace ApiClientCommon.Service
 
             var json = JsonConvert.SerializeObject(userEditModel);
             var httpcontent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PutAsync($"api/user/{id}", httpcontent);
+            var response = await client.PutAsync($"/api/user/{id}", httpcontent);
 
             var result = await response.Content.ReadAsStringAsync();
 
@@ -66,7 +66,7 @@ namespace ApiClientCommon.Service
             client.BaseAddress = new Uri("https://localhost:5001");
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
-            var response = await client.GetAsync($"api/user/{id}");
+            var response = await client.GetAsync($"/api/user/{id}");
 
             var result = await response.Content.ReadAsStringAsync();
             var user = JsonConvert.DeserializeObject<UserViewModel>(result);
@@ -82,7 +82,7 @@ namespace ApiClientCommon.Service
             //add jwt token lấy ra lúc login thành công để gán vào header tên là Bearer để authorization.
             //Vì header này mà server mới biết là user nào đang request
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
-            var response = await client.GetAsync($"api/user/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}&keyword={paging.Keyword}");
+            var response = await client.GetAsync($"/api/user/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}&keyword={paging.Keyword}");
 
             var result = await response.Content.ReadAsStringAsync();
             var listUser = JsonConvert.DeserializeObject<PageResult<UserViewModel>>(result);
@@ -109,7 +109,7 @@ namespace ApiClientCommon.Service
             client.BaseAddress = new Uri("https://localhost:5001");
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
-            var response = await client.DeleteAsync($"api/user/{id}");
+            var response = await client.DeleteAsync($"/api/user/{id}");
 
             var result = await response.Content.ReadAsStringAsync();
             var user = JsonConvert.DeserializeObject(result);

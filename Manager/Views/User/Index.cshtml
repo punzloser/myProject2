@@ -7,10 +7,13 @@
 
 @section test{
     <script>
-        setTimeout(function () {
-            var result = document.getElementById("messalert");
-            result.style.display = "none";
-        }, 1000);
+        var result = document.getElementById("messalert");
+        if (result) {
+            setTimeout(function () {
+                result.style.display = "none";
+            }, 1000);
+        }
+
     </script>
 }
 

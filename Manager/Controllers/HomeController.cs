@@ -40,7 +40,7 @@ namespace Manager.Controllers
         public IActionResult Language(NavViewModel nav)
         {
             HttpContext.Session.SetString("DefaultLangId", nav.CurrentLangId);
-            return RedirectToAction("Index", "Home");
+            return Redirect(nav.ReturnUrl);
         }
     }
 }

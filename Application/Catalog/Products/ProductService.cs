@@ -38,16 +38,14 @@ namespace Application.Catalog.Products
 
         public async Task<int> Create(ProductCreateRequest request)
         {
-            var product = new Data.Entity.Product()
+            var language = _db.Languages;
+            var translation = new List<ProductTranslation>();
+
+            foreach (var lang in language)
             {
-                Price = request.Price,
-                OriginalPrice = request.OriginalPrice,
-                Stock = request.Stock,
-                ViewCount = 0,
-                DateCreated = DateTime.Now,
-                ProductTranslations = new List<ProductTranslation>()
+                if (lang.Id == request.LanguageId)
                 {
-                    new ProductTranslation()
+                    translation.Add(new ProductTranslation()
                     {
                         Name = request.Name,
                         Description = request.Description,
@@ -55,9 +53,27 @@ namespace Application.Catalog.Products
                         SeoDescription = request.SeoDescription,
                         SeoTitle = request.SeoTitle,
                         SeoAlias = request.SeoAlias,
-                        LanguageId  = request.LanguageId
-                    }
+                        LanguageId = request.LanguageId
+                    });
                 }
+                else
+                {
+                    translation.Add(new ProductTranslation()
+                    {
+                        Name = "N/A",
+                        LanguageId = lang.Id
+                    });
+                }
+            }
+
+            var product = new Data.Entity.Product()
+            {
+                Price = request.Price,
+                OriginalPrice = request.OriginalPrice,
+                Stock = request.Stock,
+                ViewCount = 0,
+                DateCreated = DateTime.Now,
+                ProductTranslations = translation
             };
 
             //save img
@@ -428,34 +444,34 @@ namespace Application.Catalog.Products
 
         public async Task<List<ProductViewModel>> GetMobileLatest(string languageId, int quantity)
         {
-            var query = await(from a in _db.Products
-                              join b in _db.ProductTranslations on a.Id equals b.ProductId
-                              join c in _db.ProductCategories on a.Id equals c.ProductID into cc
-                              from c in cc.DefaultIfEmpty()
-                              join d in _db.Categories on c.CategoryID equals d.Id into cd
-                              from d in cd.DefaultIfEmpty()
-                              join e in _db.ProductImages on a.Id equals e.ProductId into ec
-                              from e in ec.DefaultIfEmpty()
-                              where b.LanguageId == languageId && (e == null || e.IsDefault == true) && a.IsFeatured == true
-                              && d.Id == 2
-                              orderby a.DateCreated descending
-                              select new ProductViewModel()
-                              {
-                                  Id = a.Id,
-                                  Name = b.Name,
-                                  Price = a.Price,
-                                  OriginalPrice = a.OriginalPrice,
-                                  DateCreated = a.DateCreated,
-                                  Description = b.Description,
-                                  Details = b.Details,
-                                  SeoAlias = b.SeoAlias,
-                                  SeoTitle = b.SeoTitle,
-                                  SeoDescription = b.SeoDescription,
-                                  Stock = a.Stock,
-                                  LanguageId = b.LanguageId,
-                                  ViewCount = a.ViewCount,
-                                  Thumnail = e.ImagePath
-                              }).ToListAsync();
+            var query = await (from a in _db.Products
+                               join b in _db.ProductTranslations on a.Id equals b.ProductId
+                               join c in _db.ProductCategories on a.Id equals c.ProductID into cc
+                               from c in cc.DefaultIfEmpty()
+                               join d in _db.Categories on c.CategoryID equals d.Id into cd
+                               from d in cd.DefaultIfEmpty()
+                               join e in _db.ProductImages on a.Id equals e.ProductId into ec
+                               from e in ec.DefaultIfEmpty()
+                               where b.LanguageId == languageId && (e == null || e.IsDefault == true) && a.IsFeatured == true
+                               && d.Id == 2
+                               orderby a.DateCreated descending
+                               select new ProductViewModel()
+                               {
+                                   Id = a.Id,
+                                   Name = b.Name,
+                                   Price = a.Price,
+                                   OriginalPrice = a.OriginalPrice,
+                                   DateCreated = a.DateCreated,
+                                   Description = b.Description,
+                                   Details = b.Details,
+                                   SeoAlias = b.SeoAlias,
+                                   SeoTitle = b.SeoTitle,
+                                   SeoDescription = b.SeoDescription,
+                                   Stock = a.Stock,
+                                   LanguageId = b.LanguageId,
+                                   ViewCount = a.ViewCount,
+                                   Thumnail = e.ImagePath
+                               }).ToListAsync();
 
             var result = query.Take(quantity);
 

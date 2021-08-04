@@ -7,10 +7,12 @@
 
 @section test{
     <script>
-        setTimeout(function () {
-            var result = document.getElementById("messalert");
-            result.style.display = "none";
-        }, 1000);
+        var result = document.getElementById("messalert");
+        if (result) {
+            setTimeout(function () {
+                result.style.display = "none";
+            }, 1000);
+        }
     </script>
 }
 
@@ -47,10 +49,10 @@
     <br />
 
     <div class="card-body">
-        <table class="table">
+        <table class="table text-center">
             <thead>
                 <tr>
-                    <th style="display:none;">
+                    <th class="bg-light">
                         ID
                     </th>
                     <th>
@@ -71,7 +73,7 @@
                 @foreach (var item in Model.Items)
                 {
                     <tr>
-                        <td style="display:none;">
+                        <td class="bg-light">
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>

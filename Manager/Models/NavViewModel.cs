@@ -10,5 +10,6 @@ namespace Manager.Models
     {
         public List<LanguageViewModel> Languages { get; set; }
         public string CurrentLangId { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

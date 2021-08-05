@@ -11,7 +11,7 @@ namespace Application.Catalog.Products
     {
         //input request. return kieu int -- ma sp vua tao
         Task<int> Create(ProductCreateRequest request);
-        Task<int> Edit(ProductEditRequest request);
+        Task<int> Edit(int productId, ProductEditRequest request);
         Task<int> Delete(int id);
         Task<ProductViewModel> GetById(int productId, string languageId);
         Task<bool> UpdatePrice(int productId, decimal newPrice);

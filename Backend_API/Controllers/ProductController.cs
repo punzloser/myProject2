@@ -51,10 +51,12 @@ namespace Backend_API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = productId }, product);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromForm] ProductEditRequest request)
+        [HttpPut("{productId}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update(int productId, [FromForm] ProductEditRequest request)
         {
-            var result = await _productService.Edit(request);
+            var result = await _productService.Edit(productId, request);
+            
             if (result == 0)
                 return BadRequest();
             return Ok();

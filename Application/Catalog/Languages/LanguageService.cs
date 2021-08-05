@@ -21,9 +21,10 @@ namespace Application.Catalog.Languages
             var lang = await _db.Languages.Select(a => new LanguageViewModel()
             {
                 Id = a.Id,
-                Name = a.Name
+                Name = a.Name,
+                IsDefault = a.IsDefault
             })
-                .OrderByDescending(a=>a.Name)
+                .OrderByDescending(a => a.Name)
                 .ToListAsync();
             return lang;
         }

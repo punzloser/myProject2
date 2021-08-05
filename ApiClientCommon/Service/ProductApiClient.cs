@@ -60,6 +60,41 @@ namespace ApiClientCommon.Service
             return false;
         }
 
+        public async Task<bool> Edit(ProductEditRequest request)
+        {
+            var client = _httpClient.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5001");
+            var session = _accessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+
+            var requestContent = new MultipartFormDataContent();
+
+            if (request.Thumnail != null)
+            {
+                byte[] data;
+                using (var br = new BinaryReader(request.Thumnail.OpenReadStream()))
+                {
+                    data = br.ReadBytes((int)request.Thumnail.OpenReadStream().Length);
+                }
+                ByteArrayContent bytes = new ByteArrayContent(data);
+                requestContent.Add(bytes, "thumbnailImage", request.Thumnail.FileName);
+            }
+            var langId = _accessor.HttpContext.Session.GetString("DefaultLangId");
+
+            requestContent.Add(new StringContent(request.Name.ToString()), "name");
+            requestContent.Add(new StringContent(request.Description.ToString()), "description");
+            requestContent.Add(new StringContent(request.Details.ToString()), "details");
+            requestContent.Add(new StringContent(request.SeoDescription.ToString()), "seoDescription");
+            requestContent.Add(new StringContent(request.SeoTitle.ToString()), "seoTitle");
+            requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias");
+            requestContent.Add(new StringContent(langId), "languageId");
+
+            var response = await client.PutAsync($"/api/product/{request.Id}", requestContent);
+            if (response.IsSuccessStatusCode)
+                return true;
+            return false;
+        }
+
         public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
             string url = $"/api/product/{productId}/{languageId}";

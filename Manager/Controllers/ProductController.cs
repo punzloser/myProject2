@@ -71,6 +71,43 @@ namespace Manager.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var lang = HttpContext.Session.GetString("DefaultLangId");
+            var product = await _productApi.GetById(id, lang);
+
+            var result = new ProductEditRequest()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Details = product.Details,
+                SeoAlias = product.SeoAlias,
+                SeoDescription = product.SeoDescription,
+                SeoTitle = product.SeoTitle
+            };
+
+            return View(result);
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Edit([FromForm] ProductEditRequest request)
+        {
+            //important
+            if (!ModelState.IsValid)
+                return View();
+            var result = await _productApi.Edit(request);
+            if (result)
+            {
+                TempData["alert"] = "Sửa sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Sửa sản phẩm thất bại");
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CategoryAssign(int id)
         {
             var categoryAssign = await GetCategoryAssign(id);

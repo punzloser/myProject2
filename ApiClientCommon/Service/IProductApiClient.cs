@@ -11,6 +11,7 @@ namespace ApiClientCommon.Service
     {
         Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging);
         Task<bool> Create(ProductCreateRequest request);
+        Task<bool> Edit(ProductEditRequest request);
         Task<ProductViewModel> GetById(int productId, string languageId);
         Task<List<ProductViewModel>> GetLaptopLatest(string languageId, int quantity);
         Task<List<ProductViewModel>> GetMobileLatest(string languageId, int quantity);

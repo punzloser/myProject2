@@ -113,14 +113,14 @@ namespace Application.Catalog.Products
             return await _db.SaveChangesAsync();
         }
 
-        public async Task<int> Edit(ProductEditRequest request)
+        public async Task<int> Edit(int productId, ProductEditRequest request)
         {
-            var product = await _db.Products.FindAsync(request.Id);
+            var product = await _db.Products.FindAsync(productId);
             var productTranslation = await _db.ProductTranslations
-                .FirstOrDefaultAsync(a => a.ProductId == request.Id && a.LanguageId == request.LanguageId);
+                .FirstOrDefaultAsync(a => a.ProductId == productId && a.LanguageId == request.LanguageId);
             if (product == null || productTranslation == null)
             {
-                throw new CallException($"Không tìm thấy sản phẩm {request.Id}");
+                throw new CallException($"Không tìm thấy sản phẩm với id {productId}");
             }
 
             productTranslation.Name = request.Name;

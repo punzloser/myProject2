@@ -1,9 +1,5 @@
 ﻿using Application.Catalog.Categories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Categories;
 
@@ -35,6 +31,13 @@ namespace Backend_API.Controllers
 
             if (!result)
                 return BadRequest();
+            return Ok(result);
+        }
+
+        [HttpGet("{languageId}/{categoryId}")]
+        public async Task<IActionResult> GetById(int categoryId, string languageId)
+        {
+            var result = await _categoryService.GetById(categoryId, languageId);
             return Ok(result);
         }
     }

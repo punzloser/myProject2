@@ -65,5 +65,21 @@ namespace Application.Catalog.Categories
 
             return map;
         }
+
+        public async Task<CategoryViewModel> GetById(int categoryId, string languageId)
+        {
+            var result = await (from a in _db.Categories
+                                join b in _db.CategoryTranslations on a.Id equals b.CategoryId
+                                where a.Id == categoryId && b.LanguageId == languageId
+                                select new CategoryViewModel()
+                                {
+
+                                    Id = a.Id,
+                                    Name = b.Name,
+                                    ParentId = a.ParentId
+
+                                }).FirstOrDefaultAsync();
+            return result;
+        }
     }
 }

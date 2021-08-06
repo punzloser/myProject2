@@ -13,7 +13,6 @@ namespace Backend_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -22,11 +21,17 @@ namespace Backend_API.Controllers
             _productService = productService;
         }
 
-        [AllowAnonymous]
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaging([FromQuery] AdminProductPaging request)
         {
             var result = await _productService.GetAllPaging(request);
+            return Ok(result);
+        }
+
+        [HttpGet("{categoryId}/paging")]
+        public async Task<IActionResult> GetProductPagingByCategoryId(int categoryId, [FromQuery] AdminProductPaging request)
+        {
+            var result = await _productService.GetAllPagingByCategoryId(request, categoryId);
             return Ok(result);
         }
 
@@ -41,6 +46,7 @@ namespace Backend_API.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
             var productId = await _productService.Create(request);
@@ -53,16 +59,18 @@ namespace Backend_API.Controllers
 
         [HttpPut("{productId}")]
         [Consumes("multipart/form-data")]
+        [Authorize]
         public async Task<IActionResult> Update(int productId, [FromForm] ProductEditRequest request)
         {
             var result = await _productService.Edit(productId, request);
-            
+
             if (result == 0)
                 return BadRequest();
             return Ok();
         }
 
         [HttpPut("{productId}/{newPrice}")]
+        [Authorize]
         public async Task<IActionResult> UpdatePrice(int productId, decimal newPrice)
         {
             var result = await _productService.UpdatePrice(productId, newPrice);
@@ -72,6 +80,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _productService.Delete(id);
@@ -81,6 +90,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpPost("{productId}")]
+        [Authorize]
         public async Task<IActionResult> AddImg(int productId, [FromForm] ProductImageCreate create)
         {
             var ImgId = await _productService.AddImg(create, productId);
@@ -101,6 +111,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpPut("image/{ImgId}")]
+        [Authorize]
         public async Task<IActionResult> EditImg([FromForm] ProductImageEdit edit, int ImgId)
         {
             var result = await _productService.EditImg(edit, ImgId);
@@ -110,6 +121,7 @@ namespace Backend_API.Controllers
         }
 
         [HttpDelete("image/{ImgId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteImg(int ImgId)
         {
             var result = await _productService.DeleteImg(ImgId);
@@ -118,7 +130,6 @@ namespace Backend_API.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
         [HttpGet("laptop/{languageId}/{quantity}")]
         public async Task<IActionResult> GetLaptopLatest(string languageId, int quantity)
         {
@@ -126,7 +137,6 @@ namespace Backend_API.Controllers
             return Ok(result);
         }
 
-        [AllowAnonymous]
         [HttpGet("mobile/{languageId}/{quantity}")]
         public async Task<IActionResult> GetMobileLatest(string languageId, int quantity)
         {

@@ -10,6 +10,7 @@ namespace ApiClientCommon.Service
     public interface IProductApiClient
     {
         Task<PageResult<ProductViewModel>> GetProductPaging(AdminProductPaging paging);
+        Task<PageResult<ProductViewModel>> GetProductPagingByCategoryId(AdminProductPaging paging, int categoryId);
         Task<bool> Create(ProductCreateRequest request);
         Task<bool> Edit(ProductEditRequest request);
         Task<ProductViewModel> GetById(int productId, string languageId);

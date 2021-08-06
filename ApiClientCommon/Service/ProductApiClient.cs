@@ -120,5 +120,13 @@ namespace ApiClientCommon.Service
 
             return await GetTaskAsync<PageResult<ProductViewModel>>(url);
         }
+
+        public async Task<PageResult<ProductViewModel>> GetProductPagingByCategoryId(AdminProductPaging paging, int categoryId)
+        {
+            string url = $"/api/product/{categoryId}/paging?pageIndex={paging.PageIndex}&pageSize={paging.PageSize}" +
+                $"&keyword={paging.Keyword}&languageId={paging.LanguageId}&categoryId={paging.CategoryId}";
+
+            return await GetTaskAsync<PageResult<ProductViewModel>>(url);
+        }
     }
 }

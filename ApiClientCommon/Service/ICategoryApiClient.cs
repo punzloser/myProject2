@@ -10,5 +10,6 @@ namespace ApiClientCommon.Service
     {
         Task<List<CategoryViewModel>> GetAll(string languageId);
         Task<bool> CategoryAssign(int ProductId, CategoryEditModel model);
+        Task<CategoryViewModel> GetById(int categoryId, string languageId);
     }
 }

@@ -205,6 +205,67 @@ namespace Application.Catalog.Products
             return pageResult;
         }
 
+        public async Task<PageResult<ProductViewModel>> GetAllPagingByCategoryId(AdminProductPaging request, int categoryId)
+        {
+            var result = from a in _db.Products
+                         join b in _db.ProductTranslations on a.Id equals b.ProductId
+                         join c in _db.ProductCategories on a.Id equals c.ProductID into cs
+                         from c in cs.DefaultIfEmpty()
+                         join d in _db.Categories on c.CategoryID equals d.Id into ds
+                         from d in ds.DefaultIfEmpty()
+                         join e in _db.ProductImages on a.Id equals e.ProductId into ce
+                         from e in ce.DefaultIfEmpty()
+                         where b.LanguageId == request.LanguageId && d.Id == categoryId
+                         select new
+                         {
+                             a,
+                             b,
+                             c,
+                             e
+                         };
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+            {
+                result = result.Where(p => p.b.Name.Contains(request.Keyword));
+            }
+
+            if (request.CategoryId != null)
+            {
+                result = result.Where(p => p.c.CategoryID == request.CategoryId);
+            }
+
+            int totalRow = await result.CountAsync();
+            var data = await result
+                .Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.a.Id,
+                    Name = x.b.Name,
+                    DateCreated = x.a.DateCreated,
+                    Description = x.b.Description,
+                    Details = x.b.Details,
+                    LanguageId = x.b.LanguageId,
+                    Price = x.a.Price,
+                    OriginalPrice = x.a.OriginalPrice,
+                    SeoAlias = x.b.SeoAlias,
+                    SeoTitle = x.b.SeoTitle,
+                    SeoDescription = x.b.SeoDescription,
+                    Stock = x.a.Stock,
+                    ViewCount = x.a.ViewCount,
+                    Thumnail = x.e.ImagePath
+                }).ToListAsync();
+
+            var pageResult = new PageResult<ProductViewModel>()
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecord = totalRow,
+                Items = data
+            };
+            return pageResult;
+        }
+
         public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
             var product = await _db.Products.FindAsync(productId);
@@ -477,5 +538,6 @@ namespace Application.Catalog.Products
 
             return result.ToList();
         }
+
     }
 }

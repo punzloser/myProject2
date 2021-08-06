@@ -27,6 +27,7 @@ namespace Application.Catalog.Products
         Task<ProductImageViewModel> GetImgById(int imgId);
 
         Task<PageResult<ProductViewModel>> GetAllPaging(AdminProductPaging request);
+        Task<PageResult<ProductViewModel>> GetAllPagingByCategoryId(AdminProductPaging request, int categoryId);
         Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPaging request, string languageId);
     }
 }

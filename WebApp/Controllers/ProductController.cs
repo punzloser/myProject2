@@ -12,7 +12,7 @@ namespace WebApp.Controllers
     public class ProductController : Controller
     {
         private readonly IProductApiClient _productApiClient;
-        public ICategoryApiClient _categoryApiClient { get; }
+        private readonly ICategoryApiClient _categoryApiClient;
 
         public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
         {

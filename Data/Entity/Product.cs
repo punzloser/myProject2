@@ -22,5 +22,6 @@ namespace Data.Entity
         public List<Cart> Carts { get; set; }
 
         public List<ProductImage> ProductImages { get; set; }
+        public List<ProductSlide> ProductSlides { get; set; }
     }
 }

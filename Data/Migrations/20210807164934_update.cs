@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class UpdateSeedingData : Migration
+    public partial class update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -298,6 +298,7 @@ namespace Data.Migrations
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FileSize = table.Column<long>(type: "bigint", nullable: false),
                     ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ImageDetail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     SortOrder = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
@@ -307,6 +308,26 @@ namespace Data.Migrations
                     table.PrimaryKey("PK_ProductImages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductImages_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductSlides",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageProductSlide = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductSlides", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductSlides_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -495,8 +516,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price", "Stock" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 8, 2, 16, 54, 2, 386, DateTimeKind.Local).AddTicks(7501), null, 12000000m, 12390000m, 1 },
-                    { 2, new DateTime(2021, 8, 2, 16, 54, 2, 387, DateTimeKind.Local).AddTicks(7364), null, 11000000m, 11490000m, 1 }
+                    { 1, new DateTime(2021, 8, 7, 23, 49, 33, 512, DateTimeKind.Local).AddTicks(8070), null, 12000000m, 12390000m, 1 },
+                    { 2, new DateTime(2021, 8, 7, 23, 49, 33, 513, DateTimeKind.Local).AddTicks(9032), null, 11000000m, 11490000m, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -504,8 +525,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "b54c3398-26a9-4e63-8c5c-08cdf2bea09b", "admin", "admin", "admin" },
-                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "86bf66e7-6bcb-491b-8755-169f64710536", "mod", "mod", "mod" }
+                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "29281bbb-2501-4765-8e2f-7b8998f09915", "admin", "admin", "admin" },
+                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "b561430c-a2f4-4f16-80e3-fb92517dafb6", "mod", "mod", "mod" }
                 });
 
             migrationBuilder.InsertData(
@@ -516,7 +537,7 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "b896eadf-71dc-4020-ae3b-0a3ae9b8dcb7", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEBU2XJCCk3t89hDqA2FiS8a1WJ8O+RrARRFPzkkpeKHFA9CgfCJ/5paIS4RVnZ0B2g==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "0183b7e8-345f-4ea4-af4a-deb6cd8762e6", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEF7f01ibAH3lq37rz7Zlg6zKMXjVXYG3f6AQTgjZltVMD67naqKxbioFfJJaUUiv+g==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "CategoryTranslations",
@@ -539,13 +560,35 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "ProductImages",
+                columns: new[] { "Id", "Caption", "DateCreated", "FileSize", "ImageDetail", "ImagePath", "IsDefault", "ProductId", "SortOrder" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2021, 8, 7, 23, 49, 33, 514, DateTimeKind.Local).AddTicks(7496), 11L, "/img/36.jpg", "/img/13.jpg", true, 1, 1 },
+                    { 2, null, new DateTime(2021, 8, 7, 23, 49, 33, 514, DateTimeKind.Local).AddTicks(9410), 11L, "/img/41.jpg", "/img/23.jpg", true, 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProductSlides",
+                columns: new[] { "Id", "ImageProductSlide", "ProductId" },
+                values: new object[,]
+                {
+                    { 6, "/img/44.jpg", 2 },
+                    { 5, "/img/43.jpg", 2 },
+                    { 4, "/img/42.jpg", 2 },
+                    { 3, "/img/35.jpg", 1 },
+                    { 2, "/img/34.jpg", 1 },
+                    { 1, "/img/33.jpg", 1 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "ProductTranslations",
                 columns: new[] { "Id", "Description", "Details", "LanguageId", "Name", "ProductId", "SeoAlias", "SeoDescription", "SeoTitle" },
                 values: new object[,]
                 {
                     { 1, "240Q4PA", "240Q4PA", "vi", "HP 340s G7 i3 1005G1", 1, "", "", "" },
-                    { 2, "240Q4PA", "240Q4PA", "en", "HP 340s G7 i3 1005G1", 1, "", "", "" },
                     { 3, "1005G1", "1005G1", "vi", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" },
+                    { 2, "240Q4PA", "240Q4PA", "en", "HP 340s G7 i3 1005G1", 1, "", "", "" },
                     { 4, "1005G1", "240Q4PA", "en", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" }
                 });
 
@@ -590,6 +633,11 @@ namespace Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductSlides_ProductId",
+                table: "ProductSlides",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductTranslations_LanguageId",
                 table: "ProductTranslations",
                 column: "LanguageId");
@@ -630,6 +678,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductImages");
+
+            migrationBuilder.DropTable(
+                name: "ProductSlides");
 
             migrationBuilder.DropTable(
                 name: "ProductTranslations");

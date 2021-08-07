@@ -13,6 +13,7 @@ namespace Data.Entity
         public DateTime DateCreated { get; set; }
         public long FileSize { get; set; }
         public string ImagePath { get; set; }
+        public string ImageDetail { get; set; }
         public bool IsDefault { get; set; }
         public int SortOrder { get; set; }
         public int ProductId { get; set; }

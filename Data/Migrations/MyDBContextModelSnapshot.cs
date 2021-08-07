@@ -450,7 +450,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 8, 2, 16, 54, 2, 386, DateTimeKind.Local).AddTicks(7501),
+                            DateCreated = new DateTime(2021, 8, 7, 23, 49, 33, 512, DateTimeKind.Local).AddTicks(8070),
                             OriginalPrice = 12000000m,
                             Price = 12390000m,
                             Stock = 1,
@@ -459,7 +459,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2021, 8, 2, 16, 54, 2, 387, DateTimeKind.Local).AddTicks(7364),
+                            DateCreated = new DateTime(2021, 8, 7, 23, 49, 33, 513, DateTimeKind.Local).AddTicks(9032),
                             OriginalPrice = 11000000m,
                             Price = 11490000m,
                             Stock = 1,
@@ -513,6 +513,9 @@ namespace Data.Migrations
                     b.Property<long>("FileSize")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("ImageDetail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImagePath")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -531,6 +534,91 @@ namespace Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(2021, 8, 7, 23, 49, 33, 514, DateTimeKind.Local).AddTicks(7496),
+                            FileSize = 11L,
+                            ImageDetail = "/img/36.jpg",
+                            ImagePath = "/img/13.jpg",
+                            IsDefault = true,
+                            ProductId = 1,
+                            SortOrder = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreated = new DateTime(2021, 8, 7, 23, 49, 33, 514, DateTimeKind.Local).AddTicks(9410),
+                            FileSize = 11L,
+                            ImageDetail = "/img/41.jpg",
+                            ImagePath = "/img/23.jpg",
+                            IsDefault = true,
+                            ProductId = 2,
+                            SortOrder = 2
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entity.ProductSlide", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageProductSlide")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSlides");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageProductSlide = "/img/33.jpg",
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageProductSlide = "/img/34.jpg",
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageProductSlide = "/img/35.jpg",
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ImageProductSlide = "/img/42.jpg",
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ImageProductSlide = "/img/43.jpg",
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ImageProductSlide = "/img/44.jpg",
+                            ProductId = 2
+                        });
                 });
 
             modelBuilder.Entity("Data.Entity.ProductTranslation", b =>
@@ -693,7 +781,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("70834739-9213-4c00-9936-ed75eaf822d7"),
-                            ConcurrencyStamp = "b54c3398-26a9-4e63-8c5c-08cdf2bea09b",
+                            ConcurrencyStamp = "29281bbb-2501-4765-8e2f-7b8998f09915",
                             Description = "admin",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -701,7 +789,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"),
-                            ConcurrencyStamp = "86bf66e7-6bcb-491b-8755-169f64710536",
+                            ConcurrencyStamp = "b561430c-a2f4-4f16-80e3-fb92517dafb6",
                             Description = "mod",
                             Name = "mod",
                             NormalizedName = "mod"
@@ -821,7 +909,7 @@ namespace Data.Migrations
                         {
                             Id = new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b896eadf-71dc-4020-ae3b-0a3ae9b8dcb7",
+                            ConcurrencyStamp = "0183b7e8-345f-4ea4-af4a-deb6cd8762e6",
                             Dob = new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "punzloser@gmail.com",
                             EmailConfirmed = true,
@@ -830,7 +918,7 @@ namespace Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "punzloser@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBU2XJCCk3t89hDqA2FiS8a1WJ8O+RrARRFPzkkpeKHFA9CgfCJ/5paIS4RVnZ0B2g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF7f01ibAH3lq37rz7Zlg6zKMXjVXYG3f6AQTgjZltVMD67naqKxbioFfJJaUUiv+g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -1038,6 +1126,17 @@ namespace Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Data.Entity.ProductSlide", b =>
+                {
+                    b.HasOne("Data.Entity.Product", "Product")
+                        .WithMany("ProductSlides")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Data.Entity.ProductTranslation", b =>
                 {
                     b.HasOne("Data.Entity.Language", "Language")
@@ -1094,6 +1193,8 @@ namespace Data.Migrations
                     b.Navigation("ProductCategories");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductSlides");
 
                     b.Navigation("ProductTranslations");
                 });

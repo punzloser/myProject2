@@ -102,6 +102,16 @@ namespace WebApp
                         action = "Category"
                     });
 
+                //endpoints.MapControllerRoute(
+                //    name: "Category En",
+                //    pattern: "/haha/{id}",
+                //    defaults: new
+                //    {
+                //        controller = "Product",
+                //        action = "Detail"
+                //    });
+
+
                 //Default
                 endpoints.MapControllerRoute(
                    name: "default",

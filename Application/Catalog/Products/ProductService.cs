@@ -268,31 +268,56 @@ namespace Application.Catalog.Products
 
         public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
-            var product = await _db.Products.FindAsync(productId);
-            var productTranslation = await _db.ProductTranslations.FirstOrDefaultAsync(a => a.ProductId == productId && a.LanguageId == languageId);
+            //var product = await _db.Products.FindAsync(productId);
+            //var productTranslation = await _db.ProductTranslations.FirstOrDefaultAsync(a => a.ProductId == productId && a.LanguageId == languageId);
 
-            var listNameCategory = await (from a in _db.Categories
-                                          join b in _db.ProductCategories on a.Id equals b.CategoryID
-                                          join c in _db.CategoryTranslations on a.Id equals c.CategoryId
-                                          where b.ProductID.Equals(productId) && c.LanguageId.Equals(languageId)
-                                          select c.Name).ToListAsync();
+            //var listNameCategory = await (from a in _db.Categories
+            //                              join b in _db.ProductCategories on a.Id equals b.CategoryID
+            //                              join c in _db.CategoryTranslations on a.Id equals c.CategoryId
+            //                              where b.ProductID.Equals(productId) && c.LanguageId.Equals(languageId)
+            //                              select c.Name).ToListAsync();
+
+            var product = await (from p in _db.Products
+                                 join pt in _db.ProductTranslations on p.Id equals pt.ProductId into ppt
+                                 from pt in ppt.DefaultIfEmpty()
+                                 join pc in _db.ProductCategories on p.Id equals pc.ProductID into ppc
+                                 from pc in ppc.DefaultIfEmpty()
+                                 join c in _db.Categories on pc.CategoryID equals c.Id into pcc
+                                 from c in pcc.DefaultIfEmpty()
+                                 join ct in _db.CategoryTranslations on c.Id equals ct.CategoryId into cct
+                                 from ct in cct.DefaultIfEmpty()
+                                 join pi in _db.ProductImages on p.Id equals pi.ProductId into ppi
+                                 from pi in ppi.DefaultIfEmpty()
+                                 where p.Id == productId && pt.LanguageId == languageId
+                                 select new
+                                 {
+                                     p,
+                                     ct,
+                                     pt,
+                                     pi
+                                 }).FirstOrDefaultAsync();
 
             var result = new ProductViewModel()
             {
-                Id = product.Id,
-                Name = productTranslation == null ? null : productTranslation.Name,
-                DateCreated = product.DateCreated,
-                Description = productTranslation == null ? null : productTranslation.Description,
-                Details = productTranslation == null ? null : productTranslation.Details,
-                LanguageId = productTranslation == null ? null : productTranslation.LanguageId,
-                OriginalPrice = product.OriginalPrice,
-                Price = product.Price,
-                SeoAlias = productTranslation == null ? null : productTranslation.SeoAlias,
-                SeoDescription = productTranslation == null ? null : productTranslation.SeoDescription,
-                SeoTitle = productTranslation == null ? null : productTranslation.SeoTitle,
-                Stock = product.Stock,
-                ViewCount = product.ViewCount,
-                Categories = listNameCategory
+                Id = product.p.Id,
+                Name = product.pt.Name,
+                DateCreated = product.p.DateCreated,
+                Description = product.pt.Description,
+                Details = product.pt.Details,
+                LanguageId = product.pt.LanguageId,
+                OriginalPrice = product.p.OriginalPrice,
+                Price = product.p.Price,
+                SeoAlias = product.pt.SeoAlias,
+                SeoDescription = product.pt.SeoDescription,
+                SeoTitle = product.pt.SeoTitle,
+                Stock = product.p.Stock,
+                ViewCount = product.p.ViewCount,
+                IsFeatured = product.p.IsFeatured,
+                Thumnail = product.pi.ImagePath,
+                ImgDetail = product.pi.ImageDetail,
+
+                CategoryName = product.ct.Name
+
             };
 
 
@@ -539,5 +564,32 @@ namespace Application.Catalog.Products
             return result.ToList();
         }
 
+        public async Task<List<ProductViewModel>> GetAllProductByLanguage(string languageId)
+        {
+            var result = await (from p in _db.Products
+                                join pt in _db.ProductTranslations on p.Id equals pt.ProductId into ppt
+                                from pt in ppt.DefaultIfEmpty()
+                                join pi in _db.ProductImages on p.Id equals pi.ProductId into ppi
+                                from pi in ppi.DefaultIfEmpty()
+                                where pt.LanguageId == languageId
+                                select new ProductViewModel()
+                                {
+                                    Id = p.Id,
+                                    Name = pt.Name,
+                                    Price = p.Price,
+                                    OriginalPrice = p.OriginalPrice,
+                                    DateCreated = p.DateCreated,
+                                    Description = pt.Description,
+                                    Details = pt.Details,
+                                    SeoAlias = pt.SeoAlias,
+                                    SeoTitle = pt.SeoTitle,
+                                    SeoDescription = pt.SeoDescription,
+                                    Stock = p.Stock,
+                                    LanguageId = pt.LanguageId,
+                                    ViewCount = p.ViewCount,
+                                    Thumnail = pi.ImagePath
+                                }).ToListAsync();
+            return result;
+        }
     }
 }

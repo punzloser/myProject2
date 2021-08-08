@@ -29,5 +29,7 @@ namespace Application.Catalog.Products
         Task<PageResult<ProductViewModel>> GetAllPaging(AdminProductPaging request);
         Task<PageResult<ProductViewModel>> GetAllPagingByCategoryId(AdminProductPaging request, int categoryId);
         Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPaging request, string languageId);
+
+        Task<List<ProductViewModel>> GetAllProductByLanguage(string languageId);
     }
 }

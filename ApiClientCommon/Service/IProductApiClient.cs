@@ -16,5 +16,6 @@ namespace ApiClientCommon.Service
         Task<ProductViewModel> GetById(int productId, string languageId);
         Task<List<ProductViewModel>> GetLaptopLatest(string languageId, int quantity);
         Task<List<ProductViewModel>> GetMobileLatest(string languageId, int quantity);
+        Task<List<ProductViewModel>> GetAllProductByLanguage(string languageId);
     }
 }

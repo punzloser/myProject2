@@ -60,6 +60,7 @@ namespace WebApp
             services.AddTransient<ICarouselApiClient, CarouselApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+            services.AddTransient<IProductSlideApiClient, ProductSlideApiClient>();
 
             services.AddLiveSassCompile();
         }

@@ -13,20 +13,30 @@ namespace WebApp.Controllers
     {
         private readonly IProductApiClient _productApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IProductSlideApiClient _productSlideApiClient;
 
-        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
+        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient, IProductSlideApiClient productSlideApiClient)
         {
             _productApiClient = productApiClient;
             _categoryApiClient = categoryApiClient;
+            _productSlideApiClient = productSlideApiClient;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string culture)
         {
-            return View();
+            var getAllProduct = await _productApiClient.GetAllProductByLanguage(culture);
+            return View(getAllProduct);
         }
 
-        public IActionResult Detail()
+        public async Task<IActionResult> Detail(int id, string culture)
         {
-            return View();
+            var getProductById = await _productApiClient.GetById(id, culture);
+            var getProductSlides = await _productSlideApiClient.GetAllByProductId(id);
+
+            return View(new ProductDetail()
+            {
+                Product = getProductById,
+                ProductSlides = getProductSlides
+            });
         }
         public async Task<IActionResult> Category(int id, string culture)
         {

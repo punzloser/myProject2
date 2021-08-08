@@ -95,6 +95,12 @@ namespace ApiClientCommon.Service
             return false;
         }
 
+        public async Task<List<ProductViewModel>> GetAllProductByLanguage(string languageId)
+        {
+            string url = $"api/product/{languageId}";
+            return await GetTaskAsync<List<ProductViewModel>>(url);
+        }
+
         public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
             string url = $"/api/product/{productId}/{languageId}";

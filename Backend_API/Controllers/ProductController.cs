@@ -1,4 +1,5 @@
 ﻿using Application.Catalog.Products;
+using Application.Catalog.ProductSlides;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,12 @@ namespace Backend_API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IProductSlideService _productSlideService;
+
+        public ProductController(IProductService productService, IProductSlideService productSlideService)
         {
             _productService = productService;
+            _productSlideService = productSlideService;
         }
 
         [HttpGet("paging")]
@@ -141,6 +145,20 @@ namespace Backend_API.Controllers
         public async Task<IActionResult> GetMobileLatest(string languageId, int quantity)
         {
             var result = await _productService.GetMobileLatest(languageId, quantity);
+            return Ok(result);
+        }
+
+        [HttpGet("slide/{ProductId}")]
+        public async Task<IActionResult> GetAllSlidesByProductId(int ProductId)
+        {
+            var result = await _productSlideService.GetAllByProductId(ProductId);
+            return Ok(result);
+        }
+
+        [HttpGet("{languageId}")]
+        public async Task<IActionResult> GetAllProductByLanguage(string languageId)
+        {
+            var result = await _productService.GetAllProductByLanguage(languageId);
             return Ok(result);
         }
     }

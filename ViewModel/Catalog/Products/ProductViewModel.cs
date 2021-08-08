@@ -23,7 +23,8 @@ namespace ViewModel.Catalog.Products
         public string LanguageId { set; get; }
         public bool? IsFeatured { get; set; }
         public string Thumnail { get; set; }
+        public string ImgDetail { get; set; }
 
-        public List<string> Categories { get; set; }
+        public string CategoryName { get; set; }
     }
 }

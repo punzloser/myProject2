@@ -149,7 +149,7 @@ namespace Manager.Controllers
                 {
                     Id = item.Id.ToString(),
                     Name = item.Name,
-                    Checked = product.Categories.Contains(item.Name)
+                    Checked = product.CategoryName.Contains(item.Name)
                 });
             }
             return categoryAssign;

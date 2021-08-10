@@ -39,25 +39,31 @@ namespace ApiClientCommon.Service
                     data = br.ReadBytes((int)request.Thumnail.OpenReadStream().Length);
                 }
                 ByteArrayContent bytes = new ByteArrayContent(data);
-                requestContent.Add(bytes, "thumbnailImage", request.Thumnail.FileName);
+                requestContent.Add(bytes, "thumnail", request.Thumnail.FileName);
             }
             var langId = _accessor.HttpContext.Session.GetString("DefaultLangId");
 
             requestContent.Add(new StringContent(request.Name.ToString()), "name");
-            requestContent.Add(new StringContent(request.Price.ToString()), "price");
-            requestContent.Add(new StringContent(request.OriginalPrice.ToString()), "originalPrice");
-            requestContent.Add(new StringContent(request.Stock.ToString()), "stock");
-            requestContent.Add(new StringContent(request.Description.ToString()), "description");
-            requestContent.Add(new StringContent(request.Details.ToString()), "details");
-            requestContent.Add(new StringContent(request.SeoDescription.ToString()), "seoDescription");
-            requestContent.Add(new StringContent(request.SeoTitle.ToString()), "seoTitle");
-            requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Price.ToString()) ? "" : request.Price.ToString()), "price");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.OriginalPrice.ToString()) ? "" : request.OriginalPrice.ToString()), "originalPrice");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Stock.ToString()) ? "" : request.Stock.ToString()), "stock");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Details.ToString()) ? "" : request.Details.ToString()), "details");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description.ToString()) ? "" : request.Description.ToString()), "description");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoDescription.ToString()) ? "" : request.SeoDescription.ToString()), "seoDescription");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoAlias.ToString()) ? "" : request.SeoAlias.ToString()), "seoAlias");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoTitle.ToString()) ? "" : request.SeoTitle.ToString()), "seoTitle");
             requestContent.Add(new StringContent(langId), "languageId");
 
             var response = await client.PostAsync("/api/product", requestContent);
             if (response.IsSuccessStatusCode)
                 return true;
             return false;
+        }
+
+        public async Task<bool> Delete(int productId)
+        {
+            string url = $"/api/product/{productId}";
+            return await DeleteTaskAsync(url);
         }
 
         public async Task<bool> Edit(ProductEditRequest request)
@@ -77,7 +83,7 @@ namespace ApiClientCommon.Service
                     data = br.ReadBytes((int)request.Thumnail.OpenReadStream().Length);
                 }
                 ByteArrayContent bytes = new ByteArrayContent(data);
-                requestContent.Add(bytes, "thumbnailImage", request.Thumnail.FileName);
+                requestContent.Add(bytes, "thumnail", request.Thumnail.FileName);
             }
             var langId = _accessor.HttpContext.Session.GetString("DefaultLangId");
 

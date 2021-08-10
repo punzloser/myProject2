@@ -13,6 +13,7 @@ namespace ApiClientCommon.Service
         Task<PageResult<ProductViewModel>> GetProductPagingByCategoryId(AdminProductPaging paging, int categoryId);
         Task<bool> Create(ProductCreateRequest request);
         Task<bool> Edit(ProductEditRequest request);
+        Task<bool> Delete(int productId);
         Task<ProductViewModel> GetById(int productId, string languageId);
         Task<List<ProductViewModel>> GetLaptopLatest(string languageId, int quantity);
         Task<List<ProductViewModel>> GetMobileLatest(string languageId, int quantity);

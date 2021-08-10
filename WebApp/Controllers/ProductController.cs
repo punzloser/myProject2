@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 ProductSlides = getProductSlides
             });
         }
-        public async Task<IActionResult> Category(int id, string culture)
+        public async Task<IActionResult> Category(int id, string culture, int pageIndex = 1, int pageSize = 5)
         {
             var getCategoryById = await _categoryApiClient.GetById(id, culture);
 
@@ -46,8 +46,8 @@ namespace WebApp.Controllers
             {
                 CategoryId = id,
                 LanguageId = culture,
-                PageIndex = 1,
-                PageSize = 5
+                PageIndex = pageIndex,
+                PageSize = pageSize
             };
             var product = await _productApiClient.GetProductPagingByCategoryId(productPaging, id);
 

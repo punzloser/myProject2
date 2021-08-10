@@ -34,5 +34,18 @@ namespace ApiClientCommon.Service
             return default;
         }
 
+        protected async Task<bool> DeleteTaskAsync(string url)
+        {
+            var client = _httpClient.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5001");
+            var session = _accessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+
+            var response = await client.DeleteAsync(url);
+            if (response.IsSuccessStatusCode)
+                return true;
+            return false;
+        }
+
     }
 }

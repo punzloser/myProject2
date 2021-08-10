@@ -1,5 +1,5 @@
 ﻿@using ViewModel.Catalog.Products
-@model List<ProductViewModel> 
+@model List<ProductViewModel>
 @{
     ViewData["Title"] = "Sản phẩm";
 }
@@ -31,7 +31,7 @@
 
                 <div class="col">
                     <div class="card">
-                        <img src="@index.Thumnail" alt="@index.Name">
+                        <img src="@_config["BaseApi"]@index.Thumnail" alt="@index.Name">
                         <div class="card-body">
                             <h6 class="card-title">@index.Name</h6>
                             <p class="price">@index.Price</p>
@@ -42,91 +42,6 @@
                 </div>
             }
 
-            @*<div class="col">
-                <div class="card">
-                    <img src="/img/20SM00D9VN.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo ThinkBook 15IIL i3 1005G1 (20SM00D9VN)</h6>
-                        <p class="price">11.490.000₫</p>
-                        <a href="#" class="btn btn-warning w-100 disabled">Chi tiết</a>
-                    </div>
-                    <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/20VA000NVN.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo ThinkBook 14s G2 ITL i5 1135G7 (20VA000NVN)</h6>
-                        <p class="price">19.990.000₫</p>
-                        <a href="#" class="btn btn-warning w-100 disabled">Chi tiết</a>
-                    </div>
-                    <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/16.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo ThinkBook 14 G2 ITL i7 1165G7 (20VD003LVN)</h6>
-                        <p class="price">21.990.000₫</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/17.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo ThinkBook 14s G2 ITL i7 1165G7 (20VA000MVN)</h6>
-                        <p class="price">23.990.000₫</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/18.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo Ideapad Gaming 3 15IMH05 i7 10750H (81Y4013UVN)</h6>
-                        <p class="price">24.990.000₫</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/19.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo YOGA Slim 7 Carbon 13ITL5 i7 1165G7 (82EV0017VN)</h6>
-                        <p class="price">11.490.000₫</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/20.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo YOGA Slim 7 Carbon 13ITL5 i7 1165G7 (82EV0017VN)</h6>
-                        <p class="price">29.990.000₫</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/21.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo YOGA Slim 7 Carbon 13ITL5 i7 1165G7 (82EV0017VN)</h6>
-                        <p class="price">28.490.000₫</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="/img/22.jpg" alt="">
-                    <div class="card-body">
-                        <h6 class="card-title">Lenovo YOGA Slim 7 Carbon 13ITL5 i7 1165G7 (82EV0017VN)</h6>
-                        <p class="price">13.390.000₫</p>
-                    </div>
-                </div>
-            </div>*@
         </div>
     </div>
 

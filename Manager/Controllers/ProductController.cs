@@ -22,7 +22,7 @@ namespace Manager.Controllers
             _categoryApi = categoryApi;
         }
 
-        public async Task<IActionResult> Index(int? categoryId, string keyword, int pageIndex = 1, int pageSize = 3)
+        public async Task<IActionResult> Index(int? categoryId, string keyword, int pageIndex = 1, int pageSize = 5)
         {
             //1. Goi check language = session
             var lang = HttpContext.Session.GetString("DefaultLangId");
@@ -108,6 +108,22 @@ namespace Manager.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _productApi.Delete(id);
+            if (result)
+            {
+                TempData["alert"] = "Xóa sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Xóa sản phẩm thất bại");
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CategoryAssign(int id)
         {
             var categoryAssign = await GetCategoryAssign(id);
@@ -149,7 +165,7 @@ namespace Manager.Controllers
                 {
                     Id = item.Id.ToString(),
                     Name = item.Name,
-                    Checked = product.CategoryName.Contains(item.Name)
+                    Checked = product.CategoryName == null ? false : product.CategoryName.Contains(item.Name)
                 });
             }
             return categoryAssign;

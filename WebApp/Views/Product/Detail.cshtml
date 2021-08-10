@@ -41,7 +41,7 @@
                             foreach (var item in Model.ProductSlides)
                             {
                                 <div class="carousel-item @(i == 0 ? "active" : "")">
-                                    <img src="@item.ImageProductSlide" class="d-block w-100" alt="...">
+                                    <img src="@_config["BaseApi"]@item.ImageProductSlide" class="d-block w-100" alt="">
                                 </div>
 
                                 i++;
@@ -84,7 +84,7 @@
             <hr class="my-5">
 
             <div class="col-sm-12 col-md-7">
-                <img class="img-thumbnail" src="@Model.Product.ImgDetail" alt="">
+                <img class="img-thumbnail" src="@_config["BaseApi"]@Model.Product.ImgDetail" alt="">
             </div>
 
 

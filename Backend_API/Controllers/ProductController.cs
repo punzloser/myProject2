@@ -53,12 +53,11 @@ namespace Backend_API.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
-            var productId = await _productService.Create(request);
-            if (productId == 0)
+            var result = await _productService.Create(request);
+            if (result == 0)
                 return BadRequest();
-            var product = await _productService.GetById(productId, request.LanguageId);
 
-            return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+            return Ok();
         }
 
         [HttpPut("{productId}")]

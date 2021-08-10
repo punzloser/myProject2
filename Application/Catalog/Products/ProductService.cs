@@ -73,25 +73,21 @@ namespace Application.Catalog.Products
                 Stock = request.Stock,
                 ViewCount = 0,
                 DateCreated = DateTime.Now,
-                ProductTranslations = translation
-            };
-
-            //save img
-            if (request.Thumnail != null)
-            {
-                product.ProductImages = new List<ProductImage>()
+                ProductTranslations = translation,
+                IsFeatured = request.IsFeatured,
+                ProductImages = new List<ProductImage>()
                 {
                     new ProductImage()
                     {
                         Caption = "Thumnail-img",
                         DateCreated = DateTime.Now,
-                        FileSize = request.Thumnail.Length,
-                        ImagePath = await this.SaveImg(request.Thumnail),
+                        FileSize = request.Thumnail == null? 0 : request.Thumnail.Length,
+                        ImagePath = request.Thumnail == null? "": await this.SaveImg(request.Thumnail),
                         IsDefault = true,
                         SortOrder = 1
                     }
-                };
-            }
+                }
+            };
 
             _db.Products.Add(product);
             await _db.SaveChangesAsync();
@@ -133,15 +129,10 @@ namespace Application.Catalog.Products
             //save img
             if (request.Thumnail != null)
             {
-                var thumb = await _db.ProductImages.FirstOrDefaultAsync(a => a.IsDefault.Equals(true) && a.ProductId == request.Id);
-
-                if (thumb != null)
-                {
-                    thumb.FileSize = request.Thumnail.Length;
-                    thumb.ImagePath = await this.SaveImg(request.Thumnail);
-
-                    _db.ProductImages.Update(thumb);
-                }
+                var productImage = await _db.ProductImages.FirstOrDefaultAsync(a => a.ProductId == productId);
+                productImage.ImagePath = await this.SaveImg(request.Thumnail);
+                productImage.FileSize = request.Thumnail.Length;
+                _db.ProductImages.Update(productImage);
             }
 
             return await _db.SaveChangesAsync();
@@ -268,15 +259,6 @@ namespace Application.Catalog.Products
 
         public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
-            //var product = await _db.Products.FindAsync(productId);
-            //var productTranslation = await _db.ProductTranslations.FirstOrDefaultAsync(a => a.ProductId == productId && a.LanguageId == languageId);
-
-            //var listNameCategory = await (from a in _db.Categories
-            //                              join b in _db.ProductCategories on a.Id equals b.CategoryID
-            //                              join c in _db.CategoryTranslations on a.Id equals c.CategoryId
-            //                              where b.ProductID.Equals(productId) && c.LanguageId.Equals(languageId)
-            //                              select c.Name).ToListAsync();
-
             var product = await (from p in _db.Products
                                  join pt in _db.ProductTranslations on p.Id equals pt.ProductId into ppt
                                  from pt in ppt.DefaultIfEmpty()
@@ -289,39 +271,31 @@ namespace Application.Catalog.Products
                                  join pi in _db.ProductImages on p.Id equals pi.ProductId into ppi
                                  from pi in ppi.DefaultIfEmpty()
                                  where p.Id == productId && pt.LanguageId == languageId
-                                 select new
+                                 select new ProductViewModel()
                                  {
-                                     p,
-                                     ct,
-                                     pt,
-                                     pi
+                                     Id = p.Id,
+                                     Name = pt.Name,
+                                     DateCreated = p.DateCreated,
+                                     Description = pt.Description,
+                                     Details = pt.Details,
+                                     LanguageId = pt.LanguageId,
+                                     OriginalPrice = p.OriginalPrice,
+                                     Price = p.Price,
+                                     SeoAlias = pt.SeoAlias,
+                                     SeoDescription = pt.SeoDescription,
+                                     SeoTitle = pt.SeoTitle,
+                                     Stock = p.Stock,
+                                     ViewCount = p.ViewCount,
+                                     IsFeatured = p.IsFeatured,
+                                     Thumnail = pi.ImagePath,
+                                     ImgDetail = pi.ImageDetail,
+
+                                     CategoryName = string.IsNullOrEmpty(ct.Name) ? null : ct.Name
+
                                  }).FirstOrDefaultAsync();
 
-            var result = new ProductViewModel()
-            {
-                Id = product.p.Id,
-                Name = product.pt.Name,
-                DateCreated = product.p.DateCreated,
-                Description = product.pt.Description,
-                Details = product.pt.Details,
-                LanguageId = product.pt.LanguageId,
-                OriginalPrice = product.p.OriginalPrice,
-                Price = product.p.Price,
-                SeoAlias = product.pt.SeoAlias,
-                SeoDescription = product.pt.SeoDescription,
-                SeoTitle = product.pt.SeoTitle,
-                Stock = product.p.Stock,
-                ViewCount = product.p.ViewCount,
-                IsFeatured = product.p.IsFeatured,
-                Thumnail = product.pi.ImagePath,
-                ImgDetail = product.pi.ImageDetail,
 
-                CategoryName = product.ct.Name
-
-            };
-
-
-            return result;
+            return product;
         }
 
         public async Task AddViewCount(int productId)

@@ -88,7 +88,7 @@
                                 {
                                 <div class="col-4">
                                     <div class="card">
-                                        <img src="@product.Thumnail" alt="">
+                                        <img src="@_config["BaseApi"]@product.Thumnail" alt="@product.Name">
                                         <div class="card-body">
                                             <h6 class="card-title">@product.Name</h6>
                                             <p class="price">@product.Price</p>
@@ -103,54 +103,6 @@
                     }
                 }
 
-                @*<div class="carousel-item" data-bs-interval="2000">
-                        <div class="row">
-                            <div class="col-3">
-                                <a href="#"><img src="/img/13.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>HP 340s G7 i3 1005G1</h5>
-                                <p>12.390.000₫</p>
-                            </div>
-                            <div class="col-3">
-                                <a href="#"><img src="/img/14.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>Lenovo ThinkBook 15IIL i3</h5>
-                                <p>11.490.000₫</p>
-                            </div>
-                            <div class="col-3">
-                                <a href="#"><img src="/img/15.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>HP 348 G7 i5 10210U</h5>
-                                <p>16.990.000₫</p>
-                            </div>
-                            <div class="col-3">
-                                <a href="#"><img src="/img/16.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>HP 340s G7 i3 1005G1</h5>
-                                <p>13.390.000₫</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" data-bs-interval="1000">
-                        <div class="row">
-                            <div class="col-3">
-                                <a href="#"><img src="/img/17.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>HP 340s G7 i3 1005G1</h5>
-                                <p>12.390.000₫</p>
-                            </div>
-                            <div class="col-3">
-                                <a href="#"><img src="/img/18.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>Lenovo ThinkBook 15IIL i3</h5>
-                                <p>11.490.000₫</p>
-                            </div>
-                            <div class="col-3">
-                                <a href="#"><img src="/img/19.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>HP 348 G7 i5 10210U</h5>
-                                <p>16.990.000₫</p>
-                            </div>
-                            <div class="col-3">
-                                <a href="#"><img src="/img/20.jpg" class="d-block w-100" alt="..."></a>
-                                <h5>HP 340s G7 i3 1005G1</h5>
-                                <p>13.390.000₫</p>
-                            </div>
-                        </div>
-                    </div>*@
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -196,7 +148,7 @@
                                 {
                                     <div class="col-4">
                                         <div class="card">
-                                            <img src="@product.Thumnail" alt="">
+                                            <img src="@_config["BaseApi"]@product.Thumnail" alt="@product.Name">
                                             <div class="card-body">
                                                 <h6 class="card-title">@product.Name</h6>
                                                 <p class="price">@product.Price</p>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ApiClientCommon.Service;
 using JacobDixon.AspNetCore.LiveSassCompile;
 using LazZiya.ExpressLocalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,12 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/User/Login/";
+                    options.AccessDeniedPath = "/User/Forbidden/";
+                });
 
             var cultures = new[]
             {
@@ -61,6 +68,7 @@ namespace WebApp
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IProductSlideApiClient, ProductSlideApiClient>();
+            services.AddTransient<IUserApiClient, UserApiClient>();
 
             services.AddLiveSassCompile();
         }

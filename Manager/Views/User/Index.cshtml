@@ -53,22 +53,23 @@
                         ID
                     </th>
                     <th>
-                        Tài khoản
+                        @*@Html.DisplayNameFor(a => a.Items.FirstOrDefault().UserName)*@
+                        <label asp-for="Items.FirstOrDefault().UserName">Tài khoản</label>
                     </th>
                     <th>
-                        Họ
+                        <label asp-for="Items.FirstOrDefault().FirstName">Họ</label>
                     </th>
                     <th>
-                        Tên
+                        <label asp-for="Items.FirstOrDefault().FirstName">Tên</label>
                     </th>
                     <th>
-                        Số điện thoại
+                        <label asp-for="Items.FirstOrDefault().PhoneNumber">Số điện thoại</label>
                     </th>
                     <th>
-                        Email
+                        <label asp-for="Items.FirstOrDefault().Email">Email</label>
                     </th>
                     <th>
-                        Ngày sinh
+                        <label asp-for="Items.FirstOrDefault().Dob">Ngày sinh</label>
                     </th>
                 </tr>
             </thead>

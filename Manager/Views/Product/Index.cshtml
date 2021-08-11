@@ -55,19 +55,19 @@
             <thead>
                 <tr>
                     <th class="bg-light">
-                        ID
+                        <label asp-for="Items.FirstOrDefault().Id">ID</label>
                     </th>
                     <th>
-                        Tên sản phẩm
+                        <label asp-for="Items.FirstOrDefault().Name">Tên sản phẩm</label>
                     </th>
                     <th>
-                        Giá bán
+                        <label asp-for="Items.FirstOrDefault().Price">Giá bán</label>
                     </th>
                     <th>
-                        Giá gốc
+                        <label asp-for="Items.FirstOrDefault().OriginalPrice">Giá gốc</label>
                     </th>
                     <th>
-                        Tồn kho
+                        <label asp-for="Items.FirstOrDefault().Stock">Tồn kho</label>
                     </th>
                 </tr>
             </thead>

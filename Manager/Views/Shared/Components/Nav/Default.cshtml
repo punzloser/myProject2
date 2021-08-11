@@ -1,7 +1,10 @@
 ﻿@model NavViewModel
+@{
+    var isAuthenticated = User.Identity.IsAuthenticated;
+}
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" asp-action="Index" asp-controller="Home">Admin</a>
+    <a class="navbar-brand ps-3" asp-action="Index" asp-controller="Home">Trang quản trị</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
@@ -24,17 +27,21 @@
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#!">@User.Identity.Name</a>
-                <a class="dropdown-item" href="#!">Thiết lập</a>
-                <hr class="dropdown-divider" />
-
-                <form method="post" asp-controller="User" asp-action="Logout">
-                    <button type="submit" class="dropdown-item">Đăng xuất</button>
-                </form>
-
-            </div>
+            <i class="fas fa-user fa-fw text-info mx-2"></i>
         </li>
     </ul>
+
+    @if (isAuthenticated)
+    {
+        <form asp-controller="User" asp-action="Logout" method="post">
+            <button type="submit" class="btn btn-secondary mx-2">Đăng xuất</button>
+        </form>
+
+        <div class="text-muted">Xin chào ! @User.Identity.Name</div>
+    }
+    else
+    {
+        <a class="btn btn-info nav-link" asp-controller="User" asp-action="Login">Đăng nhập</a>
+    }
+
 </nav>

@@ -1,0 +1,62 @@
+﻿@using ViewModel.Catalog.Users
+@model LoginRequest
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr class="mt-5">
+<!-- container -->
+<div class="container-fluid px-3 mt-5">
+
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb border mt-3">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+        </ol>
+    </nav>
+
+    <a class="nav-link h2 text-muted p-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+        </svg>
+        Đăng nhập
+    </a>
+
+    <!-- img-introduce -->
+    <div class="img float-start p-4 col col-md-6">
+        <img class="rounded-3 shadow-lg" src="/img/37.png" alt="">
+        <p class="text"><br>ipsum dolor, sit amet consectetur adipisicing elit. Similique laborum ea eius, atque, illum blanditiis labore ullam veniam consectetur vitae recusandae cum doloribus unde eaque harum! Autem, perspiciatis. Aut, nobis?</p>
+    </div>
+
+    <!-- form-login -->
+
+    <div class="d-flex flex-column mx-auto border p-5 rounded-3 bg-light col col-md-6">
+
+        <form asp-controller="User" asp-action="Login" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="@Model.UserName" placeholder="Nhập tài khoản">
+                <label>Tài khoản</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" asp-for="@Model.Pass" placeholder="Nhập mật khẩu">
+                <label>Mật khẩu</label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="Remember" type="checkbox" value="" />
+                <label class="form-check-label">Nhớ mật khẩu</label>
+            </div>
+
+            <button class="btn btn-primary my-1" type="submit">Đăng nhập</button>
+            <a class="btn btn-link">Quên mật khẩu</a>
+            
+        </form>
+    </div>
+
+    <div class="clearfix"></div>
+</div>
+
+

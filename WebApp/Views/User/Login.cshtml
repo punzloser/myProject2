@@ -35,15 +35,17 @@
     <div class="d-flex flex-column mx-auto border p-5 rounded-3 bg-light col col-md-6">
 
         <form asp-controller="User" asp-action="Login" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" asp-for="@Model.UserName" placeholder="Nhập tài khoản">
                 <label>Tài khoản</label>
+                <span asp-validation-for="@Model.UserName" class="alert-danger"></span>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" asp-for="@Model.Pass" placeholder="Nhập mật khẩu">
                 <label>Mật khẩu</label>
+                <span asp-validation-for="@Model.Pass" class="alert-danger"></span>
             </div>
             <div class="form-check mb-3">
                 <input class="form-check-input" asp-for="Remember" type="checkbox" value="" />

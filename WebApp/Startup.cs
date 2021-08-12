@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiClientCommon.Service;
+using FluentValidation.AspNetCore;
 using JacobDixon.AspNetCore.LiveSassCompile;
 using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ViewModel.Catalog.Users;
 using WebApp.Resources;
 
 namespace WebApp
@@ -32,7 +34,9 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services
+                .AddFluentValidation(a=>a.RegisterValidatorsFromAssemblyContaining<LoginRequest>())
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/User/Login/";

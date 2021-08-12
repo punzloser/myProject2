@@ -134,7 +134,7 @@ namespace Application.Catalog.Users
                 UserName = request.UserName,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                PhoneNumber = request.PhoneNumber,
+                PhoneNumber = request.PhoneNumber != null ? request.PhoneNumber : null,
                 Email = request.Email,
                 Dob = request.Dob
             };

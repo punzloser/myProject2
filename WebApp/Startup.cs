@@ -35,7 +35,7 @@ namespace WebApp
         {
             services.AddHttpClient();
             services
-                .AddFluentValidation(a=>a.RegisterValidatorsFromAssemblyContaining<LoginRequest>())
+                .AddFluentValidation(a => a.RegisterValidatorsFromAssemblyContaining<LoginRequest>())
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {

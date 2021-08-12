@@ -73,6 +73,47 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterRequest registerRequest)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _userApiClient.Register(registerRequest);
+            if (result)
+            {
+                var login = await _userApiClient.Authenticate(new LoginRequest()
+                {
+                    UserName = registerRequest.UserName,
+                    Pass = registerRequest.Pass,
+                    Remember = true
+                });
+
+                var userPrincipal = this.ValidateToken(login);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    IsPersistent = false
+                };
+
+                ViewBag.lang = CultureInfo.CurrentCulture.Name;
+
+                HttpContext.Session.SetString("token", login);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError("", "Đăng kí không hợp lệ !");
+            return View();
+        }
+
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
             IdentityModelEventSource.ShowPII = true;

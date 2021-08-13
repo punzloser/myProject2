@@ -1,11 +1,6 @@
 ﻿using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ViewModel.Catalog.Users
 {
@@ -16,13 +11,23 @@ namespace ViewModel.Catalog.Users
             RuleFor(a => a.FirstName).NotEmpty().WithMessage("Nhập tên").MaximumLength(100).WithMessage("tối đa 100 ký tự");
             RuleFor(a => a.LastName).NotEmpty().WithMessage("Nhập Họ + tên đệm").MaximumLength(100).WithMessage("tối đa 100 ký tự");
             RuleFor(a => a.UserName).NotEmpty().WithMessage("Nhập tên tài khoản");
-            RuleFor(a => a.Pass).NotEmpty().WithMessage("Nhập mật khẩu").MinimumLength(6).WithMessage("Tối thiểu 6 kí tự");
 
             RuleFor(a => a.Dob)
                 .NotEqual(DateTime.Now.Date).WithMessage("Ngày sinh không hợp lệ")
                 .NotEmpty().WithMessage("Trống");
 
-            RuleFor(a => a.Email).NotEmpty().Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$").WithMessage("Không đúng định dạng");
+            RuleFor(a => a).Custom((request, result) =>
+            {
+                var x = DateTime.Now.Year - request.Dob.Year;
+                if (x >= 118)
+                    result.AddFailure("Dob", "Tuổi bạn quá là ảo, người giữ kỉ lục hiện tại chỉ 118 tuổi");
+                if (x <= 0)
+                    result.AddFailure("Dob", "Tuổi phải lớn hơn 0");
+            });
+
+            RuleFor(a => a.Email).NotEmpty()
+                .WithMessage("Email trống")
+                .Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$").WithMessage("Không đúng định dạng");
 
             RuleFor(a => a).Custom((request, context) =>
             {
@@ -30,12 +35,11 @@ namespace ViewModel.Catalog.Users
                 if (request.Pass.CompareTo(request.ConfirmPass) != 0)
                     context.AddFailure("Nhập lại mật khẩu không khớp");
 
-                //chưa validate mật khẩu phức tạp + user trùng
-                //string pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])$";
-                //if (!Regex.IsMatch(request.Pass, pattern))
-                //{
-                //    context.AddFailure("Mật khẩu phải gồm chữ số, chữ hoa, thường, và có kí tự đặc biệt");
-                //}
+                var check = Regex.IsMatch(request.Pass.ToString(), @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$");
+                if (!check)
+                {
+                    context.AddFailure("Pass", "Mật khẩu tối thiểu 8 kí tự phải gồm chữ số, chữ hoa, thường, và có kí tự đặc biệt");
+                }
             });
         }
     }

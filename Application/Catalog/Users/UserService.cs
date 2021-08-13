@@ -1,4 +1,5 @@
 ﻿using Common.Exceptions;
+using Common.Result;
 using Data.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -127,22 +128,34 @@ namespace Application.Catalog.Users
             };
         }
 
-        public async Task<bool> Register(RegisterRequest request)
+        public async Task<CommonResult<bool>> Register(RegisterRequest request)
         {
-            var createUser = new User()
+            var checkUser = await _user.FindByNameAsync(request.UserName);
+            if (checkUser != null)
             {
-                UserName = request.UserName,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                PhoneNumber = request.PhoneNumber != null ? request.PhoneNumber : null,
-                Email = request.Email,
-                Dob = request.Dob
-            };
+                return new ErrorResult<bool>("Tài khoản đã tồn tại");
+            }
+
+            var checkMail = await _user.FindByEmailAsync(request.Email);
+            if (checkMail != null)
+            {
+                return new ErrorResult<bool>("Mail này đã tồn tại");
+            }
+
+                var createUser = new User()
+                {
+                    UserName = request.UserName,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    PhoneNumber = request.PhoneNumber != null ? request.PhoneNumber : null,
+                    Email = request.Email,
+                    Dob = request.Dob
+                };
             var createPass = await _user.CreateAsync(createUser, request.Pass);
 
             if (createPass.Succeeded)
-                return true;
-            return false;
+                return new SuccessResult<bool>();
+            return new ErrorResult<bool>("Đăng kí thất bại");
 
         }
 

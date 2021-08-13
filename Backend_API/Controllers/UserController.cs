@@ -26,8 +26,8 @@ namespace Backend_API.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var result = await _userService.Register(request);
-            if (!ModelState.IsValid || result == false)
-                return BadRequest();
+            if (!result.IsSuccessed)
+                return BadRequest(result);
             return Ok(result);
         }
 

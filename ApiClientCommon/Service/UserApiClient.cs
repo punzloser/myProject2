@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Common.Result;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace ApiClientCommon.Service
             return listUser;
         }
 
-        public async Task<bool> Register(RegisterRequest request)
+        public async Task<CommonResult<bool>> Register(RegisterRequest request)
         {
             var client = _httpClient.CreateClient();
             client.BaseAddress = new Uri("https://localhost:5001");
@@ -99,7 +100,11 @@ namespace ApiClientCommon.Service
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync("/api/user/register", httpContent);
-            return response.IsSuccessStatusCode;
+            var result = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<SuccessResult<bool>>(result);
+            return JsonConvert.DeserializeObject<ErrorResult<bool>>(result);
         }
 
         public async Task<bool> RemoveUser(Guid id)

@@ -85,7 +85,7 @@ namespace WebApp.Controllers
                 return View();
 
             var result = await _userApiClient.Register(registerRequest);
-            if (result)
+            if (result.IsSuccessed)
             {
                 var login = await _userApiClient.Authenticate(new LoginRequest()
                 {
@@ -110,7 +110,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError("", "Đăng kí không hợp lệ !");
+            ModelState.AddModelError("", result.Message);
             return View();
         }
 

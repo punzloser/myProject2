@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Result;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Application.Catalog.Users
     public interface IUserService
     {
         Task<string> Authenticate(LoginRequest request);
-        Task<bool> Register(RegisterRequest request);
+        Task<CommonResult<bool>> Register(RegisterRequest request);
         Task<PageResult<UserViewModel>> GetUserPaging(UserPaging paging);
         Task<bool> EditUser(Guid id, UserEditModel userEditModel);
         Task<UserViewModel> GetUserById(Guid id);

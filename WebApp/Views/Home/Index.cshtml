@@ -94,7 +94,7 @@
                                             <p class="price">@product.Price</p>
                                             <a href="/@ViewBag.culture/@_loc["productUrl"]/@product.Id" class="btn btn-warning w-100">Chi tiết</a>
                                         </div>
-                                        <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
+                                        <button data-id="@product.Id" class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
                                     </div>
                                 </div>
                                 }
@@ -154,7 +154,7 @@
                                                 <p class="price">@product.Price</p>
                                                 <a href="/@ViewBag.culture/@_loc["productUrl"]/@product.Id" class="btn btn-warning w-100">Chi tiết</a>
                                             </div>
-                                            <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
+                                            <button data-id="@product.Id" class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
                                         </div>
                                     </div>
                                 }

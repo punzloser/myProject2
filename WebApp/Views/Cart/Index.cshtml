@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section test{
+    <script src="~/js/cart.js"></script>
+}
+
+<div class="container-fluid px-3 mt-5">
+
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb border mt-3">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+            <li class="breadcrumb-item" aria-current="page">Giỏ hàng</li>
+        </ol>
+    </nav>
+
+    <a class="nav-link h2 text-muted p-0" asp-controller="Cart" asp-action="Index">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
+            <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
+            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+        </svg>
+        Giỏ hàng
+    </a>
+    <hr class="m-0" width="20%">
+
+    <!-- show cart -->
+
+    <div style="background: white;" class="container g-0 w-75 rounded-3 p-2 mt-1 shadow-lg">
+        <div class="title-cart d-flex">
+            <div>
+                <a class="nav-link text-muted p-0" asp-controller="Product" asp-action="Index">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    </svg>
+                    Mua thêm
+                </a>
+            </div>
+            <div class="ms-auto">
+                Giỏ hàng của bạn
+            </div>
+        </div>
+
+        <!-- section .cart -->
+        <div id="cart" class="row mt-2 align-item">
+            @*<div>
+                    <div class="col-12 col-md-3">
+                        <button style="border: none; background: white;">
+                            <svg class="text-muted" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                            </svg>
+                        </button>
+                        <img class="card-img w-75 py-2" src="img/${item.tag}.jpg">
+                    </div>
+
+                    <div class="col-12 col-md-6 text-center">
+                        <span>${item.name}</span>
+                        <span class="d-block">
+                            <button style="border: none; background: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-square" viewBox="0 0 16 16">
+                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                </svg>
+                            </button>
+
+                            <span class="text-primary">${item.inCart}</span>
+
+                            <button style="border: none; background: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="col-12 col-md-3 text-end text-danger">
+                        <span>${item.price} VND</span>
+                    </div>
+                </div>*@
+        </div>
+
+        <hr style="width: 98%;" class="mx-auto">
+        <div class="row row-cols-1 row-cols-md-2 m-0">
+            <div class="col">Tổng tiền</div>
+
+            <div class="col text-end p-0 text-danger">
+                <span id="total"> </span>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <a asp-controller="Cart" asp-action="Payment" class="btn btn-primary w-25">Thanh toán</a>
+        </div>
+
+    </div>
+</div>
+
+

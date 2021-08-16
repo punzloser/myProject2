@@ -37,7 +37,7 @@
                             <p class="price">@index.Price</p>
                             <a asp-controller="Product" asp-action="Detail" asp-route-id="@index.Id" class="btn btn-warning w-100">Chi tiết</a>
                         </div>
-                        <button class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
+                        <button data-id="@index.Id" class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
                     </div>
                 </div>
             }

@@ -22,3 +22,5 @@ IHttpContextAccessor làm việc với session
 10. Check quyền các thứ ở api, từ controller ->  show ra view
 11. Quay lại bước 1 nhưng lần này viết phương thức để thay đổi quyền role (viết trong logic của User hoặc Role đều được)
 
+
+#Jquery Dùng class để bind, chèn thêm data-attribute

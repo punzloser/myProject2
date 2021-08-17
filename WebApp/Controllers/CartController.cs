@@ -34,14 +34,18 @@ namespace WebApp.Controllers
             if (cartSession != null)
                 cartState = JsonConvert.DeserializeObject<List<CartVm>>(cartSession);
 
+            //by me
             int quantity = 1;
-            if (cartState.Any(x => x.ProductId == id))
+            if (cartState.Any(a => a.ProductId == id))
             {
-                if (cartState.Any(a => a.Quantity >= 10))
+                foreach (var item in cartState)
                 {
-                    cartState.First(a => a.ProductId == id).Quantity = 0;
+                    if (item.Quantity >= 10)
+                    {
+                        item.Quantity = 0;
+                    }
+                    item.Quantity += quantity;
                 }
-                cartState.First(a => a.ProductId == id).Quantity += quantity;
             }
             else
             {
@@ -55,6 +59,57 @@ namespace WebApp.Controllers
                     Quantity = quantity
                 };
                 cartState.Add(cartItem);
+            }
+
+            //int quantity = 1;
+            //if (cartState.Any(x => x.ProductId == id))
+            //{
+            //    if (cartState.Any(a => a.Quantity >= 10))
+            //    {
+            //        cartState.First(a => a.ProductId == id).Quantity = 0;
+            //    }
+            //    cartState.First(a => a.ProductId == id).Quantity += quantity;
+            //}
+            //else
+            //{
+            //    var cartItem = new CartVm()
+            //    {
+            //        ProductId = id,
+            //        Description = product.Description,
+            //        Img = product.Thumnail,
+            //        Name = product.Name,
+            //        Price = product.Price,
+            //        Quantity = quantity
+            //    };
+            //    cartState.Add(cartItem);
+            //}
+
+            HttpContext.Session.SetString("CartSession", JsonConvert.SerializeObject(cartState));
+            return Ok(cartState);
+        }
+
+        public IActionResult Edit(int id, int quantity)
+        {
+            var cartSession = HttpContext.Session.GetString("CartSession");
+            var cartState = new List<CartVm>();
+
+            if (cartSession != null)
+            {
+                cartState = JsonConvert.DeserializeObject<List<CartVm>>(cartSession);
+            }
+
+            for (int i = 0; i < cartState.Count; i++)
+            {
+                var cartIndex = cartState[i];
+                if (cartIndex.ProductId == id && quantity == 0)
+                {
+                    cartState.Remove(cartIndex); 
+                    break;
+                }
+                else
+                {
+                    cartState.First(a => a.ProductId == id).Quantity = quantity;
+                }
             }
 
             HttpContext.Session.SetString("CartSession", JsonConvert.SerializeObject(cartState));

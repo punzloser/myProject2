@@ -28,10 +28,6 @@ $('body').on('click', '.btn-cart', function (e) {
         },
         success: function (res) {
             $('#countCart').text(res.length);
-            $.each(res, function (i, item) {
-                if (item.quantity >= 10)
-                    alert('Không thể spam trên 10 sản phẩm !');
-            });
         },
         error: function (err) {
             console.log(err);

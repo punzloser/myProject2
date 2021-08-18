@@ -138,20 +138,6 @@ namespace Data.Extension
                     SeoTitle = ""
                 });
 
-            modelBuilder.Entity<ProductImage>().HasData(
-                new ProductImage { Id = 1, Caption = null, DateCreated = DateTime.Now, FileSize = 11, ImagePath = "/img/13.jpg", ImageDetail = "/img/36.jpg", IsDefault = true, SortOrder = 1, ProductId = 1 },
-                new ProductImage { Id = 2, Caption = null, DateCreated = DateTime.Now, FileSize = 11, ImagePath = "/img/23.jpg", ImageDetail = "/img/41.jpg", IsDefault = true, SortOrder = 2, ProductId = 2 }
-                );
-
-            modelBuilder.Entity<ProductSlide>().HasData(
-                new ProductSlide { Id = 1, ImageProductSlide = "/img/33.jpg", ProductId = 1},
-                new ProductSlide { Id = 2, ImageProductSlide = "/img/34.jpg", ProductId = 1 },
-                new ProductSlide { Id = 3, ImageProductSlide = "/img/35.jpg", ProductId = 1 },
-                new ProductSlide { Id = 4, ImageProductSlide = "/img/42.jpg", ProductId = 2 },
-                new ProductSlide { Id = 5, ImageProductSlide = "/img/43.jpg", ProductId = 2 },
-                new ProductSlide { Id = 6, ImageProductSlide = "/img/44.jpg", ProductId = 2 }
-                );
-
             modelBuilder.Entity<ProductCategory>().HasData(
                 new ProductCategory { CategoryID = 1, ProductID = 1 },
                 new ProductCategory { CategoryID = 2, ProductID = 2 }

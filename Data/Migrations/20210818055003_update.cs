@@ -402,7 +402,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShipName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ShipAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ShipEmail = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
@@ -516,8 +516,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price", "Stock" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 8, 7, 23, 49, 33, 512, DateTimeKind.Local).AddTicks(8070), null, 12000000m, 12390000m, 1 },
-                    { 2, new DateTime(2021, 8, 7, 23, 49, 33, 513, DateTimeKind.Local).AddTicks(9032), null, 11000000m, 11490000m, 1 }
+                    { 1, new DateTime(2021, 8, 18, 12, 50, 2, 10, DateTimeKind.Local).AddTicks(3867), null, 12000000m, 12390000m, 1 },
+                    { 2, new DateTime(2021, 8, 18, 12, 50, 2, 11, DateTimeKind.Local).AddTicks(4228), null, 11000000m, 11490000m, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -525,8 +525,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "29281bbb-2501-4765-8e2f-7b8998f09915", "admin", "admin", "admin" },
-                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "b561430c-a2f4-4f16-80e3-fb92517dafb6", "mod", "mod", "mod" }
+                    { new Guid("70834739-9213-4c00-9936-ed75eaf822d7"), "f92d6efa-58d2-4c51-96bd-cd63684cc0ee", "admin", "admin", "admin" },
+                    { new Guid("6a0158cf-b5fa-4480-bf08-26bf157fac36"), "26f55841-2c36-4de1-92c4-90624153195b", "mod", "mod", "mod" }
                 });
 
             migrationBuilder.InsertData(
@@ -537,7 +537,7 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "0183b7e8-345f-4ea4-af4a-deb6cd8762e6", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEF7f01ibAH3lq37rz7Zlg6zKMXjVXYG3f6AQTgjZltVMD67naqKxbioFfJJaUUiv+g==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("48c2b994-33ab-439b-9d6f-a5318916aff6"), 0, "b77fb714-a654-45d9-b9f6-135f4e3efbf6", new DateTime(1995, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "punzloser@gmail.com", true, "Thanh", "Nguyen", false, null, "punzloser@gmail.com", "admin", "AQAAAAEAACcQAAAAEIVyPgyDGgXHb6ghGLGCeqGlVP4TeeSPGBKyejh7ireGICToLUU2lUlK9gzLQqzjcw==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "CategoryTranslations",
@@ -560,35 +560,13 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductImages",
-                columns: new[] { "Id", "Caption", "DateCreated", "FileSize", "ImageDetail", "ImagePath", "IsDefault", "ProductId", "SortOrder" },
-                values: new object[,]
-                {
-                    { 1, null, new DateTime(2021, 8, 7, 23, 49, 33, 514, DateTimeKind.Local).AddTicks(7496), 11L, "/img/36.jpg", "/img/13.jpg", true, 1, 1 },
-                    { 2, null, new DateTime(2021, 8, 7, 23, 49, 33, 514, DateTimeKind.Local).AddTicks(9410), 11L, "/img/41.jpg", "/img/23.jpg", true, 2, 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ProductSlides",
-                columns: new[] { "Id", "ImageProductSlide", "ProductId" },
-                values: new object[,]
-                {
-                    { 6, "/img/44.jpg", 2 },
-                    { 5, "/img/43.jpg", 2 },
-                    { 4, "/img/42.jpg", 2 },
-                    { 3, "/img/35.jpg", 1 },
-                    { 2, "/img/34.jpg", 1 },
-                    { 1, "/img/33.jpg", 1 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "ProductTranslations",
                 columns: new[] { "Id", "Description", "Details", "LanguageId", "Name", "ProductId", "SeoAlias", "SeoDescription", "SeoTitle" },
                 values: new object[,]
                 {
                     { 1, "240Q4PA", "240Q4PA", "vi", "HP 340s G7 i3 1005G1", 1, "", "", "" },
-                    { 3, "1005G1", "1005G1", "vi", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" },
                     { 2, "240Q4PA", "240Q4PA", "en", "HP 340s G7 i3 1005G1", 1, "", "", "" },
+                    { 3, "1005G1", "1005G1", "vi", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" },
                     { 4, "1005G1", "240Q4PA", "en", "Lenovo ThinkBook 15IIL i3", 2, "", "", "" }
                 });
 

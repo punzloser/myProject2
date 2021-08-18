@@ -97,14 +97,14 @@ namespace Manager.Controllers
                 return View();
             var result = await _userApiClient.Register(request);
 
-            if (result)
+            if (result.IsSuccessed)
             {
                 TempData["alert"] = "Thêm thành công !";
                 return RedirectToAction("Index");
             }
             else
             {
-                ModelState.AddModelError("", "Thêm thất bại");
+                ModelState.AddModelError("", result.Message);
                 return View(request);
             }
         }

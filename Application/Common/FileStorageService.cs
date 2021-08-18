@@ -32,7 +32,7 @@ namespace eShopSolution.Application.Common
 
         public async Task DelFile(string fileName)
         {
-            var filePath = Path.Combine(_userContentFolder, fileName);
+            var filePath = Path.Join(_userContentFolder, fileName.Remove(0, 14));
             if (File.Exists(filePath))
             {
                 await Task.Run(() => File.Delete(filePath));

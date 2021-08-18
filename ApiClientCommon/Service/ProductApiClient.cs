@@ -47,11 +47,13 @@ namespace ApiClientCommon.Service
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Price.ToString()) ? "" : request.Price.ToString()), "price");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.OriginalPrice.ToString()) ? "" : request.OriginalPrice.ToString()), "originalPrice");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Stock.ToString()) ? "" : request.Stock.ToString()), "stock");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Details.ToString()) ? "" : request.Details.ToString()), "details");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description.ToString()) ? "" : request.Description.ToString()), "description");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoDescription.ToString()) ? "" : request.SeoDescription.ToString()), "seoDescription");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoAlias.ToString()) ? "" : request.SeoAlias.ToString()), "seoAlias");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoTitle.ToString()) ? "" : request.SeoTitle.ToString()), "seoTitle");
+
+            if (request.SeoDescription != null) { requestContent.Add(new StringContent(request.SeoDescription.ToString()), "seoDescription"); }
+            if (request.Details != null) { requestContent.Add(new StringContent(request.Details.ToString()), "details"); }
+            if (request.SeoAlias != null) { requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias"); }
+            if (request.Description != null) { requestContent.Add(new StringContent(request.Description.ToString()), "description"); }
+            if (request.SeoTitle != null) { requestContent.Add(new StringContent(request.SeoTitle.ToString()), "seoTitle"); }
+            
             requestContent.Add(new StringContent(langId), "languageId");
 
             var response = await client.PostAsync("/api/product", requestContent);
@@ -87,12 +89,13 @@ namespace ApiClientCommon.Service
             }
             var langId = _accessor.HttpContext.Session.GetString("DefaultLangId");
 
+            if (request.SeoDescription != null) { requestContent.Add(new StringContent(request.SeoDescription.ToString()), "seoDescription"); }
+            if (request.Details != null) { requestContent.Add(new StringContent(request.Details.ToString()), "details"); }
+            if (request.SeoAlias != null) { requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias"); }
+            if (request.Description != null) { requestContent.Add(new StringContent(request.Description.ToString()), "description"); }
+            if (request.SeoTitle != null) { requestContent.Add(new StringContent(request.SeoTitle.ToString()), "seoTitle"); }
+
             requestContent.Add(new StringContent(request.Name.ToString()), "name");
-            requestContent.Add(new StringContent(request.Description.ToString()), "description");
-            requestContent.Add(new StringContent(request.Details.ToString()), "details");
-            requestContent.Add(new StringContent(request.SeoDescription.ToString()), "seoDescription");
-            requestContent.Add(new StringContent(request.SeoTitle.ToString()), "seoTitle");
-            requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias");
             requestContent.Add(new StringContent(langId), "languageId");
 
             var response = await client.PutAsync($"/api/product/{request.Id}", requestContent);

@@ -28,7 +28,7 @@ namespace Application.Catalog.Products
             _storage = storage;
         }
 
-        public async Task<string> SaveImg(IFormFile file)
+        public async Task<string> SaveFromFile(IFormFile file)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
@@ -82,7 +82,7 @@ namespace Application.Catalog.Products
                         Caption = "Thumnail-img",
                         DateCreated = DateTime.Now,
                         FileSize = request.Thumnail == null? 0 : request.Thumnail.Length,
-                        ImagePath = request.Thumnail == null? "": await this.SaveImg(request.Thumnail),
+                        ImagePath = request.Thumnail == null? "": await this.SaveFromFile(request.Thumnail),
                         IsDefault = true,
                         SortOrder = 1
                     }
@@ -130,9 +130,28 @@ namespace Application.Catalog.Products
             if (request.Thumnail != null)
             {
                 var productImage = await _db.ProductImages.FirstOrDefaultAsync(a => a.ProductId == productId);
-                productImage.ImagePath = await this.SaveImg(request.Thumnail);
-                productImage.FileSize = request.Thumnail.Length;
-                _db.ProductImages.Update(productImage);
+                if (productImage == null)
+                {
+                    var newImage = new ProductImage()
+                    {
+                        Caption = "Thumnail-img",
+                        DateCreated = DateTime.Now,
+                        FileSize = request.Thumnail.Length,
+                        ImagePath = await this.SaveFromFile(request.Thumnail),
+                        IsDefault = true,
+                        SortOrder = 1,
+                        ProductId = productId
+                    };
+                    await _db.ProductImages.AddAsync(newImage);
+                }
+                else
+                {
+                    await _storage.DelFile(productImage.ImagePath);
+
+                    productImage.ImagePath = await this.SaveFromFile(request.Thumnail);
+                    productImage.FileSize = request.Thumnail.Length;
+                    _db.ProductImages.Update(productImage);
+                }
             }
 
             return await _db.SaveChangesAsync();
@@ -361,7 +380,7 @@ namespace Application.Catalog.Products
 
             if (create.ImageFile != null)
             {
-                productImage.ImagePath = await this.SaveImg(create.ImageFile);
+                productImage.ImagePath = await this.SaveFromFile(create.ImageFile);
                 productImage.FileSize = create.ImageFile.Length;
             }
             _db.ProductImages.Add(productImage);
@@ -378,7 +397,7 @@ namespace Application.Catalog.Products
 
             if (edit.ImageFile != null)
             {
-                productImage.ImagePath = await this.SaveImg(edit.ImageFile);
+                productImage.ImagePath = await this.SaveFromFile(edit.ImageFile);
                 productImage.FileSize = edit.ImageFile.Length;
             }
             _db.ProductImages.Update(productImage);

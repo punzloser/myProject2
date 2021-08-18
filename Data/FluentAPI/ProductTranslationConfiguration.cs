@@ -35,19 +35,19 @@ namespace Data.FluentAPI
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.Property(p => p.SeoAlias)
+            builder.Property(p => p.SeoAlias).IsRequired(false)
                 .HasMaxLength(200);
 
-            builder.Property(p => p.SeoDescription)
+            builder.Property(p => p.SeoDescription).IsRequired(false)
                 .HasMaxLength(300);
 
-            builder.Property(p => p.SeoTitle)
+            builder.Property(p => p.SeoTitle).IsRequired(false)
                 .HasMaxLength(100);
 
-            builder.Property(p => p.Description)
+            builder.Property(p => p.Description).IsRequired(false)
                 .HasMaxLength(300);
 
-            builder.Property(p => p.Details)
+            builder.Property(p => p.Details).IsRequired(false)
                 .HasMaxLength(500);
         }
     }

@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Host", "3. Host", "{5CB7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manager", "Manager\Manager.csproj", "{A97C0BB0-FF5B-472D-A5B5-FA2FBB1A7A05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiClientCommon", "ApiClientCommon\ApiClientCommon.csproj", "{870BED69-80D9-411E-841A-D3FE46F96B62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiClientCommon", "ApiClientCommon\ApiClientCommon.csproj", "{870BED69-80D9-411E-841A-D3FE46F96B62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

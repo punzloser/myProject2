@@ -94,10 +94,6 @@ p.fix-text::first-letter {
     }
 }
 
-td, label {
-    font-weight: 400;
-}
-
 .wrap {
     position: relative;
 }
@@ -148,4 +144,78 @@ td, label {
     opacity: 1;
     transition: all 0.75s;
     // animation: test 0.5s infinite;
+}
+
+.payment-info {
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold
+}
+
+.product-details {
+    padding: 10px
+}
+
+.cart {
+    background: #fff
+}
+
+.p-about {
+    font-size: 12px
+}
+
+.table-shadow {
+    -webkit-box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42);
+    box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42)
+}
+
+label.radio {
+    cursor: pointer
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio span {
+    padding: 1px 12px;
+    border: 2px solid #ada9a9;
+    display: inline-block;
+    color: #8f37aa;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300
+}
+
+label.radio input:checked + span {
+    border-color: #fff;
+    background-color: #ffc107;
+    color: #fff
+}
+
+.line {
+    border-bottom: 1px solid rgb(102, 102, 221)
+}
+
+.information span {
+    font-size: 15px;
+    font-weight: 500
+}
+
+.information {
+    margin-bottom: 5px
+}
+
+.items {
+    -webkit-box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.08)
+}
+
+.spec {
+    font-size: 11px
 }

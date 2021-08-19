@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Models;
+using ViewModel.Catalog.Carts;
 
 namespace WebApp.Controllers
 {
@@ -103,7 +103,7 @@ namespace WebApp.Controllers
                 var cartIndex = cartState[i];
                 if (cartIndex.ProductId == id && quantity == 0)
                 {
-                    cartState.Remove(cartIndex); 
+                    cartState.Remove(cartIndex);
                     break;
                 }
                 else

@@ -76,7 +76,8 @@ namespace Data.Extension
                     OriginalPrice = 12000000,
                     Price = 12390000,
                     Stock = 1,
-                    ViewCount = 0
+                    ViewCount = 0,
+                    //IsFeatured = true to display product featured at landing page
                 },
                 new Product
                 {

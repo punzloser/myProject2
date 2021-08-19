@@ -2,11 +2,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{ 
+    var culture = CultureInfo.CurrentCulture.Name;
+}
 
 @section test{
     <script src="~/js/cart.js"></script>
 }
 
+<hr class="mt-5">
 <div class="container-fluid px-3 mt-5">
 
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -59,7 +63,11 @@
         </div>
 
         <div class="row justify-content-center">
-            <a asp-controller="Cart" asp-action="Payment" class="btn btn-primary w-25">Thanh toán</a>
+            <a 
+               asp-route-culture="@culture"
+               asp-controller="Order" 
+               asp-action="Index"
+               class="btn btn-primary w-25">Xác nhận</a>
         </div>
 
     </div>

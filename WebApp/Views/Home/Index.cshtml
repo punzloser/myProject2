@@ -91,7 +91,7 @@
                                         <img src="@_config["BaseApi"]@product.Thumnail" alt="@product.Name">
                                         <div class="card-body">
                                             <h6 class="card-title">@product.Name</h6>
-                                            <p class="price">@product.Price</p>
+                                            <p class="price">@product.Price.ToString("N0") VNĐ</p>
                                             <a href="/@ViewBag.culture/@_loc["productUrl"]/@product.Id" class="btn btn-warning w-100">Chi tiết</a>
                                         </div>
                                         <button data-id="@product.Id" class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>
@@ -151,7 +151,7 @@
                                             <img src="@_config["BaseApi"]@product.Thumnail" alt="@product.Name">
                                             <div class="card-body">
                                                 <h6 class="card-title">@product.Name</h6>
-                                                <p class="price">@product.Price</p>
+                                                <p class="price">@product.Price.ToString("N0") VNĐ</p>
                                                 <a href="/@ViewBag.culture/@_loc["productUrl"]/@product.Id" class="btn btn-warning w-100">Chi tiết</a>
                                             </div>
                                             <button data-id="@product.Id" class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>

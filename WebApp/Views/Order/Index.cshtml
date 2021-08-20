@@ -108,17 +108,14 @@
                         <hr class="line">
 
                         <div class="d-flex justify-content-between information">
-                            @*https://stackoverflow.com/questions/16209509/what-is-tostringn0-format*@
-                            <span>Tổng</span><span>@Model.Carts.Sum(a => a.Quantity * a.Price).ToString("N0") VNĐ</span>
-                        </div>
-                        <div class="d-flex justify-content-between information">
                             <span>Phí ship</span><span>0</span>
                         </div>
                         <div class="d-flex justify-content-between information">
                             <span>Mã ưu đãi</span><span><input class="form-control" type="text" value="" /></span>
                         </div>
                         <div class="d-flex justify-content-between information">
-                            <span>=</span><span>$3020.00</span>
+                            @*https://stackoverflow.com/questions/16209509/what-is-tostringn0-format*@
+                            <span>Tổng</span><span>@Model.Carts.Sum(a => a.Quantity * a.Price).ToString("N0") VNĐ</span>
                         </div>
 
                         <button class="btn btn-primary btn-block d-flex justify-content-between mt-3" type="submit">Gửi thông tin mua hàng</button>

@@ -34,7 +34,7 @@
                         <img src="@_config["BaseApi"]@index.Thumnail" alt="@index.Name">
                         <div class="card-body">
                             <h6 class="card-title">@index.Name</h6>
-                            <p class="price">@index.Price</p>
+                            <p class="price">@index.Price.ToString("N0") VNĐ</p>
                             <a asp-controller="Product" asp-action="Detail" asp-route-id="@index.Id" class="btn btn-warning w-100">Chi tiết</a>
                         </div>
                         <button data-id="@index.Id" class="btn-show btn-cart btn btn-sm btn-secondary">Thêm</button>

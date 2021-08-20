@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ namespace ViewModel.Catalog.Products
     public class ProductViewModel
     {
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal Price { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal OriginalPrice { get; set; }
         public int Stock { get; set; }
         public int ViewCount { get; set; }

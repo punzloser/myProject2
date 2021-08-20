@@ -14,6 +14,27 @@ for (let i = 0; i < card.length; i++) {
 };
 
 /*------------------------------------------------------*/
+$('#buyNow').on('click', function () {
+
+    const culture = $('#getCulture').val();
+    const id = $(this).data('id');
+
+    $.ajax({
+        type: "POST",
+        url: "/" + culture + '/Cart/AddCart',
+        data: {
+            id: id,
+            languageId: culture
+        },
+        success: function (res) {
+            $('#countCart').text(res.length);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+});
+
 $('body').on('click', '.btn-cart', function (e) {
     e.preventDefault();
     const culture = $('#getCulture').val();

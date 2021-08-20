@@ -61,7 +61,7 @@
             </div>
 
             <div class="col-sm-12 col-md-4 bg-light border rounded-3 py-3">
-                <div class="h4 d-inline me-4">@Model.Product.Price</div>
+                <div class="h4 d-inline me-4">@Model.Product.Price.ToString("N0") VNĐ</div>
                 <div class="h6 d-inline border bg-light p-2 rounded-3">Trả góp 0%</div>
 
                 @{
@@ -73,7 +73,12 @@
                     <div class="h5 text-success my-5">Còn hàng</div>
                 }
 
-                <a href="cart.html" class="btn btn-danger w-100">MUA NGAY</a>
+                <a 
+                   asp-route-culture="@CultureInfo.CurrentCulture.Name"
+                   asp-controller="Order"
+                   asp-action="Index"
+                   class="btn btn-danger w-100" id="buyNow" data-id="@Model.Product.Id">MUA NGAY
+                </a>
 
                 <div class="btn-group my-3 w-100">
                     <a class="btn btn-info me-1">MUA TRẢ GÓP 0%</a>

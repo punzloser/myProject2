@@ -7,6 +7,7 @@ using Application.Catalog.ProductSlides;
 using Application.Catalog.Roles;
 using Application.Catalog.Users;
 using Application.Common;
+using Application.Mail;
 using Data;
 using Data.Entity;
 using eShopSolution.Application.Common;
@@ -119,6 +120,8 @@ namespace Backend_API
                     IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
                 };
             });
+
+            services.AddTransient<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

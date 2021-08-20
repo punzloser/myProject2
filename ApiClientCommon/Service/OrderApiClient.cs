@@ -39,5 +39,22 @@ namespace ApiClientCommon.Service
             return false;
 
         }
+
+        public async Task<bool> SendEmailAsync(OrderVm mailRequest)
+        {
+            var client = _httpClient.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5001");
+
+            var session = _accessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            var json = JsonConvert.SerializeObject(mailRequest);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("/api/order/send", httpContent);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            return false;
+        }
     }
 }

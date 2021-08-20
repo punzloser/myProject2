@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.Catalog.Carts;
@@ -43,9 +44,8 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(CheckoutVm checkoutVm)
+        public async Task<IActionResult> Index(CheckoutVm checkoutVm, string languagueId)
         {
-
             //checkoutVm get OrderVm
             //model get list of Carts
             var model = GetCartStaging();
@@ -66,6 +66,7 @@ namespace WebApp.Controllers
 
             var orderNew = new OrderVm()
             {
+                LanguageId = CultureInfo.CurrentCulture.Name,
                 ShipName = checkoutVm.OrderVm.ShipName,
                 ShipAddress = checkoutVm.OrderVm.ShipAddress,
                 ShipEmail = checkoutVm.OrderVm.ShipEmail,
@@ -76,6 +77,8 @@ namespace WebApp.Controllers
             var result = await _orderApiClient.AddOrderNew(orderNew);
             if (result)
             {
+                await _orderApiClient.SendEmailAsync(orderNew);
+
                 TempData["alert"] = "Thông tin đã gửi cho người bán hàng.";
 
                 HttpContext.Session.Remove("CartSession");

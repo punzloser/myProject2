@@ -9,6 +9,8 @@ namespace ApiClientCommon.Service
 {
     public interface IOrderApiClient
     {
-        public Task<bool> AddOrderNew(OrderVm order);
+        Task<bool> AddOrderNew(OrderVm order);
+
+        Task<bool> SendEmailAsync(OrderVm mailRequest);
     }
 }

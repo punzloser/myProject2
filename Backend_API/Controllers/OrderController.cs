@@ -1,4 +1,5 @@
 ﻿using Application.Catalog.Order;
+using Application.Mail;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace Backend_API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IMailService _mailService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IMailService mailService)
         {
             _orderService = orderService;
+            _mailService = mailService;
         }
 
         //[AllowAnonymous]
@@ -31,6 +34,21 @@ namespace Backend_API.Controllers
             if (!result)
                 return BadRequest();
             return Ok();
+        }
+
+        [HttpPost("send")]
+        public async Task<IActionResult> SendMail(OrderVm request)
+        {
+            try
+            {
+                await _mailService.SendEmailAsync(request);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

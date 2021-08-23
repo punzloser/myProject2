@@ -1,5 +1,6 @@
 ﻿using ApiClientCommon.Service;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace ApiClientCommon.Service
 {
     public class LanguageApiClient : CommonApi, ILanguageApiClient
     {
-        public LanguageApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor) : base(httpClient, accessor)
+        public LanguageApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor, IConfiguration config) : base(httpClient, accessor, config)
         {
         }
 

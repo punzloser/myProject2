@@ -1,5 +1,6 @@
 ﻿using Common.Result;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,17 @@ namespace ApiClientCommon.Service
     {
         private readonly IHttpClientFactory _httpClient;
         private readonly IHttpContextAccessor _accessor;
-        public UserApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor)
+        private readonly IConfiguration _config;
+        public UserApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor, IConfiguration config)
         {
             _httpClient = httpClient;
             _accessor = accessor;
+            _config = config;
         }
         public async Task<string> Authenticate(LoginRequest request)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             var json = JsonConvert.SerializeObject(request);
 
@@ -44,7 +47,7 @@ namespace ApiClientCommon.Service
         public async Task<bool> EditUser(Guid id, UserEditModel userEditModel)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
@@ -64,7 +67,7 @@ namespace ApiClientCommon.Service
         {
             var client = _httpClient.CreateClient();
             var session = _accessor.HttpContext.Session.GetString("token");
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.GetAsync($"/api/user/{id}");
@@ -78,7 +81,7 @@ namespace ApiClientCommon.Service
         {
             var client = _httpClient.CreateClient();
             var session = _accessor.HttpContext.Session.GetString("token");
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             //add jwt token lấy ra lúc login thành công để gán vào header tên là Bearer để authorization.
             //Vì header này mà server mới biết là user nào đang request
@@ -94,7 +97,7 @@ namespace ApiClientCommon.Service
         public async Task<CommonResult<bool>> Register(RegisterRequest request)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -111,7 +114,7 @@ namespace ApiClientCommon.Service
         {
             var client = _httpClient.CreateClient();
             var session = _accessor.HttpContext.Session.GetString("token");
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.DeleteAsync($"/api/user/{id}");

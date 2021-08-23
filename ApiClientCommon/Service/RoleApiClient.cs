@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,18 @@ namespace ApiClientCommon.Service
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly IHttpClientFactory _httpClient;
-        public RoleApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor)
+        private readonly IConfiguration _config;
+        public RoleApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor, IConfiguration config)
         {
             _accessor = accessor;
             _httpClient = httpClient;
+            _config = config;
         }
         public async Task<List<RoleViewModel>> GetAll()
         {
             var client = _httpClient.CreateClient();
             var session = _accessor.HttpContext.Session.GetString("token");
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.GetAsync("/api/role");
             var result = await response.Content.ReadAsStringAsync();
@@ -41,7 +44,7 @@ namespace ApiClientCommon.Service
         {
             var client = _httpClient.CreateClient();
             var session = _accessor.HttpContext.Session.GetString("token");
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var json = JsonConvert.SerializeObject(roleEditModel);

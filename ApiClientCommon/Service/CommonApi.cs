@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,18 @@ namespace ApiClientCommon.Service
     {
         private readonly IHttpClientFactory _httpClient;
         private readonly IHttpContextAccessor _accessor;
-        protected CommonApi(IHttpClientFactory httpClient, IHttpContextAccessor accessor)
+        private readonly IConfiguration _config;
+        protected CommonApi(IHttpClientFactory httpClient, IHttpContextAccessor accessor, IConfiguration config)
         {
             _httpClient = httpClient;
             _accessor = accessor;
+            _config = config;
         }
 
         protected async Task<TResult> GetTaskAsync<TResult>(string url)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.GetAsync(url);
@@ -37,7 +40,7 @@ namespace ApiClientCommon.Service
         protected async Task<bool> DeleteTaskAsync(string url)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 

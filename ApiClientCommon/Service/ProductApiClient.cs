@@ -1,5 +1,6 @@
 ﻿using ApiClientCommon.Service;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,16 +17,18 @@ namespace ApiClientCommon.Service
     {
         private readonly IHttpClientFactory _httpClient;
         private readonly IHttpContextAccessor _accessor;
-        public ProductApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor) : base(httpClient, accessor)
+        private readonly IConfiguration _config;
+        public ProductApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor, IConfiguration config) : base(httpClient, accessor, config)
         {
             _httpClient = httpClient;
             _accessor = accessor;
+            _config = config;
         }
 
         public async Task<bool> Create(ProductCreateRequest request)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 
@@ -71,7 +74,7 @@ namespace ApiClientCommon.Service
         public async Task<bool> Edit(ProductEditRequest request)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 

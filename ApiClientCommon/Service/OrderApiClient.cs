@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,19 @@ namespace ApiClientCommon.Service
     {
         private readonly IHttpClientFactory _httpClient;
         private readonly IHttpContextAccessor _accessor;
+        private readonly IConfiguration _config;
 
-        public OrderApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor)
+        public OrderApiClient(IHttpClientFactory httpClient, IHttpContextAccessor accessor, IConfiguration config)
         {
             _httpClient = httpClient;
             _accessor = accessor;
+            _config = config;
         }
 
         public async Task<bool> AddOrderNew(OrderVm order)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 
@@ -43,7 +46,7 @@ namespace ApiClientCommon.Service
         public async Task<bool> SendEmailAsync(OrderVm mailRequest)
         {
             var client = _httpClient.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:5001");
+            client.BaseAddress = new Uri(_config["BaseApi"]);
 
             var session = _accessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
